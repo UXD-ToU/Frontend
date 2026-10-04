@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>후보 목록</title>
+  <link rel="stylesheet" href="./global.css" />
+  <link rel="stylesheet" href="./wishlist.css" />
+</head>
+<body>
+  <main class="mobile-shell">
+    <header class="app-header"><h1>후보 목록</h1></header>
+
+    <section class="page-scroll">
+      <div class="hero-row">
+        <div class="hero-copy">
+          <h2>김지수의 위시리스트</h2>
+          <p id="candidateCount">후보 3개</p>
+        </div>
+        <button class="primary-btn" id="addBtn" type="button">후보 추가</button>
+      </div>
+
+      <div class="filters">
+        <div class="field">
+          <label for="statusFilter">저장 상태</label>
+          <div class="select-wrap"><select id="statusFilter"><option value="all">전체</option><option value="considering">고려 중</option><option value="saved">저장</option></select></div>
+        </div>
+        <div class="field">
+          <label for="reasonFilter">관심 근거</label>
+          <div class="select-wrap"><select id="reasonFilter"><option value="all">전체</option><option value="direct">직접 표현</option><option value="judgment">내 판단</option></select></div>
+        </div>
+      </div>
+
+      <div class="tournament-bar">
+        <h3>토너먼트 후보 선택</h3>
+        <button class="tournament-btn" id="tournamentBtn" type="button">토너먼트 시작</button>
+      </div>
+
+      <div class="candidate-list" id="candidateList"></div>
+    </section>
+
+    <nav class="tabbar" aria-label="하단 메뉴">
+      <button class="tab-item" type="button"><span class="tab-icon">⌂</span><span>홈</span></button>
+      <button class="tab-item active" type="button"><span class="tab-icon">♡</span><span>위시리스트</span></button>
+      <button class="tab-item" type="button"><span class="tab-icon">♙</span><span>커뮤니티</span></button>
+    </nav>
+    <div class="toast" id="toast"></div>
+  </main>
+  <script src="./wishlist.js"></script>
+</body>
+</html>
