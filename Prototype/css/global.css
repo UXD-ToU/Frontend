@@ -1,0 +1,38 @@
+:root {
+  --color-main: #f8c6d8;
+  --color-sub: #fde8f1;
+  --color-bg: #f6f6f8;
+  --color-surface: #ffffff;
+  --color-text: #1c1c1e;
+  --color-secondary: #6e6e73;
+  --color-tertiary: #9a9aa0;
+  --color-line: #e5e5ea;
+  --color-danger: #ff3b30;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --mobile-width: 390px;
+  --mobile-height: 844px;
+  --page-padding: 20px;
+  --tabbar-height: 76px;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Pretendard", "Noto Sans KR", sans-serif;
+  background: #e9e9ec;
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+}
+button, select, input { font: inherit; }
+button { border: 0; }
+.mobile-shell {
+  width: min(100%, var(--mobile-width));
+  height: min(100dvh, var(--mobile-height));
+  min-height: 667px;
+  margin: 0 auto;
+  background: var(--color-surface);
+  overflow: hidden;
+  position: relative;
+}
