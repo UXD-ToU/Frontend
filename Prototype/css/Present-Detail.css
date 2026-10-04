@@ -1,0 +1,599 @@
+/* ========================================
+   Present Detail
+======================================== */
+
+.present-detail-page {
+  position: relative;
+
+  height: 100dvh;
+
+  background: #ffffff;
+
+  overflow: hidden;
+}
+
+
+/* ========================================
+   Header
+======================================== */
+
+.detail-header {
+  position: relative;
+
+  height: 64px;
+
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+
+  padding: 0 20px;
+
+  background: rgba(255, 255, 255, 0.94);
+
+  border-bottom: 1px solid #eeeeee;
+
+  z-index: 10;
+}
+
+.detail-header-title {
+  margin: 0;
+
+  text-align: center;
+
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+
+  color: #222222;
+}
+
+.back-button {
+  width: 44px;
+  height: 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  padding: 0;
+
+  border: 0;
+  background: transparent;
+
+  color: #222222;
+
+  cursor: pointer;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+.back-button svg {
+  width: 28px;
+  height: 28px;
+}
+
+.back-button:active {
+  opacity: 0.45;
+}
+
+.header-spacer {
+  width: 44px;
+}
+
+
+/* ========================================
+   Scroll
+======================================== */
+
+.detail-scroll {
+  height: calc(100dvh - 64px);
+
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+
+  padding-bottom:
+    calc(32px + env(safe-area-inset-bottom));
+
+  scrollbar-width: none;
+}
+
+.detail-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+
+/* ========================================
+   Product Image
+======================================== */
+
+.product-image-section {
+  padding: 0 24px;
+}
+
+.product-image-box {
+  position: relative;
+
+  width: 100%;
+  aspect-ratio: 1.55 / 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  background: #fafafa;
+
+  border: 1px solid #e7e7e7;
+  border-top: 0;
+
+  border-radius: 0 0 12px 12px;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.image-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  color: #a8a8a8;
+
+  font-size: 15px;
+  font-weight: 500;
+}
+
+
+/* ========================================
+   Card
+======================================== */
+
+.detail-card {
+  margin: 16px 24px 0;
+  padding: 20px 18px;
+
+  background: #ffffff;
+
+  border: 1px solid #e5e5e5;
+  border-radius: 16px;
+}
+
+.product-info-card {
+  margin-top: 18px;
+}
+
+
+/* ========================================
+   Product Title
+======================================== */
+
+.product-title-row {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  margin-bottom: 20px;
+}
+
+.product-name {
+  min-width: 0;
+
+  margin: 0;
+
+  font-size: 22px;
+  font-weight: 750;
+  line-height: 1.3;
+
+  color: #222222;
+
+  word-break: keep-all;
+}
+
+.source-badge {
+  flex-shrink: 0;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 32px;
+
+  padding: 6px 13px;
+
+  border: 1px solid #d7d7d7;
+  border-radius: 999px;
+
+  color: #666666;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  background: #ffffff;
+}
+
+
+/* ========================================
+   Product Metadata
+======================================== */
+
+.product-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  gap: 20px;
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+
+  gap: 7px;
+}
+
+.meta-label {
+  color: #8b8b8b;
+
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.meta-value {
+  color: #555555;
+
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.meta-value.price {
+  color: #222222;
+
+  font-size: 21px;
+  font-weight: 750;
+}
+
+
+/* ========================================
+   Divider
+======================================== */
+
+.card-divider {
+  width: 100%;
+  height: 1px;
+
+  margin: 20px 0;
+
+  background: #eeeeee;
+}
+
+
+/* ========================================
+   Recipient / Relationship
+======================================== */
+
+.relationship-info {
+  display: flex;
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+}
+
+.info-label {
+  min-width: 52px;
+
+  color: #8a8a8a;
+
+  font-size: 15px;
+  font-weight: 500;
+}
+
+
+/* ========================================
+   Shared Chip
+======================================== */
+
+.outline-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: fit-content;
+
+  padding: 7px 13px;
+
+  background: #ffffff;
+
+  border: 1px solid #d7d7d7;
+  border-radius: 999px;
+
+  color: #555555;
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+
+/* ========================================
+   Reason
+======================================== */
+
+.section-title {
+  margin: 0 0 14px;
+
+  color: #222222;
+
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.reason-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 9px;
+}
+
+.reason-chip {
+  padding: 8px 13px;
+}
+
+.reason-divider {
+  margin-top: 20px;
+  margin-bottom: 18px;
+}
+
+
+/* ========================================
+   Memo
+======================================== */
+
+.memo-title {
+  margin: 0 0 10px;
+
+  color: #555555;
+
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.memo-text {
+  margin: 0;
+
+  color: #444444;
+
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.65;
+
+  word-break: keep-all;
+}
+
+
+/* ========================================
+   Notice
+======================================== */
+
+.detail-notice {
+  margin: 20px 24px 0;
+
+  color: #999999;
+
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+
+  word-break: keep-all;
+}
+
+
+/* ========================================
+   Actions
+======================================== */
+
+.detail-actions {
+  display: flex;
+  flex-direction: column;
+
+  gap: 12px;
+
+  padding: 18px 24px 0;
+}
+
+.primary-button,
+.delete-button {
+  width: 100%;
+  height: 54px;
+
+  border-radius: 14px;
+
+  font-size: 17px;
+  font-weight: 650;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.12s ease,
+    opacity 0.12s ease,
+    background 0.15s ease;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+.primary-button {
+  border: 0;
+
+  background: #222222;
+  color: #ffffff;
+}
+
+.delete-button {
+  border: 1.5px solid #ff4d55;
+
+  background: #ffffff;
+  color: #ff3b43;
+}
+
+.primary-button:active,
+.delete-button:active {
+  transform: scale(0.985);
+  opacity: 0.75;
+}
+
+
+/* ========================================
+   Delete Modal
+======================================== */
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  background: rgba(0, 0, 0, 0.32);
+
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition:
+    opacity 0.2s ease,
+    visibility 0.2s ease;
+
+  z-index: 100;
+}
+
+.modal-backdrop.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.delete-modal {
+  width: 100%;
+  max-width: 320px;
+
+  padding: 22px 20px 16px;
+
+  background: rgba(255, 255, 255, 0.98);
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.14);
+
+  transform: scale(0.96);
+
+  transition: transform 0.2s ease;
+}
+
+.modal-backdrop.open .delete-modal {
+  transform: scale(1);
+}
+
+.modal-title {
+  margin: 0;
+
+  text-align: center;
+
+  color: #222222;
+
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.modal-description {
+  margin: 8px 0 20px;
+
+  text-align: center;
+
+  color: #777777;
+
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.modal-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  gap: 10px;
+}
+
+.modal-button {
+  height: 46px;
+
+  border: 0;
+  border-radius: 12px;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.modal-button.cancel {
+  background: var(--sub-color, #fde8f1);
+  color: #444444;
+}
+
+.modal-button.delete {
+  background: #ff4d55;
+  color: #ffffff;
+}
+
+
+/* ========================================
+   Small Mobile
+======================================== */
+
+@media (max-width: 360px) {
+
+  .product-image-section {
+    padding: 0 18px;
+  }
+
+  .detail-card {
+    margin-left: 18px;
+    margin-right: 18px;
+  }
+
+  .detail-notice {
+    margin-left: 18px;
+    margin-right: 18px;
+  }
+
+  .detail-actions {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .product-name {
+    font-size: 20px;
+  }
+
+  .product-title-row {
+    align-items: flex-start;
+  }
+}
