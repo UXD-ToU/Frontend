@@ -153,7 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
       reasonChip.className =
-        "outline-chip reason-chip";
+        "reason-chip";
 
       reasonChip.textContent =
         presentData.reason;

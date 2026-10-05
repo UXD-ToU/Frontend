@@ -1,6 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="ko">
+
 <head>
+
   <meta charset="UTF-8" />
 
   <meta
@@ -19,20 +22,26 @@
     rel="stylesheet"
     href="../css/present-detail.css"
   />
+
 </head>
+
 
 <body>
 
-  <main class="mobile-shell present-detail-page">
+  <main
+    class="mobile-shell present-detail-page"
+  >
+
 
     <header class="detail-header">
 
       <button
         class="back-button"
         type="button"
-        aria-label="뒤로가기"
         id="backBtn"
+        aria-label="뒤로가기"
       >
+
         <svg
           width="24"
           height="24"
@@ -40,6 +49,7 @@
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
+
           <path
             d="M15 18L9 12L15 6"
             stroke="currentColor"
@@ -47,25 +57,36 @@
             stroke-linecap="round"
             stroke-linejoin="round"
           />
+
         </svg>
+
       </button>
+
 
       <h1 class="detail-header-title">
         후보 상세
       </h1>
 
-      <div class="header-spacer"></div>
+
+      <div class="header-spacer">
+      </div>
 
     </header>
 
 
     <div class="detail-scroll">
 
-      <section class="product-image-section">
+
+      <!-- =========================
+           Image
+      ========================== -->
+
+      <section
+        class="product-image-section"
+      >
 
         <div
           class="product-image-box"
-          id="productImageBox"
         >
 
           <img
@@ -75,6 +96,7 @@
             alt="선물 이미지"
             hidden
           />
+
 
           <div
             id="imagePlaceholder"
@@ -88,7 +110,13 @@
       </section>
 
 
-      <section class="detail-card product-info-card">
+      <!-- =========================
+           Basic Info
+      ========================== -->
+
+      <section
+        class="detail-card product-info-card"
+      >
 
         <div class="product-title-row">
 
@@ -135,7 +163,8 @@
         </div>
 
 
-        <div class="card-divider"></div>
+        <div class="card-divider">
+        </div>
 
 
         <div class="relationship-info">
@@ -174,41 +203,25 @@
       </section>
 
 
-      <section class="detail-card reason-card">
+      <!-- =========================
+           Memo
+      ========================== -->
+
+      <section
+        class="detail-card memo-card"
+        id="memoSection"
+      >
 
         <h2 class="section-title">
-          관심 근거
+          메모
         </h2>
 
-        <div
-          class="reason-chip-list"
-          id="reasonList"
+
+        <p
+          class="memo-text"
+          id="memoText"
         >
-        </div>
-
-
-        <div
-          class="card-divider reason-divider"
-          id="memoDivider"
-        ></div>
-
-
-        <div
-          class="memo-area"
-          id="memoArea"
-        >
-
-          <h3 class="memo-title">
-            자유 메모
-          </h3>
-
-          <p
-            class="memo-text"
-            id="memoText"
-          >
-          </p>
-
-        </div>
+        </p>
 
       </section>
 
@@ -228,6 +241,7 @@
           편집하기
         </button>
 
+
         <button
           type="button"
           class="delete-button"
@@ -241,6 +255,10 @@
     </div>
 
 
+    <!-- =========================
+         Delete Modal
+    ========================== -->
+
     <div
       class="modal-backdrop"
       id="deleteModal"
@@ -251,19 +269,17 @@
         class="delete-modal"
         role="dialog"
         aria-modal="true"
-        aria-labelledby="deleteModalTitle"
       >
 
-        <h2
-          class="modal-title"
-          id="deleteModalTitle"
-        >
+        <h2 class="modal-title">
           후보를 삭제할까요?
         </h2>
+
 
         <p class="modal-description">
           삭제한 후보는 다시 복구할 수 없어요.
         </p>
+
 
         <div class="modal-actions">
 
@@ -274,6 +290,7 @@
           >
             취소
           </button>
+
 
           <button
             type="button"
@@ -292,7 +309,10 @@
   </main>
 
 
-  <script src="../js/present-detail.js"></script>
+  <script
+    src="../js/present-detail.js"
+  ></script>
 
 </body>
+
 </html>

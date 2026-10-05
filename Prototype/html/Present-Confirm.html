@@ -1,7 +1,11 @@
 <!doctype html>
+
 <html lang="ko">
+
 <head>
+
   <meta charset="UTF-8" />
+
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1, viewport-fit=cover"
@@ -9,15 +13,32 @@
 
   <title>선물 정보 확인·수정</title>
 
-  <link rel="stylesheet" href="../css/global.css" />
-  <link rel="stylesheet" href="../css/present-confirm.css" />
+
+  <link
+    rel="stylesheet"
+    href="../css/global.css"
+  />
+
+
+  <link
+    rel="stylesheet"
+    href="../css/present-confirm.css"
+  />
+
 </head>
 
-<body>
-  <main class="mobile-shell present-confirm-page">
 
-    <!-- Header -->
-    <header class="app-header confirm-header">
+<body>
+
+  <main
+    class="mobile-shell present-confirm-page"
+  >
+
+
+    <header
+      class="app-header confirm-header"
+    >
+
       <button
         class="back-btn"
         id="backBtn"
@@ -27,32 +48,75 @@
         ‹
       </button>
 
-      <h1>선물 정보 확인·수정</h1>
+
+      <h1>
+        선물 정보 확인·수정
+      </h1>
+
     </header>
 
 
-    <!-- Scroll Content -->
     <section class="confirm-scroll">
 
 
-      <!-- Intro -->
+      <div class="step-section">
+
+        <div class="step-list">
+
+          <span class="step-item">
+            유형 선택
+          </span>
+
+          <span class="step-item">
+            기본 정보
+          </span>
+
+          <span class="step-item">
+            상세 정보
+          </span>
+
+          <span class="step-item">
+            메모
+          </span>
+
+          <span class="step-item active">
+            최종 확인
+          </span>
+
+        </div>
+
+      </div>
+
+
       <section class="intro-section">
-        <h2>선물 정보 확인</h2>
+
+        <h2>
+          선물 정보 확인
+        </h2>
 
         <p>
           아래 정보를 확인하고 필요한 내용을 수정해 주세요.
         </p>
+
       </section>
 
 
-      <!-- Basic Info -->
+      <!-- =========================
+           Basic
+      ========================== -->
+
       <section class="form-section">
-        <h3>선물 기본 정보</h3>
+
+        <h3>
+          선물 기본 정보
+        </h3>
+
 
         <div class="info-card">
 
-          <!-- Image -->
+
           <div class="gift-image-area">
+
             <img
               id="giftImage"
               class="gift-image"
@@ -61,51 +125,23 @@
               hidden
             />
 
+
             <div
               class="image-placeholder"
               id="imagePlaceholder"
             >
-              <svg
-                width="34"
-                height="34"
-                viewBox="0 0 34 34"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect
-                  x="4"
-                  y="6"
-                  width="26"
-                  height="22"
-                  rx="3"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                />
 
-                <circle
-                  cx="13"
-                  cy="13"
-                  r="2.5"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                />
+              <span>
+                선물 이미지
+              </span>
 
-                <path
-                  d="M7 25L14 18L19 22L23 18L28 25"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-
-              <span>선물 이미지</span>
             </div>
+
           </div>
 
 
-          <!-- Product Name -->
           <div class="input-group">
+
             <label for="productName">
               상품명
             </label>
@@ -115,11 +151,12 @@
               type="text"
               placeholder="상품명을 입력해주세요"
             />
+
           </div>
 
 
-          <!-- Price -->
           <div class="input-group">
+
             <label for="productPrice">
               가격 (원)
             </label>
@@ -130,11 +167,12 @@
               inputmode="numeric"
               placeholder="가격을 입력해주세요"
             />
+
           </div>
 
 
-          <!-- Brand -->
           <div class="input-group">
+
             <label for="productBrand">
               구매처 또는 브랜드
             </label>
@@ -144,15 +182,24 @@
               type="text"
               placeholder="구매처 또는 브랜드를 입력해주세요"
             />
+
           </div>
 
         </div>
+
       </section>
 
 
-      <!-- Friend -->
+      <!-- =========================
+           Friend
+      ========================== -->
+
       <section class="form-section">
-        <h3>저장할 친구 지정</h3>
+
+        <h3>
+          저장할 친구 지정
+        </h3>
+
 
         <div class="friend-card">
 
@@ -160,10 +207,12 @@
             누구를 위한 선물인가요?
           </p>
 
+
           <div
             class="friend-list"
             id="friendList"
           >
+
             <button
               class="friend-chip active"
               type="button"
@@ -171,6 +220,7 @@
             >
               지수
             </button>
+
 
             <button
               class="friend-chip"
@@ -180,6 +230,7 @@
               민준
             </button>
 
+
             <button
               class="friend-chip"
               type="button"
@@ -188,6 +239,7 @@
               하은
             </button>
 
+
             <button
               class="friend-chip"
               type="button"
@@ -195,7 +247,9 @@
             >
               다른 친구
             </button>
+
           </div>
+
 
           <button
             class="add-friend-btn"
@@ -206,15 +260,25 @@
           </button>
 
         </div>
+
       </section>
 
 
-      <!-- Memo -->
-      <section class="form-section memo-section">
+      <!-- =========================
+           Memo
+      ========================== -->
+
+      <section
+        class="form-section memo-section"
+      >
+
         <h3>
           메모
-          <span>(선택 사항)</span>
+          <span>
+            (선택 사항)
+          </span>
         </h3>
+
 
         <div class="memo-card">
 
@@ -222,21 +286,25 @@
             예: 블랙 컬러 좋아함, 가죽 소재 선호
           </p>
 
+
           <textarea
             id="memoInput"
             maxlength="200"
             placeholder="선물과 관련된 메모를 입력해주세요"
           ></textarea>
 
+
           <div class="memo-count">
-            <span id="memoCount">0</span>/200
+            <span id="memoCount">
+              0
+            </span>/200
           </div>
 
         </div>
+
       </section>
 
 
-      <!-- Save -->
       <button
         class="save-btn"
         id="saveBtn"
@@ -257,6 +325,11 @@
 
   </main>
 
-  <script src="../js/present-confirm.js"></script>
+
+  <script
+    src="../js/present-confirm.js"
+  ></script>
+
 </body>
+
 </html>

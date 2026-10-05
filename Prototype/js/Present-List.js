@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+
   // ========================================
   // DOM
   // ========================================
@@ -13,14 +14,14 @@ document.addEventListener("DOMContentLoaded", () => {
       "candidateCount"
     );
 
-  const statusFilter =
+  const friendFilter =
     document.getElementById(
-      "statusFilter"
+      "friendFilter"
     );
 
-  const reasonFilter =
+  const sortFilter =
     document.getElementById(
-      "reasonFilter"
+      "sortFilter"
     );
 
   const addBtn =
@@ -40,41 +41,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   // ========================================
-  // 기본 Mock Data
+  // Mock Data
   // ========================================
 
   const candidates = [
+
     {
-  id: 1,
+      id: 1,
 
-  name: "버즈 라이트 이어폰 프로",
+      name:
+        "버즈 라이트 이어폰 프로",
 
-  category: "삼성",
+      category:
+        "삼성",
 
-  price: 68000,
+      price:
+        68000,
 
-  savedDate: "2025.05.18",
+      savedDate:
+        "2025.05.18",
 
-  recipient: "지수",
+      recipient:
+        "지수",
 
-  relationship: "친구",
+      relationship:
+        "친구",
 
-  reasonType: "direct",
+      memo:
+        "",
 
-  reason: "직접 갖고 싶다고 했어요",
-
-  status: "considering",
-
-  statusLabel: "고려 중",
-
-  image: "https://img.danuri.io/catalog-image/462/010/013/4f26520466984e6cb05036c94d6b68f4.jpg"
-}
+      image:
+        "https://img.danuri.io/catalog-image/462/010/013/4f26520466984e6cb05036c94d6b68f4.jpg"
+    },
 
   ];
 
 
   // ========================================
-  // sessionStorage 후보 가져오기
+  // 직접 추가한 후보
   // ========================================
 
   const savedCandidates =
@@ -84,7 +88,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   if (savedCandidates) {
+
     try {
+
       const addedCandidates =
         JSON.parse(
           savedCandidates
@@ -96,17 +102,22 @@ document.addEventListener("DOMContentLoaded", () => {
           addedCandidates
         )
       ) {
+
         candidates.unshift(
           ...addedCandidates
         );
+
       }
 
     } catch (error) {
+
       console.error(
         "추가 후보를 불러오지 못했습니다.",
         error
       );
+
     }
+
   }
 
 
@@ -117,66 +128,153 @@ document.addEventListener("DOMContentLoaded", () => {
   const selectedCandidates =
     new Set();
 
-  let toastTimer = null;
+  let toastTimer =
+    null;
 
 
   // ========================================
-  // 후보 렌더링
+  // Render
   // ========================================
 
   function renderCandidates() {
-    const selectedStatus =
-      statusFilter.value;
 
-    const selectedReason =
-      reasonFilter.value;
+    const selectedFriend =
+      friendFilter.value;
+
+    const selectedSort =
+      sortFilter.value;
 
 
-    const filteredCandidates =
+    // ----------------------------------------
+    // 친구 필터
+    // ----------------------------------------
+
+    let filteredCandidates =
       candidates.filter(
         (candidate) => {
-          const statusMatch =
-            selectedStatus === "all" ||
-            candidate.status ===
-              selectedStatus;
 
+          if (
+            selectedFriend === "all"
+          ) {
 
-          const reasonMatch =
-            selectedReason === "all" ||
-            candidate.reasonType ===
-              selectedReason;
+            return true;
+
+          }
 
 
           return (
-            statusMatch &&
-            reasonMatch
+            candidate.recipient ===
+            selectedFriend
           );
+
         }
       );
 
+
+    // ----------------------------------------
+    // 정렬
+    // ----------------------------------------
+
+    filteredCandidates =
+      [...filteredCandidates];
+
+
+    switch (selectedSort) {
+
+      case "latest":
+
+        filteredCandidates.sort(
+          (a, b) =>
+            parseDate(
+              b.savedDate
+            ) -
+            parseDate(
+              a.savedDate
+            )
+        );
+
+        break;
+
+
+      case "oldest":
+
+        filteredCandidates.sort(
+          (a, b) =>
+            parseDate(
+              a.savedDate
+            ) -
+            parseDate(
+              b.savedDate
+            )
+        );
+
+        break;
+
+
+      case "priceHigh":
+
+        filteredCandidates.sort(
+          (a, b) =>
+            Number(b.price) -
+            Number(a.price)
+        );
+
+        break;
+
+
+      case "priceLow":
+
+        filteredCandidates.sort(
+          (a, b) =>
+            Number(a.price) -
+            Number(b.price)
+        );
+
+        break;
+
+    }
+
+
+    // ----------------------------------------
+    // Count
+    // ----------------------------------------
 
     candidateCount.textContent =
       `후보 ${filteredCandidates.length}개`;
 
 
-    candidateList.innerHTML = "";
+    candidateList.innerHTML =
+      "";
 
+
+    // ----------------------------------------
+    // Empty
+    // ----------------------------------------
 
     if (
       filteredCandidates.length === 0
     ) {
+
       candidateList.innerHTML = `
         <div class="empty-state">
-          조건에 맞는 후보가 없어요.
+          등록된 후보가 없어요.
         </div>
       `;
 
+      updateTournamentButton();
+
       return;
+
     }
 
 
+    // ----------------------------------------
+    // Cards
+    // ----------------------------------------
+
     filteredCandidates.forEach(
       (candidate) => {
+
         const card =
           document.createElement(
             "article"
@@ -197,121 +295,150 @@ document.addEventListener("DOMContentLoaded", () => {
           );
 
 
-        // ====================================
-        // 이미지
-        // ====================================
-
         const imageHtml =
           candidate.image
             ? `
               <div class="candidate-image-wrap">
+
                 <img
                   class="candidate-image"
                   src="${candidate.image}"
-                  alt="${escapeHtml(candidate.name)}"
+                  alt="${escapeHtml(
+                    candidate.name
+                  )}"
                 />
+
               </div>
             `
             : `
-              <div class="candidate-image-wrap candidate-image-placeholder">
-                <span>이미지</span>
+              <div
+                class="
+                  candidate-image-wrap
+                  candidate-image-placeholder
+                "
+              >
+                이미지
               </div>
             `;
 
 
-        // ====================================
-        // Card
-        // ====================================
-
         card.innerHTML = `
-  <div class="candidate-select">
-    <input
-      class="candidate-checkbox"
-      type="checkbox"
-      data-id="${candidate.id}"
-      ${isSelected ? "checked" : ""}
-      aria-label="${escapeHtml(candidate.name)} 선택"
-    />
-  </div>
 
-  ${imageHtml}
+          <div class="candidate-select">
 
-  <div class="candidate-info">
+            <input
+              class="candidate-checkbox"
+              type="checkbox"
+              data-id="${candidate.id}"
+              ${isSelected ? "checked" : ""}
+              aria-label="${escapeHtml(
+                candidate.name
+              )} 선택"
+            />
 
-    <div class="candidate-top">
+          </div>
 
-      <div class="candidate-title-area">
-        <h4>
-          ${escapeHtml(candidate.name)}
-        </h4>
 
-        <p class="candidate-category">
-          ${escapeHtml(candidate.category)}
-        </p>
-      </div>
+          ${imageHtml}
 
-      <span class="status-badge ${candidate.status}">
-        ${escapeHtml(candidate.statusLabel)}
-      </span>
 
-    </div>
+          <div class="candidate-info">
 
-    <strong class="candidate-price">
-      ${formatPrice(candidate.price)}원
-    </strong>
+            <h4 class="candidate-name">
+              ${escapeHtml(
+                candidate.name
+              )}
+            </h4>
 
-    <p class="candidate-reason">
-      ${escapeHtml(candidate.reason)}
-    </p>
 
-    <div class="candidate-actions">
+            <p class="candidate-category">
+              ${escapeHtml(
+                candidate.category ||
+                "기타"
+              )}
+            </p>
 
-      <button
-        class="edit-btn"
-        type="button"
-        data-action="edit"
-        data-id="${candidate.id}"
-      >
-        수정
-      </button>
 
-      <button
-        class="delete-btn"
-        type="button"
-        data-action="delete"
-        data-id="${candidate.id}"
-      >
-        삭제
-      </button>
+            <strong class="candidate-price">
+              ${formatPrice(
+                candidate.price
+              )}원
+            </strong>
 
-    </div>
 
-    <p class="candidate-date">
-      ${escapeHtml(candidate.savedDate)}
-    </p>
+            ${
+              candidate.memo
+                ? `
+                  <p class="candidate-memo">
+                    ${escapeHtml(
+                      candidate.memo
+                    )}
+                  </p>
+                `
+                : ""
+            }
 
-  </div>
-`;
+
+            <div class="candidate-actions">
+
+              <button
+                class="edit-btn"
+                type="button"
+                data-action="edit"
+                data-id="${candidate.id}"
+              >
+                수정
+              </button>
+
+
+              <button
+                class="delete-btn"
+                type="button"
+                data-action="delete"
+                data-id="${candidate.id}"
+              >
+                삭제
+              </button>
+
+            </div>
+
+
+            <p class="candidate-date">
+              ${escapeHtml(
+                candidate.savedDate
+              )}
+            </p>
+
+          </div>
+
+        `;
 
 
         candidateList.appendChild(
           card
         );
+
       }
     );
 
 
     updateTournamentButton();
+
   }
 
 
   // ========================================
-  // 카드 이벤트
+  // Card Event
   // ========================================
 
   candidateList.addEventListener(
     "click",
     (event) => {
+
+      // --------------------------------------
+      // Checkbox
+      // --------------------------------------
+
       const checkbox =
         event.target.closest(
           ".candidate-checkbox"
@@ -319,6 +446,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
       if (checkbox) {
+
         const id =
           Number(
             checkbox.dataset.id
@@ -326,21 +454,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         if (checkbox.checked) {
+
           selectedCandidates.add(
             id
           );
+
         } else {
+
           selectedCandidates.delete(
             id
           );
+
         }
 
 
         updateTournamentButton();
 
         return;
+
       }
 
+
+      // --------------------------------------
+      // Action Button
+      // --------------------------------------
 
       const actionButton =
         event.target.closest(
@@ -349,6 +486,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
       if (actionButton) {
+
         event.stopPropagation();
 
 
@@ -363,21 +501,66 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         if (action === "edit") {
-          showToast(
-            "수정 기능은 준비 중이에요."
+
+          const candidate =
+            candidates.find(
+              (item) =>
+                item.id === id
+            );
+
+
+          if (!candidate) {
+            return;
+          }
+
+
+          sessionStorage.setItem(
+            "selectedCandidate",
+            JSON.stringify(
+              candidate
+            )
           );
 
+
+          sessionStorage.setItem(
+            "editPresent",
+            JSON.stringify(
+              candidate
+            )
+          );
+
+
+          sessionStorage.setItem(
+            "presentMode",
+            "edit"
+          );
+
+
+          window.location.href =
+            "./Present-Confirm.html";
+
+
           return;
+
         }
 
 
         if (action === "delete") {
-          deleteCandidate(id);
+
+          deleteCandidate(
+            id
+          );
 
           return;
+
         }
+
       }
 
+
+      // --------------------------------------
+      // Detail
+      // --------------------------------------
 
       const card =
         event.target.closest(
@@ -397,31 +580,38 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
       const selectedCandidate =
-  candidates.find(
-    (candidate) =>
-      candidate.id === id
-  );
+        candidates.find(
+          (candidate) =>
+            candidate.id === id
+        );
 
-if (!selectedCandidate) {
-  return;
-}
 
-sessionStorage.setItem(
-  "selectedCandidate",
-  JSON.stringify(selectedCandidate)
-);
+      if (!selectedCandidate) {
+        return;
+      }
 
-window.location.href =
-  `./Present-Detail.html?id=${id}`;
+
+      sessionStorage.setItem(
+        "selectedCandidate",
+        JSON.stringify(
+          selectedCandidate
+        )
+      );
+
+
+      window.location.href =
+        `./Present-Detail.html?id=${id}`;
+
     }
   );
 
 
   // ========================================
-  // 후보 삭제
+  // Delete
   // ========================================
 
   function deleteCandidate(id) {
+
     const candidate =
       candidates.find(
         (item) =>
@@ -453,10 +643,12 @@ window.location.href =
 
 
     if (index !== -1) {
+
       candidates.splice(
         index,
         1
       );
+
     }
 
 
@@ -465,10 +657,7 @@ window.location.href =
     );
 
 
-    // sessionStorage에 들어있는
-    // 사용자 추가 후보도 같이 갱신
     saveAddedCandidates();
-
 
     renderCandidates();
 
@@ -476,14 +665,16 @@ window.location.href =
     showToast(
       "후보를 삭제했어요."
     );
+
   }
 
 
   // ========================================
-  // 추가 후보 sessionStorage 갱신
+  // 추가 후보 저장
   // ========================================
 
   function saveAddedCandidates() {
+
     const customCandidates =
       candidates.filter(
         (candidate) =>
@@ -497,6 +688,7 @@ window.location.href =
         customCandidates
       )
     );
+
   }
 
 
@@ -504,19 +696,15 @@ window.location.href =
   // Filter
   // ========================================
 
-  statusFilter.addEventListener(
+  friendFilter.addEventListener(
     "change",
-    () => {
-      renderCandidates();
-    }
+    renderCandidates
   );
 
 
-  reasonFilter.addEventListener(
+  sortFilter.addEventListener(
     "change",
-    () => {
-      renderCandidates();
-    }
+    renderCandidates
   );
 
 
@@ -527,27 +715,41 @@ window.location.href =
   addBtn.addEventListener(
     "click",
     () => {
+
+      sessionStorage.removeItem(
+        "presentMode"
+      );
+
+      sessionStorage.removeItem(
+        "editPresent"
+      );
+
+
       window.location.href =
         "./Present-Photo.html";
+
     }
   );
 
 
   // ========================================
-  // 토너먼트
+  // Tournament
   // ========================================
 
   tournamentBtn.addEventListener(
     "click",
     () => {
+
       if (
         selectedCandidates.size < 2
       ) {
+
         showToast(
-          "토너먼트 후보를 2개 이상 선택해주세요."
+          "후보를 2개 이상 선택해주세요."
         );
 
         return;
+
       }
 
 
@@ -572,16 +774,12 @@ window.location.href =
         "토너먼트 후보가 선택됐어요."
       );
 
-
-      /*
-      window.location.href =
-        "./Tournament.html";
-      */
     }
   );
 
 
   function updateTournamentButton() {
+
     const count =
       selectedCandidates.size;
 
@@ -590,68 +788,77 @@ window.location.href =
       count < 2;
 
 
-    if (count >= 2) {
-      tournamentBtn.textContent =
-        `토너먼트 시작 (${count})`;
-    } else {
-      tournamentBtn.textContent =
-        "토너먼트 시작";
-    }
+    tournamentBtn.textContent =
+      count >= 2
+        ? `토너먼트 시작 (${count})`
+        : "토너먼트 시작";
+
   }
 
 
   // ========================================
-  // Tab Bar
+  // Date
   // ========================================
 
-  const tabItems =
-    document.querySelectorAll(
-      ".tab-item"
-    );
+  function parseDate(
+    dateString
+  ) {
 
-
-  tabItems.forEach(
-    (tab) => {
-      tab.addEventListener(
-        "click",
-        () => {
-          if (
-            tab.classList.contains(
-              "active"
-            )
-          ) {
-            return;
-          }
-
-
-          showToast(
-            "해당 페이지는 준비 중이에요."
-          );
-        }
-      );
+    if (!dateString) {
+      return 0;
     }
-  );
+
+
+    const normalized =
+      String(dateString)
+        .replaceAll(".", "-");
+
+
+    const date =
+      new Date(
+        normalized
+      );
+
+
+    const time =
+      date.getTime();
+
+
+    return Number.isNaN(time)
+      ? 0
+      : time;
+
+  }
 
 
   // ========================================
   // Price
   // ========================================
 
-  function formatPrice(price) {
+  function formatPrice(
+    price
+  ) {
+
     return Number(
-      price
+      price || 0
     ).toLocaleString(
       "ko-KR"
     );
+
   }
 
 
   // ========================================
-  // HTML Escape
+  // Escape
   // ========================================
 
-  function escapeHtml(value) {
-    return String(value ?? "")
+  function escapeHtml(
+    value
+  ) {
+
+    return String(
+      value ?? ""
+    )
       .replaceAll(
         "&",
         "&amp;"
@@ -672,6 +879,7 @@ window.location.href =
         "'",
         "&#039;"
       );
+
   }
 
 
@@ -679,7 +887,10 @@ window.location.href =
   // Toast
   // ========================================
 
-  function showToast(message) {
+  function showToast(
+    message
+  ) {
+
     if (!toast) {
       return;
     }
@@ -700,11 +911,17 @@ window.location.href =
 
 
     toastTimer =
-      setTimeout(() => {
-        toast.classList.remove(
-          "show"
-        );
-      }, 2000);
+      setTimeout(
+        () => {
+
+          toast.classList.remove(
+            "show"
+          );
+
+        },
+        2000
+      );
+
   }
 
 
@@ -713,4 +930,5 @@ window.location.href =
   // ========================================
 
   renderCandidates();
+
 });
