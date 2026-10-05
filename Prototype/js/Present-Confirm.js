@@ -46,14 +46,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // =========================================
 
   backBtn.addEventListener("click", () => {
-    if (window.history.length > 1) {
-      window.history.back();
-      return;
-    }
-
-    window.location.href =
-      "./Present-Photo.html";
-  });
+  window.location.href = "./Present-Photo.html";
+});
 
 
   // =========================================
