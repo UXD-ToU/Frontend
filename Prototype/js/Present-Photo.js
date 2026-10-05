@@ -326,7 +326,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
       // 현재 프로토타입
-      window.location.href = "./Present-Complete.html";
+      window.location.href = "./Present-Confirm.html";
     }
   );
 
