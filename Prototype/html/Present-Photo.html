@@ -1,0 +1,392 @@
+<!doctype html>
+
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  />
+
+  <title>사진 등록</title>
+
+  <!-- 공통 CSS -->
+  <link
+    rel="stylesheet"
+    href="../css/global.css"
+  />
+
+  <!-- 페이지 전용 CSS -->
+  <link
+    rel="stylesheet"
+    href="../css/present-photo.css"
+  />
+</head>
+
+
+<body>
+
+  <main class="mobile-shell present-photo-page">
+
+    <!-- =========================
+         Header
+    ========================== -->
+
+    <header class="app-header photo-header">
+
+      <button
+        class="back-btn"
+        id="backBtn"
+        type="button"
+        aria-label="뒤로가기"
+      >
+
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M15 18L9 12L15 6"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+
+      </button>
+
+
+      <h1>
+        사진 등록
+      </h1>
+
+
+      <div class="header-space"></div>
+
+    </header>
+
+
+    <!-- =========================
+         Scroll Content
+    ========================== -->
+
+    <section class="photo-scroll">
+
+      <!-- =========================
+           Page Title
+      ========================== -->
+
+      <div class="photo-content">
+
+        <div class="section-heading">
+
+          <h2>
+            사진 등록
+          </h2>
+
+          <p>
+            선물 후보로 저장할 상품의 사진을 등록해주세요.
+          </p>
+
+        </div>
+
+
+        <!-- =========================
+             Image Preview
+        ========================== -->
+
+        <div
+          class="photo-preview"
+          id="photoPreview"
+        >
+
+          <!-- 기본 Placeholder -->
+
+          <div
+            class="preview-placeholder"
+            id="previewPlaceholder"
+          >
+
+            <div class="preview-icon">
+
+              <svg
+                width="38"
+                height="38"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+
+                <rect
+                  x="3"
+                  y="4"
+                  width="18"
+                  height="16"
+                  rx="2.5"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                />
+
+                <circle
+                  cx="9"
+                  cy="9"
+                  r="1.5"
+                  fill="currentColor"
+                />
+
+                <path
+                  d="M4 18L9 13L12 16L15 13L20 18"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+
+              </svg>
+
+            </div>
+
+            <span>
+              사진 미리보기
+            </span>
+
+            <small>
+              촬영하거나 앨범에서 사진을 선택해주세요.
+            </small>
+
+          </div>
+
+
+          <!-- 실제 이미지 -->
+
+          <img
+            class="preview-image"
+            id="previewImage"
+            src=""
+            alt="선택한 상품 사진"
+            hidden
+          />
+
+
+          <!-- 이미지 삭제 -->
+
+          <button
+            class="remove-photo-btn"
+            id="removePhotoBtn"
+            type="button"
+            aria-label="선택한 사진 삭제"
+            hidden
+          >
+
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M18 6L6 18M6 6L18 18"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
+
+          </button>
+
+        </div>
+
+
+        <!-- =========================
+             Hidden File Inputs
+        ========================== -->
+
+        <!-- 모바일 카메라 -->
+
+        <input
+          type="file"
+          id="cameraInput"
+          accept="image/*"
+          capture="environment"
+          hidden
+        />
+
+
+        <!-- 앨범 -->
+
+        <input
+          type="file"
+          id="albumInput"
+          accept="image/*"
+          hidden
+        />
+
+
+        <!-- =========================
+             Photo Actions
+        ========================== -->
+
+        <div class="photo-actions">
+
+          <button
+            class="primary-btn photo-action-btn"
+            id="cameraBtn"
+            type="button"
+          >
+
+            <svg
+              width="21"
+              height="21"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M4 7.5C4 6.67 4.67 6 5.5 6H8L9.3 4.5H14.7L16 6H18.5C19.33 6 20 6.67 20 7.5V18C20 18.83 19.33 19.5 18.5 19.5H5.5C4.67 19.5 4 18.83 4 18V7.5Z"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linejoin="round"
+              />
+
+              <circle
+                cx="12"
+                cy="12.5"
+                r="3"
+                stroke="currentColor"
+                stroke-width="1.7"
+              />
+            </svg>
+
+            <span>
+              카메라로 촬영하기
+            </span>
+
+          </button>
+
+
+          <button
+            class="secondary-btn photo-action-btn"
+            id="albumBtn"
+            type="button"
+          >
+
+            <svg
+              width="21"
+              height="21"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                x="3"
+                y="4"
+                width="18"
+                height="16"
+                rx="2.5"
+                stroke="currentColor"
+                stroke-width="1.7"
+              />
+
+              <circle
+                cx="9"
+                cy="9"
+                r="1.5"
+                fill="currentColor"
+              />
+
+              <path
+                d="M4 18L9 13L12 16L15 13L20 18"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+
+            <span>
+              앨범에서 선택하기
+            </span>
+
+          </button>
+
+        </div>
+
+
+        <!-- =========================
+             Memo
+        ========================== -->
+
+        <div class="memo-field">
+
+          <div class="memo-label-row">
+
+            <label for="memoInput">
+              메모
+              <span>선택 사항</span>
+            </label>
+
+            <span
+              class="memo-count"
+              id="memoCount"
+            >
+              0/200
+            </span>
+
+          </div>
+
+
+          <textarea
+            id="memoInput"
+            maxlength="200"
+            placeholder="사진에 대해 기억해둘 내용을 적어주세요."
+          ></textarea>
+
+        </div>
+
+
+        <!-- =========================
+             Save
+        ========================== -->
+
+        <div class="save-area">
+
+          <button
+            class="save-btn"
+            id="saveBtn"
+            type="button"
+            disabled
+          >
+            사진 등록하기
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         Toast
+    ========================== -->
+
+    <div
+      class="toast"
+      id="toast"
+      role="status"
+      aria-live="polite"
+    ></div>
+
+  </main>
+
+
+  <script src="../js/present-photo.js"></script>
+
+</body>
+</html>
