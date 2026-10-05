@@ -1,7 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // ========================================
-  // DOM
-  // ========================================
 
   const backBtn =
     document.getElementById("backBtn");
@@ -12,11 +9,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const imagePlaceholder =
     document.getElementById("imagePlaceholder");
 
-  const presentName =
-    document.getElementById("presentName");
+  const productName =
+    document.getElementById("productName");
 
-  const presentPrice =
-    document.getElementById("presentPrice");
+  const productPrice =
+    document.getElementById("productPrice");
 
   const savedDate =
     document.getElementById("savedDate");
@@ -30,30 +27,33 @@ document.addEventListener("DOMContentLoaded", () => {
   const reasonList =
     document.getElementById("reasonList");
 
-  const memo =
-    document.getElementById("memo");
+  const memoArea =
+    document.getElementById("memoArea");
 
-  const memoSection =
-    document.getElementById("memoSection");
+  const memoDivider =
+    document.getElementById("memoDivider");
 
-  const editBtn =
-    document.getElementById("editBtn");
+  const memoText =
+    document.getElementById("memoText");
 
-  const deleteBtn =
-    document.getElementById("deleteBtn");
+  const editButton =
+    document.getElementById("editButton");
+
+  const deleteButton =
+    document.getElementById("deleteButton");
 
   const deleteModal =
     document.getElementById("deleteModal");
 
-  const cancelDeleteBtn =
-    document.getElementById("cancelDeleteBtn");
+  const cancelDeleteButton =
+    document.getElementById("cancelDeleteButton");
 
-  const confirmDeleteBtn =
-    document.getElementById("confirmDeleteBtn");
+  const confirmDeleteButton =
+    document.getElementById("confirmDeleteButton");
 
 
   // ========================================
-  // List에서 선택한 후보 데이터 가져오기
+  // 데이터
   // ========================================
 
   const savedCandidate =
@@ -63,10 +63,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   if (!savedCandidate) {
-    console.error(
-      "선택된 후보 데이터가 없습니다."
-    );
-
     window.location.href =
       "./Present-List.html";
 
@@ -80,11 +76,10 @@ document.addEventListener("DOMContentLoaded", () => {
   try {
     presentData =
       JSON.parse(savedCandidate);
+
   } catch (error) {
-    console.error(
-      "후보 데이터를 불러오지 못했습니다.",
-      error
-    );
+
+    console.error(error);
 
     window.location.href =
       "./Present-List.html";
@@ -94,155 +89,99 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   // ========================================
-  // 데이터 렌더링
+  // 상세 정보 렌더링
   // ========================================
 
-  renderPresentDetail();
-
-
   function renderPresentDetail() {
-    // --------------------------------------
-    // 이미지
-    // --------------------------------------
 
     if (presentData.image) {
+
       presentImage.src =
         presentData.image;
 
       presentImage.alt =
-        presentData.name;
+        presentData.name || "선물 이미지";
 
       presentImage.hidden =
         false;
 
-
-      if (imagePlaceholder) {
-        imagePlaceholder.hidden =
-          true;
-      }
+      imagePlaceholder.hidden =
+        true;
 
     } else {
+
       presentImage.hidden =
         true;
 
-
-      if (imagePlaceholder) {
-        imagePlaceholder.hidden =
-          false;
-      }
+      imagePlaceholder.hidden =
+        false;
     }
 
 
-    // --------------------------------------
-    // 상품명
-    // --------------------------------------
-
-    if (presentName) {
-      presentName.textContent =
-        presentData.name || "-";
-    }
+    productName.textContent =
+      presentData.name || "-";
 
 
-    // --------------------------------------
-    // 가격
-    // --------------------------------------
-
-    if (presentPrice) {
-      presentPrice.textContent =
-        presentData.price
-          ? `${formatPrice(
-              presentData.price
-            )}원`
-          : "-";
-    }
+    productPrice.textContent =
+      presentData.price
+        ? `${formatPrice(
+            presentData.price
+          )}원`
+        : "-";
 
 
-    // --------------------------------------
-    // 저장 날짜
-    // --------------------------------------
-
-    if (savedDate) {
-      savedDate.textContent =
-        presentData.savedDate || "-";
-    }
+    savedDate.textContent =
+      presentData.savedDate || "-";
 
 
-    // --------------------------------------
-    // 선물 대상
-    // --------------------------------------
-
-    if (recipient) {
-      recipient.textContent =
-        presentData.recipient || "-";
-    }
+    recipient.textContent =
+      presentData.recipient || "-";
 
 
-    // --------------------------------------
-    // 관계
-    // --------------------------------------
-
-    if (relationship) {
-      relationship.textContent =
-        presentData.relationship || "-";
-    }
+    relationship.textContent =
+      presentData.relationship || "-";
 
 
-    // --------------------------------------
-    // 관심 근거
-    // --------------------------------------
-
-    if (reasonList) {
-      reasonList.innerHTML = "";
+    reasonList.innerHTML = "";
 
 
-      if (presentData.reason) {
-        const reasonItem =
-          document.createElement("li");
+    if (presentData.reason) {
 
-        reasonItem.textContent =
-          presentData.reason;
-
-        reasonList.appendChild(
-          reasonItem
+      const reasonChip =
+        document.createElement(
+          "span"
         );
 
-      } else {
-        const reasonItem =
-          document.createElement("li");
+      reasonChip.className =
+        "outline-chip reason-chip";
 
-        reasonItem.textContent =
-          "등록된 관심 근거가 없습니다.";
+      reasonChip.textContent =
+        presentData.reason;
 
-        reasonList.appendChild(
-          reasonItem
-        );
-      }
+      reasonList.appendChild(
+        reasonChip
+      );
     }
 
 
-    // --------------------------------------
-    // 메모
-    // --------------------------------------
+    if (presentData.memo) {
 
-    if (memo) {
-      if (presentData.memo) {
-        memo.textContent =
-          presentData.memo;
+      memoText.textContent =
+        presentData.memo;
 
+      memoArea.hidden =
+        false;
 
-        if (memoSection) {
-          memoSection.hidden =
-            false;
-        }
+      memoDivider.hidden =
+        false;
 
-      } else {
-        // 메모가 없으면 섹션 자체 숨김
+    } else {
 
-        if (memoSection) {
-          memoSection.hidden =
-            true;
-        }
-      }
+      memoArea.hidden =
+        true;
+
+      memoDivider.hidden =
+        true;
     }
   }
 
@@ -251,185 +190,187 @@ document.addEventListener("DOMContentLoaded", () => {
   // 뒤로가기
   // ========================================
 
-  if (backBtn) {
-    backBtn.addEventListener(
-      "click",
-      () => {
-        window.location.href =
-          "./Present-List.html";
-      }
-    );
-  }
+  backBtn.addEventListener(
+    "click",
+    () => {
+
+      window.location.href =
+        "./Present-List.html";
+
+    }
+  );
 
 
   // ========================================
-  // 수정
+  // 편집하기
   // ========================================
 
-  if (editBtn) {
-    editBtn.addEventListener(
-      "click",
-      () => {
-        /*
-         * 추후 수정 페이지가 생기면
-         *
-         * window.location.href =
-         *   `./Present-Edit.html?id=${presentData.id}`;
-         */
+  editButton.addEventListener(
+    "click",
+    () => {
 
-        alert(
-          "수정 기능은 준비 중입니다."
-        );
-      }
-    );
-  }
-
-
-  // ========================================
-  // 삭제 모달 열기
-  // ========================================
-
-  if (deleteBtn) {
-    deleteBtn.addEventListener(
-      "click",
-      () => {
-        if (!deleteModal) {
-          return;
-        }
-
-        deleteModal.hidden =
-          false;
-      }
-    );
-  }
-
-
-  // ========================================
-  // 삭제 취소
-  // ========================================
-
-  if (cancelDeleteBtn) {
-    cancelDeleteBtn.addEventListener(
-      "click",
-      () => {
-        if (!deleteModal) {
-          return;
-        }
-
-        deleteModal.hidden =
-          true;
-      }
-    );
-  }
-
-
-  // ========================================
-  // 삭제 확인
-  // ========================================
-
-  if (confirmDeleteBtn) {
-    confirmDeleteBtn.addEventListener(
-      "click",
-      () => {
-        deletePresent();
-      }
-    );
-  }
-
-
-  // ========================================
-  // 모달 바깥 클릭
-  // ========================================
-
-  if (deleteModal) {
-    deleteModal.addEventListener(
-      "click",
-      (event) => {
-        if (
-          event.target ===
-          deleteModal
-        ) {
-          deleteModal.hidden =
-            true;
-        }
-      }
-    );
-  }
-
-
-  // ========================================
-  // 후보 삭제
-  // ========================================
-
-  function deletePresent() {
-    /*
-     * 직접 추가한 후보라면
-     * sessionStorage에서도 삭제
-     */
-
-    const savedCandidates =
-      sessionStorage.getItem(
-        "addedCandidates"
+      sessionStorage.setItem(
+        "editPresent",
+        JSON.stringify(
+          presentData
+        )
       );
 
 
-    if (savedCandidates) {
-      try {
-        const addedCandidates =
-          JSON.parse(
-            savedCandidates
-          );
+      sessionStorage.setItem(
+        "presentMode",
+        "edit"
+      );
 
 
-        if (
-          Array.isArray(
-            addedCandidates
-          )
-        ) {
-          const updatedCandidates =
-            addedCandidates.filter(
-              (candidate) =>
-                candidate.id !==
-                presentData.id
-            );
+      window.location.href =
+        "./Present-Confirm.html";
 
-
-          sessionStorage.setItem(
-            "addedCandidates",
-            JSON.stringify(
-              updatedCandidates
-            )
-          );
-        }
-
-      } catch (error) {
-        console.error(
-          "후보 삭제 중 오류가 발생했습니다.",
-          error
-        );
-      }
     }
+  );
 
 
-    sessionStorage.removeItem(
-      "selectedCandidate"
+  // ========================================
+  // 삭제 모달
+  // ========================================
+
+  deleteButton.addEventListener(
+    "click",
+    () => {
+
+      deleteModal.classList.add(
+        "show"
+      );
+
+      deleteModal.setAttribute(
+        "aria-hidden",
+        "false"
+      );
+
+    }
+  );
+
+
+  cancelDeleteButton.addEventListener(
+    "click",
+    closeDeleteModal
+  );
+
+
+  deleteModal.addEventListener(
+    "click",
+    (event) => {
+
+      if (
+        event.target ===
+        deleteModal
+      ) {
+
+        closeDeleteModal();
+
+      }
+
+    }
+  );
+
+
+  function closeDeleteModal() {
+
+    deleteModal.classList.remove(
+      "show"
     );
 
+    deleteModal.setAttribute(
+      "aria-hidden",
+      "true"
+    );
 
-    window.location.href =
-      "./Present-List.html";
   }
 
 
   // ========================================
-  // 가격 포맷
+  // 삭제
+  // ========================================
+
+  confirmDeleteButton.addEventListener(
+    "click",
+    () => {
+
+      const savedCandidates =
+        sessionStorage.getItem(
+          "addedCandidates"
+        );
+
+
+      if (savedCandidates) {
+
+        try {
+
+          const addedCandidates =
+            JSON.parse(
+              savedCandidates
+            );
+
+
+          if (
+            Array.isArray(
+              addedCandidates
+            )
+          ) {
+
+            const updatedCandidates =
+              addedCandidates.filter(
+                (candidate) =>
+                  candidate.id !==
+                  presentData.id
+              );
+
+
+            sessionStorage.setItem(
+              "addedCandidates",
+              JSON.stringify(
+                updatedCandidates
+              )
+            );
+
+          }
+
+        } catch (error) {
+
+          console.error(error);
+
+        }
+
+      }
+
+
+      sessionStorage.removeItem(
+        "selectedCandidate"
+      );
+
+
+      window.location.href =
+        "./Present-List.html";
+
+    }
+  );
+
+
+  // ========================================
+  // 가격
   // ========================================
 
   function formatPrice(price) {
+
     return Number(
       price
     ).toLocaleString(
       "ko-KR"
     );
+
   }
+
+
+  renderPresentDetail();
+
 });

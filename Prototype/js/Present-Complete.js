@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+
   const backBtn =
     document.getElementById(
       "backBtn"
@@ -15,41 +16,49 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 
-  // ========================================
-  // 뒤로가기
-  // ========================================
-
   backBtn.addEventListener(
     "click",
     () => {
+
       window.location.href =
-        "./Present-Confirm.html";
+        "./Present-List.html";
+
     }
   );
 
-
-  // ========================================
-  // 후보 목록으로
-  // ========================================
 
   homeBtn.addEventListener(
     "click",
     () => {
+
       window.location.href =
         "./Present-List.html";
+
     }
   );
 
-
-  // ========================================
-  // 계속 등록
-  // ========================================
 
   continueBtn.addEventListener(
     "click",
     () => {
+
+      sessionStorage.removeItem(
+        "presentDraft"
+      );
+
+      sessionStorage.removeItem(
+        "presentMode"
+      );
+
+      sessionStorage.removeItem(
+        "editPresent"
+      );
+
+
       window.location.href =
         "./Present-Photo.html";
+
     }
   );
+
 });

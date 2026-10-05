@@ -1,7 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // ========================================
-  // DOM
-  // ========================================
 
   const backBtn =
     document.getElementById(
@@ -64,62 +61,162 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 
-  // ========================================
-  // State
-  // ========================================
+  let selectedFriend =
+    "지수";
 
-  let selectedFriend = "지수";
   let draftData = {};
-  let toastTimer = null;
+
+  let editingData =
+    null;
+
+  let toastTimer =
+    null;
 
 
   // ========================================
-  // Photo 페이지 데이터 불러오기
+  // 현재 모드
   // ========================================
 
-  const savedDraft =
+  const presentMode =
     sessionStorage.getItem(
-      "presentDraft"
+      "presentMode"
     );
 
 
-  if (savedDraft) {
-    try {
-      draftData =
-        JSON.parse(savedDraft);
+  const isEditMode =
+    presentMode === "edit";
 
 
-      // 사진 표시
-      if (draftData.image) {
-        giftImage.src =
-          draftData.image;
+  // ========================================
+  // 편집 데이터 불러오기
+  // ========================================
 
-        giftImage.hidden =
-          false;
+  if (isEditMode) {
 
-        imagePlaceholder.hidden =
-          true;
-      }
-
-
-      // 메모 표시
-      if (draftData.memo) {
-        memoInput.value =
-          draftData.memo;
-      }
-
-    } catch (error) {
-      console.error(
-        "임시 데이터를 불러오지 못했습니다.",
-        error
+    const savedEditPresent =
+      sessionStorage.getItem(
+        "editPresent"
       );
+
+
+    if (savedEditPresent) {
+
+      try {
+
+        editingData =
+          JSON.parse(
+            savedEditPresent
+          );
+
+
+        productName.value =
+          editingData.name || "";
+
+
+        productPrice.value =
+          editingData.price
+            ? formatPrice(
+                editingData.price
+              )
+            : "";
+
+
+        productBrand.value =
+          editingData.category || "";
+
+
+        memoInput.value =
+          editingData.memo || "";
+
+
+        selectedFriend =
+          editingData.recipient ||
+          "지수";
+
+
+        if (editingData.image) {
+
+          giftImage.src =
+            editingData.image;
+
+          giftImage.hidden =
+            false;
+
+          imagePlaceholder.hidden =
+            true;
+
+        }
+
+
+        selectFriendChip(
+          selectedFriend
+        );
+
+
+        saveBtn.textContent =
+          "수정 내용 저장";
+
+      } catch (error) {
+
+        console.error(
+          error
+        );
+
+      }
+
     }
+
+  } else {
+
+    // ========================================
+    // 신규 등록 데이터 불러오기
+    // ========================================
+
+    const savedDraft =
+      sessionStorage.getItem(
+        "presentDraft"
+      );
+
+
+    if (savedDraft) {
+
+      try {
+
+        draftData =
+          JSON.parse(
+            savedDraft
+          );
+
+
+        if (draftData.image) {
+
+          giftImage.src =
+            draftData.image;
+
+          giftImage.hidden =
+            false;
+
+          imagePlaceholder.hidden =
+            true;
+
+        }
+
+
+        memoInput.value =
+          draftData.memo || "";
+
+      } catch (error) {
+
+        console.error(
+          error
+        );
+
+      }
+
+    }
+
   }
 
-
-  // ========================================
-  // 메모 카운트 초기화
-  // ========================================
 
   updateMemoCount();
 
@@ -131,20 +228,42 @@ document.addEventListener("DOMContentLoaded", () => {
   backBtn.addEventListener(
     "click",
     () => {
+
+      if (isEditMode) {
+
+        sessionStorage.removeItem(
+          "presentMode"
+        );
+
+        sessionStorage.removeItem(
+          "editPresent"
+        );
+
+
+        window.location.href =
+          "./Present-Detail.html";
+
+        return;
+
+      }
+
+
       window.location.href =
         "./Present-Photo.html";
+
     }
   );
 
 
   // ========================================
-  // 가격 입력
+  // 가격
   // ========================================
 
   productPrice.addEventListener(
     "input",
     () => {
-      const numberValue =
+
+      const value =
         productPrice.value.replace(
           /[^0-9]/g,
           ""
@@ -152,13 +271,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
       productPrice.value =
-        numberValue
+        value
           ? Number(
-              numberValue
+              value
             ).toLocaleString(
               "ko-KR"
             )
           : "";
+
     }
   );
 
@@ -170,6 +290,7 @@ document.addEventListener("DOMContentLoaded", () => {
   friendList.addEventListener(
     "click",
     (event) => {
+
       const button =
         event.target.closest(
           ".friend-chip"
@@ -181,30 +302,41 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
 
-      const friendButtons =
-        friendList.querySelectorAll(
-          ".friend-chip"
-        );
-
-
-      friendButtons.forEach(
-        (friendButton) => {
-          friendButton.classList.remove(
-            "active"
-          );
-        }
-      );
-
-
-      button.classList.add(
-        "active"
-      );
-
-
       selectedFriend =
         button.dataset.friend;
+
+
+      selectFriendChip(
+        selectedFriend
+      );
+
     }
   );
+
+
+  function selectFriendChip(
+    friend
+  ) {
+
+    const buttons =
+      friendList.querySelectorAll(
+        ".friend-chip"
+      );
+
+
+    buttons.forEach(
+      (button) => {
+
+        button.classList.toggle(
+          "active",
+          button.dataset.friend ===
+            friend
+        );
+
+      }
+    );
+
+  }
 
 
   // ========================================
@@ -214,9 +346,11 @@ document.addEventListener("DOMContentLoaded", () => {
   addFriendBtn.addEventListener(
     "click",
     () => {
+
       showToast(
         "친구 추가 기능은 준비 중이에요."
       );
+
     }
   );
 
@@ -227,45 +361,46 @@ document.addEventListener("DOMContentLoaded", () => {
 
   memoInput.addEventListener(
     "input",
-    () => {
-      updateMemoCount();
-    }
+    updateMemoCount
   );
 
 
   function updateMemoCount() {
+
     memoCount.textContent =
       memoInput.value.length;
+
   }
 
 
   // ========================================
-  // 후보 저장
+  // 저장
   // ========================================
 
   saveBtn.addEventListener(
     "click",
     () => {
+
       const name =
         productName.value.trim();
+
 
       const priceText =
         productPrice.value
           .replace(/,/g, "")
           .trim();
 
+
       const brand =
         productBrand.value.trim();
+
 
       const memo =
         memoInput.value.trim();
 
 
-      // ------------------------------------
-      // Validation
-      // ------------------------------------
-
       if (!name) {
+
         showToast(
           "상품명을 입력해주세요."
         );
@@ -273,10 +408,12 @@ document.addEventListener("DOMContentLoaded", () => {
         productName.focus();
 
         return;
+
       }
 
 
       if (!priceText) {
+
         showToast(
           "가격을 입력해주세요."
         );
@@ -284,38 +421,169 @@ document.addEventListener("DOMContentLoaded", () => {
         productPrice.focus();
 
         return;
+
       }
 
 
       // ====================================
-      // 날짜 생성
+      // 편집 저장
+      // ====================================
+
+      if (
+        isEditMode &&
+        editingData
+      ) {
+
+        const updatedPresent = {
+          ...editingData,
+
+          name:
+            name,
+
+          price:
+            Number(
+              priceText
+            ),
+
+          category:
+            brand || "기타",
+
+          recipient:
+            selectedFriend,
+
+          memo:
+            memo
+        };
+
+
+        // ----------------------------------
+        // 사용자 추가 후보 수정
+        // ----------------------------------
+
+        const savedCandidates =
+          sessionStorage.getItem(
+            "addedCandidates"
+          );
+
+
+        if (savedCandidates) {
+
+          try {
+
+            const addedCandidates =
+              JSON.parse(
+                savedCandidates
+              );
+
+
+            if (
+              Array.isArray(
+                addedCandidates
+              )
+            ) {
+
+              const updatedCandidates =
+                addedCandidates.map(
+                  (candidate) => {
+
+                    if (
+                      candidate.id ===
+                      updatedPresent.id
+                    ) {
+
+                      return updatedPresent;
+
+                    }
+
+
+                    return candidate;
+
+                  }
+                );
+
+
+              sessionStorage.setItem(
+                "addedCandidates",
+                JSON.stringify(
+                  updatedCandidates
+                )
+              );
+
+            }
+
+          } catch (error) {
+
+            console.error(
+              error
+            );
+
+          }
+
+        }
+
+
+        // ----------------------------------
+        // 상세 페이지 데이터도 수정
+        // ----------------------------------
+
+        sessionStorage.setItem(
+          "selectedCandidate",
+          JSON.stringify(
+            updatedPresent
+          )
+        );
+
+
+        sessionStorage.removeItem(
+          "editPresent"
+        );
+
+
+        sessionStorage.removeItem(
+          "presentMode"
+        );
+
+
+        window.location.href =
+          "./Present-Complete.html";
+
+        return;
+
+      }
+
+
+      // ====================================
+      // 신규 후보 저장
       // ====================================
 
       const today =
         new Date();
 
+
       const year =
         today.getFullYear();
+
 
       const month =
         String(
           today.getMonth() + 1
-        ).padStart(2, "0");
+        ).padStart(
+          2,
+          "0"
+        );
+
 
       const day =
         String(
           today.getDate()
-        ).padStart(2, "0");
+        ).padStart(
+          2,
+          "0"
+        );
 
-      const savedDate =
-        `${year}.${month}.${day}`;
-
-
-      // ====================================
-      // List에서 사용하는 데이터 구조
-      // ====================================
 
       const presentData = {
+
         id:
           Date.now(),
 
@@ -326,13 +594,12 @@ document.addEventListener("DOMContentLoaded", () => {
           brand || "기타",
 
         price:
-          Number(priceText),
+          Number(
+            priceText
+          ),
 
         savedDate:
-          savedDate,
-
-        source:
-          "직접 저장",
+          `${year}.${month}.${day}`,
 
         recipient:
           selectedFriend,
@@ -342,9 +609,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         reasonType:
           "judgment",
-
-        reasonLabel:
-          "내 판단",
 
         reason:
           "직접 등록한 선물 후보",
@@ -360,20 +624,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         image:
           draftData.image || null
+
       };
 
 
-      console.log(
-        "새 후보:",
-        presentData
-      );
+      let addedCandidates =
+        [];
 
-
-      // ====================================
-      // 기존 추가 후보 배열 가져오기
-      // ====================================
-
-      let addedCandidates = [];
 
       const savedCandidates =
         sessionStorage.getItem(
@@ -382,38 +639,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
       if (savedCandidates) {
+
         try {
-          addedCandidates =
+
+          const parsed =
             JSON.parse(
               savedCandidates
             );
 
+
           if (
-            !Array.isArray(
-              addedCandidates
+            Array.isArray(
+              parsed
             )
           ) {
-            addedCandidates = [];
+
+            addedCandidates =
+              parsed;
+
           }
 
         } catch (error) {
-          addedCandidates = [];
+
+          console.error(
+            error
+          );
+
         }
+
       }
 
-
-      // ====================================
-      // 새로운 후보 추가
-      // ====================================
 
       addedCandidates.unshift(
         presentData
       );
 
-
-      // ====================================
-      // sessionStorage 저장
-      // ====================================
 
       sessionStorage.setItem(
         "addedCandidates",
@@ -423,27 +683,65 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
 
-      // 임시 Photo 데이터 제거
+      sessionStorage.setItem(
+        "selectedCandidate",
+        JSON.stringify(
+          presentData
+        )
+      );
+
+
       sessionStorage.removeItem(
         "presentDraft"
       );
 
 
-      // ====================================
-      // 완료 페이지
-      // ====================================
-
       window.location.href =
         "./Present-Complete.html";
+
     }
   );
+
+
+  // ========================================
+  // 가격 포맷
+  // ========================================
+
+  function formatPrice(
+    value
+  ) {
+
+    const number =
+      String(
+        value
+      ).replace(
+        /[^0-9]/g,
+        ""
+      );
+
+
+    if (!number) {
+      return "";
+    }
+
+
+    return Number(
+      number
+    ).toLocaleString(
+      "ko-KR"
+    );
+
+  }
 
 
   // ========================================
   // Toast
   // ========================================
 
-  function showToast(message) {
+  function showToast(
+    message
+  ) {
+
     if (!toast) {
       return;
     }
@@ -464,10 +762,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     toastTimer =
-      setTimeout(() => {
-        toast.classList.remove(
-          "show"
-        );
-      }, 2000);
+      setTimeout(
+        () => {
+
+          toast.classList.remove(
+            "show"
+          );
+
+        },
+        2000
+      );
+
   }
+
 });

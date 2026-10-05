@@ -10,13 +10,11 @@
 
   <title>후보 상세</title>
 
-  <!-- 공통 CSS -->
   <link
     rel="stylesheet"
     href="../css/global.css"
   />
 
-  <!-- 페이지 전용 CSS -->
   <link
     rel="stylesheet"
     href="../css/present-detail.css"
@@ -27,9 +25,6 @@
 
   <main class="mobile-shell present-detail-page">
 
-    <!-- =========================
-         Header
-    ========================== -->
     <header class="detail-header">
 
       <button
@@ -64,40 +59,35 @@
     </header>
 
 
-    <!-- =========================
-         Scroll Content
-    ========================== -->
     <div class="detail-scroll">
 
-      <!-- 상품 이미지 -->
       <section class="product-image-section">
 
-        <div class="product-image-box" id="productImageBox">
+        <div
+          class="product-image-box"
+          id="productImageBox"
+        >
 
-          <!-- 실제 이미지가 있으면 JS에서 img 생성 -->
           <img
-  id="presentImage"
-  class="detail-image"
-  src=""
-  alt="선물 이미지"
-  hidden
-/>
+            id="presentImage"
+            class="detail-image"
+            src=""
+            alt="선물 이미지"
+            hidden
+          />
 
-<div
-  id="imagePlaceholder"
-  class="image-placeholder"
->
-  이미지
-</div>
+          <div
+            id="imagePlaceholder"
+            class="image-placeholder"
+          >
+            이미지
+          </div>
 
         </div>
 
       </section>
 
 
-      <!-- =========================
-           기본 정보
-      ========================== -->
       <section class="detail-card product-info-card">
 
         <div class="product-title-row">
@@ -106,15 +96,7 @@
             class="product-name"
             id="productName"
           >
-            버즈 라이트 이어폰 프로
           </h2>
-
-          <span
-            class="source-badge"
-            id="sourceBadge"
-          >
-            AI 제안
-          </span>
 
         </div>
 
@@ -131,7 +113,6 @@
               class="meta-value price"
               id="productPrice"
             >
-              68,000원
             </strong>
 
           </div>
@@ -147,7 +128,6 @@
               class="meta-value"
               id="savedDate"
             >
-              2025.05.18
             </span>
 
           </div>
@@ -170,7 +150,6 @@
               class="outline-chip"
               id="recipient"
             >
-              지수
             </span>
 
           </div>
@@ -186,7 +165,6 @@
               class="outline-chip"
               id="relationship"
             >
-              친구
             </span>
 
           </div>
@@ -196,36 +174,29 @@
       </section>
 
 
-      <!-- =========================
-           관심 근거
-      ========================== -->
       <section class="detail-card reason-card">
 
         <h2 class="section-title">
           관심 근거
         </h2>
 
-
         <div
           class="reason-chip-list"
           id="reasonList"
         >
-
-          <span class="outline-chip reason-chip">
-            직접 갖고 싶다고 했어요
-          </span>
-
-          <span class="outline-chip reason-chip">
-            요즘 자주 쓰는 것 같아요
-          </span>
-
         </div>
 
 
-        <div class="card-divider reason-divider"></div>
+        <div
+          class="card-divider reason-divider"
+          id="memoDivider"
+        ></div>
 
 
-        <div class="memo-area">
+        <div
+          class="memo-area"
+          id="memoArea"
+        >
 
           <h3 class="memo-title">
             자유 메모
@@ -235,7 +206,6 @@
             class="memo-text"
             id="memoText"
           >
-            생일 선물로 고려 중. 작년에 이어폰 잃어버렸다고 했음.
           </p>
 
         </div>
@@ -243,17 +213,11 @@
       </section>
 
 
-      <!-- =========================
-           안내
-      ========================== -->
       <p class="detail-notice">
         저장 당시 기준 정보로, 현재 가격·재고와 다를 수 있어요.
       </p>
 
 
-      <!-- =========================
-           Actions
-      ========================== -->
       <div class="detail-actions">
 
         <button
@@ -277,9 +241,6 @@
     </div>
 
 
-    <!-- =========================
-         Delete Modal
-    ========================== -->
     <div
       class="modal-backdrop"
       id="deleteModal"
