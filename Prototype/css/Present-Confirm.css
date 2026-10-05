@@ -1,0 +1,561 @@
+/* =========================================
+   Present Confirm
+========================================= */
+
+.present-confirm-page {
+  position: relative;
+
+  height: 100dvh;
+  min-height: 100dvh;
+
+  overflow: hidden;
+
+  background: #ffffff;
+}
+
+
+/* =========================================
+   Header
+========================================= */
+
+.confirm-header {
+  position: relative;
+  z-index: 10;
+
+  height: 64px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-bottom: 1px solid #eeeeee;
+
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.confirm-header h1 {
+  margin: 0;
+
+  color: #262626;
+
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.back-btn {
+  position: absolute;
+
+  top: 50%;
+  left: 20px;
+
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 0;
+  background: transparent;
+
+  color: #262626;
+
+  font-size: 34px;
+  font-weight: 300;
+  line-height: 1;
+
+  transform: translateY(-50%);
+
+  cursor: pointer;
+}
+
+
+/* =========================================
+   Scroll
+========================================= */
+
+.confirm-scroll {
+  height: calc(100dvh - 64px);
+
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  padding:
+    24px
+    28px
+    calc(40px + env(safe-area-inset-bottom));
+
+  scrollbar-width: none;
+}
+
+.confirm-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+
+/* =========================================
+   Step
+========================================= */
+
+.step-section {
+  margin-bottom: 32px;
+}
+
+.step-list {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 8px;
+}
+
+.step-item {
+  min-height: 32px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 6px 13px;
+
+  border: 1px solid #e5e5e5;
+  border-radius: 999px;
+
+  background: #ffffff;
+
+  color: #7d7d7d;
+
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.step-item.active {
+  border-color: #262626;
+
+  background: #262626;
+  color: #ffffff;
+
+  font-weight: 600;
+}
+
+
+/* =========================================
+   Intro
+========================================= */
+
+.intro-section {
+  padding-bottom: 28px;
+  margin-bottom: 28px;
+
+  border-bottom: 1px solid #eeeeee;
+}
+
+.intro-section h2 {
+  margin: 0 0 12px;
+
+  color: #262626;
+
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.intro-section p {
+  margin: 0;
+
+  color: #7d7d7d;
+
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+
+/* =========================================
+   Form Section
+========================================= */
+
+.form-section {
+  margin-bottom: 32px;
+}
+
+.form-section > h3 {
+  margin: 0 0 14px;
+
+  color: #555555;
+
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.memo-section > h3 span {
+  color: #9a9a9a;
+
+  font-weight: 400;
+}
+
+
+/* =========================================
+   Cards
+========================================= */
+
+.info-card,
+.friend-card,
+.memo-card {
+  width: 100%;
+
+  padding: 16px;
+
+  border: 1px solid #eeeeee;
+  border-radius: 16px;
+
+  background: #ffffff;
+
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.025);
+}
+
+
+/* =========================================
+   Gift Image
+========================================= */
+
+.gift-image-area {
+  position: relative;
+
+  width: 100%;
+  aspect-ratio: 16 / 9;
+
+  margin-bottom: 20px;
+
+  overflow: hidden;
+
+  border: 1px solid #eeeeee;
+  border-radius: 12px;
+
+  background: #fafafa;
+}
+
+.gift-image {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.gift-image[hidden],
+.image-placeholder[hidden] {
+  display: none;
+}
+
+.image-placeholder {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  color: #bebebe;
+}
+
+.image-placeholder span {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+
+/* =========================================
+   Inputs
+========================================= */
+
+.input-group {
+  margin-bottom: 18px;
+}
+
+.input-group:last-child {
+  margin-bottom: 0;
+}
+
+.input-group label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #262626;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.input-group input {
+  width: 100%;
+  height: 48px;
+
+  padding: 0 14px;
+
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  outline: none;
+
+  background: #ffffff;
+
+  color: #262626;
+
+  font-family: inherit;
+  font-size: 15px;
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.input-group input::placeholder {
+  color: #bebebe;
+}
+
+.input-group input:focus,
+.memo-card textarea:focus {
+  border-color: var(--main-color, #f8c6d8);
+
+  box-shadow:
+    0 0 0 3px
+    color-mix(
+      in srgb,
+      var(--main-color, #f8c6d8) 20%,
+      transparent
+    );
+}
+
+
+/* =========================================
+   Friend
+========================================= */
+
+.friend-question {
+  margin: 0 0 14px;
+
+  color: #555555;
+
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.friend-list {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  margin-bottom: 14px;
+}
+
+.friend-chip {
+  min-width: 60px;
+  height: 36px;
+
+  padding: 0 16px;
+
+  border: 1px solid #e5e5e5;
+  border-radius: 999px;
+
+  background: #ffffff;
+
+  color: #7d7d7d;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.friend-chip.active {
+  border-color: #262626;
+
+  background: #262626;
+  color: #ffffff;
+
+  font-weight: 600;
+}
+
+.add-friend-btn {
+  width: 100%;
+  height: 46px;
+
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+
+  background: #ffffff;
+
+  color: #555555;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+
+/* =========================================
+   Memo
+========================================= */
+
+.memo-example {
+  margin: 0 0 12px;
+
+  color: #555555;
+
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.memo-card textarea {
+  width: 100%;
+  min-height: 120px;
+
+  display: block;
+
+  padding: 14px;
+
+  resize: none;
+
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  outline: none;
+
+  background: #ffffff;
+
+  color: #262626;
+
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.6;
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.memo-card textarea::placeholder {
+  color: #bebebe;
+}
+
+.memo-count {
+  margin-top: 8px;
+
+  color: #bebebe;
+
+  font-size: 12px;
+  text-align: right;
+}
+
+
+/* =========================================
+   Save
+========================================= */
+
+.save-btn {
+  width: 100%;
+  height: 54px;
+
+  margin-top: 4px;
+
+  border: 0;
+  border-radius: 14px;
+
+  background: #262626;
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+}
+
+.save-btn:hover {
+  opacity: 0.9;
+}
+
+.save-btn:active,
+.add-friend-btn:active,
+.friend-chip:active,
+.back-btn:active {
+  transform: scale(0.98);
+}
+
+
+/* =========================================
+   Toast
+========================================= */
+
+.toast {
+  position: absolute;
+  z-index: 100;
+
+  left: 50%;
+  bottom: calc(24px + env(safe-area-inset-bottom));
+
+  max-width: calc(100% - 48px);
+
+  padding: 12px 18px;
+
+  border-radius: 999px;
+
+  background: rgba(38, 38, 38, 0.92);
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+
+  opacity: 0;
+  pointer-events: none;
+
+  transform: translate(-50%, 12px);
+
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.toast.show {
+  opacity: 1;
+
+  transform: translate(-50%, 0);
+}
+
+
+/* =========================================
+   Small Mobile
+========================================= */
+
+@media (max-width: 360px) {
+  .confirm-scroll {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .step-item {
+    padding-left: 11px;
+    padding-right: 11px;
+
+    font-size: 12px;
+  }
+}
