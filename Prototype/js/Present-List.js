@@ -3,365 +3,458 @@ document.addEventListener("DOMContentLoaded", () => {
   // DOM
   // ========================================
 
-  const candidateList = document.querySelector("#candidateList");
-  const candidateCount = document.querySelector("#candidateCount");
+  const candidateList =
+    document.getElementById(
+      "candidateList"
+    );
 
-  const statusFilter = document.querySelector("#statusFilter");
-  const reasonFilter = document.querySelector("#reasonFilter");
+  const candidateCount =
+    document.getElementById(
+      "candidateCount"
+    );
 
-  const addBtn = document.querySelector("#addBtn");
-  const tournamentBtn = document.querySelector("#tournamentBtn");
+  const statusFilter =
+    document.getElementById(
+      "statusFilter"
+    );
 
-  const toast = document.querySelector("#toast");
+  const reasonFilter =
+    document.getElementById(
+      "reasonFilter"
+    );
+
+  const addBtn =
+    document.getElementById(
+      "addBtn"
+    );
+
+  const tournamentBtn =
+    document.getElementById(
+      "tournamentBtn"
+    );
+
+  const toast =
+    document.getElementById(
+      "toast"
+    );
 
 
   // ========================================
-  // 후보 목데이터
+  // 기본 Mock Data
   // ========================================
 
-  let candidates = [
+  const candidates = [
     {
       id: 1,
 
-      name: "버즈 라이트 이어폰 프로",
-      category: "블루투스 이어폰",
+      name:
+        "버즈 라이트 이어폰 프로",
 
-      price: 68000,
-      savedDate: "2025.05.18",
+      category:
+        "블루투스 이어폰",
 
-      source: "AI 제안",
+      price:
+        68000,
 
-      recipient: "지수",
-      relationship: "친구",
+      savedDate:
+        "2025.05.18",
 
-      reasonType: "direct",
-      reasonLabel: "직접 표현",
-      reason: "직접 갖고 싶다고 했어요",
+      source:
+        "AI 제안",
 
-      status: "considering",
-      statusLabel: "고려 중",
+      recipient:
+        "지수",
+
+      relationship:
+        "친구",
+
+      reasonType:
+        "direct",
+
+      reasonLabel:
+        "직접 표현",
+
+      reason:
+        "직접 갖고 싶다고 했어요",
+
+      status:
+        "considering",
+
+      statusLabel:
+        "고려 중",
 
       memo:
         "생일 선물로 고려 중. 작년에 이어폰 잃어버렸다고 했음.",
 
-      image: null
+      image:
+        null
     },
+
   ];
 
 
   // ========================================
-  // 선택된 후보 ID
+  // sessionStorage 후보 가져오기
   // ========================================
 
-  const selectedCandidates = new Set();
+  const savedCandidates =
+    sessionStorage.getItem(
+      "addedCandidates"
+    );
+
+
+  if (savedCandidates) {
+    try {
+      const addedCandidates =
+        JSON.parse(
+          savedCandidates
+        );
+
+
+      if (
+        Array.isArray(
+          addedCandidates
+        )
+      ) {
+        candidates.unshift(
+          ...addedCandidates
+        );
+      }
+
+    } catch (error) {
+      console.error(
+        "추가 후보를 불러오지 못했습니다.",
+        error
+      );
+    }
+  }
 
 
   // ========================================
-  // 후보 리스트 렌더링
+  // State
+  // ========================================
+
+  const selectedCandidates =
+    new Set();
+
+  let toastTimer = null;
+
+
+  // ========================================
+  // 후보 렌더링
   // ========================================
 
   function renderCandidates() {
-    const statusValue = statusFilter.value;
-    const reasonValue = reasonFilter.value;
+    const selectedStatus =
+      statusFilter.value;
+
+    const selectedReason =
+      reasonFilter.value;
 
 
-    // 필터링
-    const filteredCandidates = candidates.filter((candidate) => {
-      const statusMatch =
-        statusValue === "all" ||
-        candidate.status === statusValue;
-
-      const reasonMatch =
-        reasonValue === "all" ||
-        candidate.reasonType === reasonValue;
-
-      return statusMatch && reasonMatch;
-    });
+    const filteredCandidates =
+      candidates.filter(
+        (candidate) => {
+          const statusMatch =
+            selectedStatus === "all" ||
+            candidate.status ===
+              selectedStatus;
 
 
-    // 기존 리스트 초기화
+          const reasonMatch =
+            selectedReason === "all" ||
+            candidate.reasonType ===
+              selectedReason;
+
+
+          return (
+            statusMatch &&
+            reasonMatch
+          );
+        }
+      );
+
+
+    candidateCount.textContent =
+      `후보 ${filteredCandidates.length}개`;
+
+
     candidateList.innerHTML = "";
 
 
-    // ========================================
-    // 검색 결과 없음
-    // ========================================
-
-    if (filteredCandidates.length === 0) {
+    if (
+      filteredCandidates.length === 0
+    ) {
       candidateList.innerHTML = `
         <div class="empty-state">
-          <p>조건에 맞는 후보가 없어요.</p>
+          조건에 맞는 후보가 없어요.
         </div>
       `;
-
-      updateCandidateCount();
-      updateTournamentButton();
 
       return;
     }
 
 
-    // ========================================
-    // 후보 카드 생성
-    // ========================================
-
-    filteredCandidates.forEach((candidate) => {
-      const card = document.createElement("article");
-
-      card.className = "candidate-card";
-
-      card.dataset.id = candidate.id;
-      card.dataset.status = candidate.status;
-      card.dataset.reason = candidate.reasonType;
+    filteredCandidates.forEach(
+      (candidate) => {
+        const card =
+          document.createElement(
+            "article"
+          );
 
 
-      const isChecked =
-        selectedCandidates.has(candidate.id);
+        card.className =
+          "candidate-card";
 
 
-      card.innerHTML = `
-        <label class="candidate-check">
-          <input
-            type="checkbox"
-            class="candidate-checkbox"
-            value="${candidate.id}"
-            ${isChecked ? "checked" : ""}
-          />
-
-          <span class="check-ui"></span>
-        </label>
+        card.dataset.id =
+          candidate.id;
 
 
-        <div class="candidate-image">
+        const isSelected =
+          selectedCandidates.has(
+            candidate.id
+          );
 
-          ${
-            candidate.image
-              ? `
+
+        // ====================================
+        // 이미지
+        // ====================================
+
+        const imageHtml =
+          candidate.image
+            ? `
+              <div class="candidate-image-wrap">
                 <img
+                  class="candidate-image"
                   src="${candidate.image}"
-                  alt="${candidate.name}"
-                  class="candidate-product-image"
+                  alt="${escapeHtml(candidate.name)}"
                 />
-              `
-              : `
-                <div class="image-placeholder">
-
-                  <svg
-                    width="32"
-                    height="32"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <rect
-                      x="3"
-                      y="4"
-                      width="18"
-                      height="16"
-                      rx="2"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                    />
-
-                    <circle
-                      cx="9"
-                      cy="9"
-                      r="1.5"
-                      fill="currentColor"
-                    />
-
-                    <path
-                      d="M4 18L9 13L12 16L15 13L20 18"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-
-                  <span>${candidate.category}</span>
-
-                </div>
-              `
-          }
-
-        </div>
+              </div>
+            `
+            : `
+              <div class="candidate-image-wrap candidate-image-placeholder">
+                <span>이미지</span>
+              </div>
+            `;
 
 
-        <div class="candidate-content">
+        // ====================================
+        // Card
+        // ====================================
 
-          <h3 class="candidate-name">
-            ${candidate.name}
-          </h3>
-
-
-          <span class="reason-badge">
-            ${candidate.reasonLabel}
-          </span>
-
-
-          <p class="candidate-reason">
-            ${candidate.reason}
-          </p>
-
-
-          <div class="candidate-actions">
-
-            <span class="status-badge">
-              ${candidate.statusLabel}
-            </span>
-
-
-            <button
-              class="text-btn edit-btn"
-              type="button"
+        card.innerHTML = `
+          <div class="candidate-select">
+            <input
+              class="candidate-checkbox"
+              type="checkbox"
               data-id="${candidate.id}"
-            >
-              편집
-            </button>
-
-
-            <button
-              class="delete-btn"
-              type="button"
-              data-id="${candidate.id}"
-            >
-              삭제
-            </button>
-
+              ${isSelected ? "checked" : ""}
+              aria-label="${escapeHtml(candidate.name)} 선택"
+            />
           </div>
 
-        </div>
-      `;
+          ${imageHtml}
+
+          <div class="candidate-info">
+
+            <div class="candidate-top">
+              <div class="candidate-title-area">
+                <span class="source-badge">
+                  ${escapeHtml(candidate.source)}
+                </span>
+
+                <h4>
+                  ${escapeHtml(candidate.name)}
+                </h4>
+
+                <p class="candidate-category">
+                  ${escapeHtml(candidate.category)}
+                </p>
+              </div>
+
+              <span class="status-badge ${candidate.status}">
+                ${escapeHtml(candidate.statusLabel)}
+              </span>
+            </div>
 
 
-      // ========================================
-      // 카드 클릭 → 상세 페이지
-      // ========================================
+            <div class="candidate-meta">
+              <strong>
+                ${formatPrice(candidate.price)}원
+              </strong>
 
-      card.addEventListener("click", (event) => {
-        // 체크박스 클릭
-        if (event.target.closest(".candidate-check")) {
-          return;
-        }
-
-        // 버튼 클릭
-        if (event.target.closest("button")) {
-          return;
-        }
-
-        window.location.href =
-          `./Present-Detail.html?id=${candidate.id}`;
-      });
+              <span>
+                ${escapeHtml(candidate.savedDate)}
+              </span>
+            </div>
 
 
-      // ========================================
-      // 체크박스
-      // ========================================
+            <div class="candidate-reason">
+              <span class="reason-label">
+                ${escapeHtml(candidate.reasonLabel)}
+              </span>
 
-      const checkbox =
-        card.querySelector(".candidate-checkbox");
-
-      checkbox.addEventListener("change", () => {
-        const candidateId =
-          Number(checkbox.value);
-
-
-        if (checkbox.checked) {
-          selectedCandidates.add(candidateId);
-
-          card.classList.add("selected");
-        } else {
-          selectedCandidates.delete(candidateId);
-
-          card.classList.remove("selected");
-        }
+              <p>
+                ${escapeHtml(candidate.reason)}
+              </p>
+            </div>
 
 
-        updateTournamentButton();
-      });
+            ${
+              candidate.memo
+                ? `
+                  <p class="candidate-memo">
+                    ${escapeHtml(candidate.memo)}
+                  </p>
+                `
+                : ""
+            }
 
 
-      if (isChecked) {
-        card.classList.add("selected");
-      }
+            <div class="candidate-actions">
+
+              <button
+                class="edit-btn"
+                type="button"
+                data-action="edit"
+                data-id="${candidate.id}"
+              >
+                수정
+              </button>
+
+              <button
+                class="delete-btn"
+                type="button"
+                data-action="delete"
+                data-id="${candidate.id}"
+              >
+                삭제
+              </button>
+
+            </div>
+
+          </div>
+        `;
 
 
-      // ========================================
-      // 편집 버튼
-      // ========================================
-
-      const editBtn =
-        card.querySelector(".edit-btn");
-
-      editBtn.addEventListener("click", (event) => {
-        event.stopPropagation();
-
-        const candidateId =
-          Number(editBtn.dataset.id);
-
-        console.log(
-          "편집할 후보:",
-          candidateId
+        candidateList.appendChild(
+          card
         );
+      }
+    );
 
 
-        /*
-         * 편집 페이지가 생기면 아래 코드 사용
-         *
-         * window.location.href =
-         *   `./Present-Edit.html?id=${candidateId}`;
-         */
-
-
-        showToast("편집 페이지 준비 중이에요.");
-      });
-
-
-      // ========================================
-      // 삭제 버튼
-      // ========================================
-
-      const deleteBtn =
-        card.querySelector(".delete-btn");
-
-      deleteBtn.addEventListener("click", (event) => {
-        event.stopPropagation();
-
-        const candidateId =
-          Number(deleteBtn.dataset.id);
-
-        deleteCandidate(candidateId);
-      });
-
-
-      candidateList.appendChild(card);
-    });
-
-
-    updateCandidateCount();
     updateTournamentButton();
   }
 
 
   // ========================================
-  // 후보 개수
+  // 카드 이벤트
   // ========================================
 
-  function updateCandidateCount() {
-    candidateCount.textContent =
-      `후보 ${candidates.length}개`;
-  }
+  candidateList.addEventListener(
+    "click",
+    (event) => {
+      const checkbox =
+        event.target.closest(
+          ".candidate-checkbox"
+        );
+
+
+      if (checkbox) {
+        const id =
+          Number(
+            checkbox.dataset.id
+          );
+
+
+        if (checkbox.checked) {
+          selectedCandidates.add(
+            id
+          );
+        } else {
+          selectedCandidates.delete(
+            id
+          );
+        }
+
+
+        updateTournamentButton();
+
+        return;
+      }
+
+
+      const actionButton =
+        event.target.closest(
+          "[data-action]"
+        );
+
+
+      if (actionButton) {
+        event.stopPropagation();
+
+
+        const id =
+          Number(
+            actionButton.dataset.id
+          );
+
+
+        const action =
+          actionButton.dataset.action;
+
+
+        if (action === "edit") {
+          showToast(
+            "수정 기능은 준비 중이에요."
+          );
+
+          return;
+        }
+
+
+        if (action === "delete") {
+          deleteCandidate(id);
+
+          return;
+        }
+      }
+
+
+      const card =
+        event.target.closest(
+          ".candidate-card"
+        );
+
+
+      if (!card) {
+        return;
+      }
+
+
+      const id =
+        Number(
+          card.dataset.id
+        );
+
+
+      window.location.href =
+        `./Present-Detail.html?id=${id}`;
+    }
+  );
 
 
   // ========================================
   // 후보 삭제
   // ========================================
 
-  function deleteCandidate(candidateId) {
+  function deleteCandidate(id) {
     const candidate =
       candidates.find(
-        (item) => item.id === candidateId
+        (item) =>
+          item.id === id
       );
 
 
@@ -381,36 +474,78 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // 후보 데이터 삭제
-    candidates = candidates.filter(
-      (item) => item.id !== candidateId
+    const index =
+      candidates.findIndex(
+        (item) =>
+          item.id === id
+      );
+
+
+    if (index !== -1) {
+      candidates.splice(
+        index,
+        1
+      );
+    }
+
+
+    selectedCandidates.delete(
+      id
     );
 
 
-    // 토너먼트 선택에서도 제거
-    selectedCandidates.delete(candidateId);
+    // sessionStorage에 들어있는
+    // 사용자 추가 후보도 같이 갱신
+    saveAddedCandidates();
 
 
     renderCandidates();
 
 
-    showToast("후보를 삭제했어요.");
+    showToast(
+      "후보를 삭제했어요."
+    );
   }
 
 
   // ========================================
-  // 필터
+  // 추가 후보 sessionStorage 갱신
+  // ========================================
+
+  function saveAddedCandidates() {
+    const customCandidates =
+      candidates.filter(
+        (candidate) =>
+          Number(candidate.id) > 3
+      );
+
+
+    sessionStorage.setItem(
+      "addedCandidates",
+      JSON.stringify(
+        customCandidates
+      )
+    );
+  }
+
+
+  // ========================================
+  // Filter
   // ========================================
 
   statusFilter.addEventListener(
     "change",
-    renderCandidates
+    () => {
+      renderCandidates();
+    }
   );
 
 
   reasonFilter.addEventListener(
     "change",
-    renderCandidates
+    () => {
+      renderCandidates();
+    }
   );
 
 
@@ -418,96 +553,160 @@ document.addEventListener("DOMContentLoaded", () => {
   // 후보 추가
   // ========================================
 
-addBtn.addEventListener("click", () => {
-  window.location.href = "./Present-Photo.html";
-});
-
-  // ========================================
-  // 토너먼트 버튼 상태
-  // ========================================
-
-  function updateTournamentButton() {
-    const selectedCount =
-      selectedCandidates.size;
-
-
-    /*
-     * 2개 이상 선택해야 시작 가능
-     */
-
-    if (selectedCount >= 2) {
-      tournamentBtn.disabled = false;
-
-      tournamentBtn.classList.add("active");
-    } else {
-      tournamentBtn.disabled = true;
-
-      tournamentBtn.classList.remove("active");
+  addBtn.addEventListener(
+    "click",
+    () => {
+      window.location.href =
+        "./Present-Photo.html";
     }
-  }
+  );
 
 
   // ========================================
-  // 토너먼트 시작
+  // 토너먼트
   // ========================================
 
   tournamentBtn.addEventListener(
     "click",
     () => {
-
-      if (selectedCandidates.size < 2) {
+      if (
+        selectedCandidates.size < 2
+      ) {
         showToast(
-          "후보를 2개 이상 선택해주세요."
+          "토너먼트 후보를 2개 이상 선택해주세요."
         );
 
         return;
       }
 
 
-      const selectedIds =
-        Array.from(selectedCandidates);
-
-
-      const tournamentCandidates =
-        candidates.filter((candidate) =>
-          selectedIds.includes(candidate.id)
+      const selectedData =
+        candidates.filter(
+          (candidate) =>
+            selectedCandidates.has(
+              candidate.id
+            )
         );
 
 
-      console.log(
-        "토너먼트 후보:",
-        tournamentCandidates
+      sessionStorage.setItem(
+        "tournamentCandidates",
+        JSON.stringify(
+          selectedData
+        )
       );
 
 
-      // 다음 페이지에서 사용할 수 있도록 저장
-      sessionStorage.setItem(
-        "tournamentCandidates",
-        JSON.stringify(tournamentCandidates)
+      showToast(
+        "토너먼트 후보가 선택됐어요."
       );
 
 
       /*
-       * 토너먼트 페이지가 생기면 사용
-       *
-       * window.location.href =
-       *   "./Tournament.html";
-       */
+      window.location.href =
+        "./Tournament.html";
+      */
+    }
+  );
 
 
-      showToast(
-        `${selectedCandidates.size}개의 후보를 선택했어요.`
+  function updateTournamentButton() {
+    const count =
+      selectedCandidates.size;
+
+
+    tournamentBtn.disabled =
+      count < 2;
+
+
+    if (count >= 2) {
+      tournamentBtn.textContent =
+        `토너먼트 시작 (${count})`;
+    } else {
+      tournamentBtn.textContent =
+        "토너먼트 시작";
+    }
+  }
+
+
+  // ========================================
+  // Tab Bar
+  // ========================================
+
+  const tabItems =
+    document.querySelectorAll(
+      ".tab-item"
+    );
+
+
+  tabItems.forEach(
+    (tab) => {
+      tab.addEventListener(
+        "click",
+        () => {
+          if (
+            tab.classList.contains(
+              "active"
+            )
+          ) {
+            return;
+          }
+
+
+          showToast(
+            "해당 페이지는 준비 중이에요."
+          );
+        }
       );
     }
   );
 
 
   // ========================================
-  // Toast
+  // Price
   // ========================================
 
-  let toastTimer;
+  function formatPrice(price) {
+    return Number(
+      price
+    ).toLocaleString(
+      "ko-KR"
+    );
+  }
 
+
+  // ========================================
+  // HTML Escape
+  // ========================================
+
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replaceAll(
+        "&",
+        "&amp;"
+      )
+      .replaceAll(
+        "<",
+        "&lt;"
+      )
+      .replaceAll(
+        ">",
+        "&gt;"
+      )
+      .replaceAll(
+        '"',
+        "&quot;"
+      )
+      .replaceAll(
+        "'",
+        "&#039;"
+      );
+  }
+
+
+  // ========================================
+  // Toast
+  // ========================================
 
   function showToast(message) {
     if (!toast) {
@@ -515,78 +714,31 @@ addBtn.addEventListener("click", () => {
     }
 
 
-    clearTimeout(toastTimer);
+    clearTimeout(
+      toastTimer
+    );
 
 
-    toast.textContent = message;
+    toast.textContent =
+      message;
 
-    toast.classList.add("show");
+
+    toast.classList.add(
+      "show"
+    );
 
 
-    toastTimer = setTimeout(() => {
-      toast.classList.remove("show");
-    }, 2000);
+    toastTimer =
+      setTimeout(() => {
+        toast.classList.remove(
+          "show"
+        );
+      }, 2000);
   }
 
 
   // ========================================
-  // 하단 네비게이션
-  // ========================================
-
-  const tabItems =
-    document.querySelectorAll(".tab-item");
-
-
-  tabItems.forEach((tab, index) => {
-    tab.addEventListener("click", () => {
-
-      switch (index) {
-
-        // 홈
-        case 0:
-          console.log("홈");
-
-          /*
-          window.location.href =
-            "./Home.html";
-          */
-
-          showToast("홈 페이지 준비 중이에요.");
-
-          break;
-
-
-        // 위시리스트
-        case 1:
-          // 현재 페이지
-          break;
-
-
-        // 커뮤니티
-        case 2:
-          console.log("커뮤니티");
-
-          /*
-          window.location.href =
-            "./Community.html";
-          */
-
-          showToast(
-            "커뮤니티 페이지 준비 중이에요."
-          );
-
-          break;
-
-
-        default:
-          break;
-      }
-    });
-  });
-
-
-  // ========================================
-  // 초기 렌더링
+  // Initial
   // ========================================
 
   renderCandidates();

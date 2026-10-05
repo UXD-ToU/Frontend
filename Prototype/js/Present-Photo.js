@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-
   // ========================================
   // DOM
   // ========================================
@@ -46,10 +45,16 @@ document.addEventListener("DOMContentLoaded", () => {
   // ========================================
 
   let selectedFile = null;
-
   let previewUrl = null;
-
   let toastTimer = null;
+
+
+  // ========================================
+  // 기존 임시 데이터 제거
+  // 새 후보 등록 시작
+  // ========================================
+
+  sessionStorage.removeItem("presentDraft");
 
 
   // ========================================
@@ -57,8 +62,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // ========================================
 
   backBtn.addEventListener("click", () => {
-  window.location.href = "./Present-List.html";
-});
+    window.location.href =
+      "./Present-List.html";
+  });
 
 
   // ========================================
@@ -66,9 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ========================================
 
   cameraBtn.addEventListener("click", () => {
-
     cameraInput.click();
-
   });
 
 
@@ -77,9 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ========================================
 
   albumBtn.addEventListener("click", () => {
-
     albumInput.click();
-
   });
 
 
@@ -90,7 +92,6 @@ document.addEventListener("DOMContentLoaded", () => {
   cameraInput.addEventListener(
     "change",
     (event) => {
-
       const file =
         event.target.files[0];
 
@@ -106,7 +107,6 @@ document.addEventListener("DOMContentLoaded", () => {
   albumInput.addEventListener(
     "change",
     (event) => {
-
       const file =
         event.target.files[0];
 
@@ -119,43 +119,54 @@ document.addEventListener("DOMContentLoaded", () => {
   // 이미지 처리
   // ========================================
 
- function handleSelectedImage(file) {
-  if (!file) {
-    return;
+  function handleSelectedImage(file) {
+    if (!file) {
+      return;
+    }
+
+    if (!file.type.startsWith("image/")) {
+      showToast(
+        "이미지 파일만 등록할 수 있어요."
+      );
+      return;
+    }
+
+    const maxFileSize =
+      10 * 1024 * 1024;
+
+    if (file.size > maxFileSize) {
+      showToast(
+        "10MB 이하의 이미지를 선택해주세요."
+      );
+      return;
+    }
+
+    selectedFile = file;
+
+    if (previewUrl) {
+      URL.revokeObjectURL(
+        previewUrl
+      );
+    }
+
+    previewUrl =
+      URL.createObjectURL(file);
+
+    previewImage.src =
+      previewUrl;
+
+    previewImage.hidden =
+      false;
+
+    previewPlaceholder.hidden =
+      true;
+
+    removePhotoBtn.hidden =
+      false;
+
+    updateSaveButton();
   }
 
-  if (!file.type.startsWith("image/")) {
-    showToast("이미지 파일만 등록할 수 있어요.");
-    return;
-  }
-
-  const maxFileSize = 10 * 1024 * 1024;
-
-  if (file.size > maxFileSize) {
-    showToast("10MB 이하의 이미지를 선택해주세요.");
-    return;
-  }
-
-  selectedFile = file;
-
-  if (previewUrl) {
-    URL.revokeObjectURL(previewUrl);
-  }
-
-  previewUrl = URL.createObjectURL(file);
-
-  // 사진 표시
-  previewImage.src = previewUrl;
-  previewImage.hidden = false;
-
-  // 안내문 전체 숨기기
-  previewPlaceholder.hidden = true;
-
-  // X 버튼 표시
-  removePhotoBtn.hidden = false;
-
-  updateSaveButton();
-}
 
   // ========================================
   // 이미지 삭제
@@ -164,36 +175,37 @@ document.addEventListener("DOMContentLoaded", () => {
   removePhotoBtn.addEventListener(
     "click",
     () => {
-
       removeSelectedImage();
-
     }
   );
 
 
   function removeSelectedImage() {
-  selectedFile = null;
+    selectedFile = null;
 
-  if (previewUrl) {
-    URL.revokeObjectURL(previewUrl);
-    previewUrl = null;
+    if (previewUrl) {
+      URL.revokeObjectURL(
+        previewUrl
+      );
+
+      previewUrl = null;
+    }
+
+    previewImage.src = "";
+    previewImage.hidden = true;
+
+    previewPlaceholder.hidden =
+      false;
+
+    removePhotoBtn.hidden =
+      true;
+
+    cameraInput.value = "";
+    albumInput.value = "";
+
+    updateSaveButton();
   }
 
-  // 사진 제거
-  previewImage.src = "";
-  previewImage.hidden = true;
-
-  // 안내문 다시 표시
-  previewPlaceholder.hidden = false;
-
-  // X 버튼 숨김
-  removePhotoBtn.hidden = true;
-
-  cameraInput.value = "";
-  albumInput.value = "";
-
-  updateSaveButton();
-}
 
   // ========================================
   // 메모 글자 수
@@ -202,15 +214,18 @@ document.addEventListener("DOMContentLoaded", () => {
   memoInput.addEventListener(
     "input",
     () => {
-
-      const length =
-        memoInput.value.length;
-
-
-      memoCount.textContent =
-        `${length}/200`;
+      updateMemoCount();
     }
   );
+
+
+  function updateMemoCount() {
+    const length =
+      memoInput.value.length;
+
+    memoCount.textContent =
+      `${length}/200`;
+  }
 
 
   // ========================================
@@ -218,7 +233,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // ========================================
 
   function updateSaveButton() {
-
     saveBtn.disabled =
       !selectedFile;
   }
@@ -231,118 +245,57 @@ document.addEventListener("DOMContentLoaded", () => {
   saveBtn.addEventListener(
     "click",
     () => {
-
       if (!selectedFile) {
-
         showToast(
           "등록할 사진을 선택해주세요."
         );
-
         return;
       }
-
 
       const memo =
         memoInput.value.trim();
 
 
-      // ====================================
-      // FormData 생성
-      // ====================================
-
-      const formData =
-        new FormData();
+      // File → Base64
+      const reader =
+        new FileReader();
 
 
-      formData.append(
-        "image",
+      reader.onload = () => {
+        const presentDraft = {
+          image:
+            reader.result,
+
+          memo:
+            memo
+        };
+
+
+        // Confirm 페이지에서 사용할 임시 데이터
+        sessionStorage.setItem(
+          "presentDraft",
+          JSON.stringify(
+            presentDraft
+          )
+        );
+
+
+        // 확인 페이지로 이동
+        window.location.href =
+          "./Present-Confirm.html";
+      };
+
+
+      reader.onerror = () => {
+        showToast(
+          "사진을 불러오지 못했어요."
+        );
+      };
+
+
+      reader.readAsDataURL(
         selectedFile
       );
-
-
-      formData.append(
-        "memo",
-        memo
-      );
-
-
-      console.log(
-        "선택 이미지:",
-        selectedFile
-      );
-
-
-      console.log(
-        "메모:",
-        memo
-      );
-
-
-      /*
-       * 추후 백엔드 연결 예시
-       *
-       *
-       * fetch("/api/presents/photo", {
-       *
-       *   method: "POST",
-       *
-       *   body: formData
-       *
-       * })
-       *
-       * .then((response) => {
-       *
-       *   if (!response.ok) {
-       *     throw new Error();
-       *   }
-       *
-       *   return response.json();
-       *
-       * })
-       *
-       * .then((data) => {
-       *
-       *   window.location.href =
-       *     `./Present-Detail.html?id=${data.id}`;
-       *
-       * })
-       *
-       * .catch(() => {
-       *
-       *   showToast(
-       *     "사진 등록에 실패했어요."
-       *   );
-       *
-       * });
-       */
-
-
-      // 현재 프로토타입
-      // ========================================
-// 프로토타입 - 사진 데이터 임시 저장
-// ========================================
-
-const reader = new FileReader();
-
-reader.onload = () => {
-  const presentDraft = {
-    image: reader.result,
-    memo: memo
-  };
-
-  sessionStorage.setItem(
-    "presentDraft",
-    JSON.stringify(presentDraft)
-  );
-
-  window.location.href = "./Present-Confirm.html";
-};
-
-reader.onerror = () => {
-  showToast("사진을 불러오지 못했어요.");
-};
-
-reader.readAsDataURL(selectedFile);
     }
   );
 
@@ -352,47 +305,38 @@ reader.readAsDataURL(selectedFile);
   // ========================================
 
   function showToast(message) {
-
     if (!toast) {
       return;
     }
-
 
     clearTimeout(
       toastTimer
     );
 
-
     toast.textContent =
       message;
-
 
     toast.classList.add(
       "show"
     );
 
-
     toastTimer =
       setTimeout(() => {
-
         toast.classList.remove(
           "show"
         );
-
       }, 2000);
   }
 
 
   // ========================================
-  // 페이지 종료 시 Object URL 정리
+  // Object URL 정리
   // ========================================
 
   window.addEventListener(
     "beforeunload",
     () => {
-
       if (previewUrl) {
-
         URL.revokeObjectURL(
           previewUrl
         );
@@ -405,6 +349,6 @@ reader.readAsDataURL(selectedFile);
   // Initial
   // ========================================
 
+  updateMemoCount();
   updateSaveButton();
-
 });
