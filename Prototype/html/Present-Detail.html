@@ -1,6 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="ko">
+
 <head>
+
   <meta charset="UTF-8" />
 
   <meta
@@ -10,34 +13,35 @@
 
   <title>후보 상세</title>
 
-  <!-- 공통 CSS -->
   <link
     rel="stylesheet"
     href="../css/global.css"
   />
 
-  <!-- 페이지 전용 CSS -->
   <link
     rel="stylesheet"
     href="../css/present-detail.css"
   />
+
 </head>
+
 
 <body>
 
-  <main class="mobile-shell present-detail-page">
+  <main
+    class="mobile-shell present-detail-page"
+  >
 
-    <!-- =========================
-         Header
-    ========================== -->
+
     <header class="detail-header">
 
       <button
         class="back-button"
         type="button"
+        id="backBtn"
         aria-label="뒤로가기"
-        id="backButton"
       >
+
         <svg
           width="24"
           height="24"
@@ -45,6 +49,7 @@
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
+
           <path
             d="M15 18L9 12L15 6"
             stroke="currentColor"
@@ -52,67 +57,52 @@
             stroke-linecap="round"
             stroke-linejoin="round"
           />
+
         </svg>
+
       </button>
+
 
       <h1 class="detail-header-title">
         후보 상세
       </h1>
 
-      <div class="header-spacer"></div>
+
+      <div class="header-spacer">
+      </div>
 
     </header>
 
 
-    <!-- =========================
-         Scroll Content
-    ========================== -->
     <div class="detail-scroll">
 
-      <!-- 상품 이미지 -->
-      <section class="product-image-section">
 
-        <div class="product-image-box" id="productImageBox">
+      <!-- =========================
+           Image
+      ========================== -->
 
-          <!-- 실제 이미지가 있으면 JS에서 img 생성 -->
+      <section
+        class="product-image-section"
+      >
+
+        <div
+          class="product-image-box"
+        >
+
+          <img
+            id="presentImage"
+            class="detail-image"
+            src=""
+            alt="선물 이미지"
+            hidden
+          />
+
+
           <div
-            class="image-placeholder"
             id="imagePlaceholder"
+            class="image-placeholder"
           >
-            <svg
-              width="34"
-              height="34"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <rect
-                x="3"
-                y="4"
-                width="18"
-                height="16"
-                rx="2"
-                stroke="currentColor"
-                stroke-width="1.5"
-              />
-
-              <circle
-                cx="9"
-                cy="9"
-                r="1.5"
-                fill="currentColor"
-              />
-
-              <path
-                d="M4 18L9 13L12 16L15 13L20 18"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-
-            <span>상품 이미지</span>
+            이미지
           </div>
 
         </div>
@@ -121,9 +111,12 @@
 
 
       <!-- =========================
-           기본 정보
+           Basic Info
       ========================== -->
-      <section class="detail-card product-info-card">
+
+      <section
+        class="detail-card product-info-card"
+      >
 
         <div class="product-title-row">
 
@@ -131,15 +124,7 @@
             class="product-name"
             id="productName"
           >
-            버즈 라이트 이어폰 프로
           </h2>
-
-          <span
-            class="source-badge"
-            id="sourceBadge"
-          >
-            AI 제안
-          </span>
 
         </div>
 
@@ -156,7 +141,6 @@
               class="meta-value price"
               id="productPrice"
             >
-              68,000원
             </strong>
 
           </div>
@@ -172,7 +156,6 @@
               class="meta-value"
               id="savedDate"
             >
-              2025.05.18
             </span>
 
           </div>
@@ -180,7 +163,8 @@
         </div>
 
 
-        <div class="card-divider"></div>
+        <div class="card-divider">
+        </div>
 
 
         <div class="relationship-info">
@@ -195,7 +179,6 @@
               class="outline-chip"
               id="recipient"
             >
-              지수
             </span>
 
           </div>
@@ -211,7 +194,6 @@
               class="outline-chip"
               id="relationship"
             >
-              친구
             </span>
 
           </div>
@@ -222,63 +204,33 @@
 
 
       <!-- =========================
-           관심 근거
+           Memo
       ========================== -->
-      <section class="detail-card reason-card">
+
+      <section
+        class="detail-card memo-card"
+        id="memoSection"
+      >
 
         <h2 class="section-title">
-          관심 근거
+          메모
         </h2>
 
 
-        <div
-          class="reason-chip-list"
-          id="reasonList"
+        <p
+          class="memo-text"
+          id="memoText"
         >
-
-          <span class="outline-chip reason-chip">
-            직접 갖고 싶다고 했어요
-          </span>
-
-          <span class="outline-chip reason-chip">
-            요즘 자주 쓰는 것 같아요
-          </span>
-
-        </div>
-
-
-        <div class="card-divider reason-divider"></div>
-
-
-        <div class="memo-area">
-
-          <h3 class="memo-title">
-            자유 메모
-          </h3>
-
-          <p
-            class="memo-text"
-            id="memoText"
-          >
-            생일 선물로 고려 중. 작년에 이어폰 잃어버렸다고 했음.
-          </p>
-
-        </div>
+        </p>
 
       </section>
 
 
-      <!-- =========================
-           안내
-      ========================== -->
       <p class="detail-notice">
         저장 당시 기준 정보로, 현재 가격·재고와 다를 수 있어요.
       </p>
 
 
-      <!-- =========================
-           Actions
-      ========================== -->
       <div class="detail-actions">
 
         <button
@@ -288,6 +240,7 @@
         >
           편집하기
         </button>
+
 
         <button
           type="button"
@@ -305,6 +258,7 @@
     <!-- =========================
          Delete Modal
     ========================== -->
+
     <div
       class="modal-backdrop"
       id="deleteModal"
@@ -315,19 +269,17 @@
         class="delete-modal"
         role="dialog"
         aria-modal="true"
-        aria-labelledby="deleteModalTitle"
       >
 
-        <h2
-          class="modal-title"
-          id="deleteModalTitle"
-        >
+        <h2 class="modal-title">
           후보를 삭제할까요?
         </h2>
+
 
         <p class="modal-description">
           삭제한 후보는 다시 복구할 수 없어요.
         </p>
+
 
         <div class="modal-actions">
 
@@ -338,6 +290,7 @@
           >
             취소
           </button>
+
 
           <button
             type="button"
@@ -356,7 +309,10 @@
   </main>
 
 
-  <script src="../js/present-detail.js"></script>
+  <script
+    src="../js/present-detail.js"
+  ></script>
 
 </body>
+
 </html>
