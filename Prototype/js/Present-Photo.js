@@ -326,9 +326,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
       // 현재 프로토타입
-      showToast(
-        "사진을 등록했어요."
-      );
+      window.location.href = "./Present-Complete.html";
     }
   );
 
