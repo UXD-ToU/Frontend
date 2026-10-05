@@ -1,99 +1,133 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  // ========================================
-  // DOM
-  // ========================================
-
   const candidateList =
-    document.getElementById(
-      "candidateList"
-    );
+    document.getElementById("candidateList");
 
   const candidateCount =
-    document.getElementById(
-      "candidateCount"
-    );
+    document.getElementById("candidateCount");
 
   const friendFilter =
-    document.getElementById(
-      "friendFilter"
-    );
+    document.getElementById("friendFilter");
 
   const sortFilter =
-    document.getElementById(
-      "sortFilter"
-    );
+    document.getElementById("sortFilter");
 
   const addBtn =
-    document.getElementById(
-      "addBtn"
-    );
+    document.getElementById("addBtn");
 
   const tournamentBtn =
-    document.getElementById(
-      "tournamentBtn"
-    );
+    document.getElementById("tournamentBtn");
 
   const toast =
-    document.getElementById(
-      "toast"
-    );
+    document.getElementById("toast");
 
 
   // ========================================
-  // Mock Data
+  // 기본 목데이터
   // ========================================
 
-  const candidates = [
-
+  const defaultCandidates = [
     {
       id: 1,
-
-      name:
-        "버즈 라이트 이어폰 프로",
-
-      category:
-        "삼성",
-
-      price:
-        68000,
-
-      savedDate:
-        "2025.05.18",
-
-      recipient:
-        "지수",
-
-      relationship:
-        "친구",
-
-      memo:
-        "",
-
+      name: "버즈 라이트 이어폰 프로",
+      category: "삼성",
+      price: 68000,
+      savedDate: "2025.05.18",
+      recipient: "지수",
+      relationship: "친구",
+      memo: "",
       image:
         "https://img.danuri.io/catalog-image/462/010/013/4f26520466984e6cb05036c94d6b68f4.jpg"
     },
-
   ];
 
 
   // ========================================
-  // 직접 추가한 후보
+  // 후보 데이터 만들기
   // ========================================
 
-  const savedCandidates =
+  let candidates =
+    [...defaultCandidates];
+
+
+  // ========================================
+  // 수정된 목데이터 적용
+  // ========================================
+
+  const savedEdits =
+    sessionStorage.getItem(
+      "editedCandidates"
+    );
+
+
+  if (savedEdits) {
+
+    try {
+
+      const editedCandidates =
+        JSON.parse(savedEdits);
+
+
+      if (
+        Array.isArray(
+          editedCandidates
+        )
+      ) {
+
+        editedCandidates.forEach(
+          (editedCandidate) => {
+
+            const index =
+              candidates.findIndex(
+                (candidate) =>
+                  String(candidate.id) ===
+                  String(editedCandidate.id)
+              );
+
+
+            if (index !== -1) {
+
+              candidates[index] = {
+                ...candidates[index],
+                ...editedCandidate
+              };
+
+            }
+
+          }
+        );
+
+      }
+
+    } catch (error) {
+
+      console.error(
+        "수정 후보 불러오기 실패:",
+        error
+      );
+
+    }
+
+  }
+
+
+  // ========================================
+  // 직접 추가한 후보 적용
+  // ========================================
+
+  const savedAddedCandidates =
     sessionStorage.getItem(
       "addedCandidates"
     );
 
 
-  if (savedCandidates) {
+  if (savedAddedCandidates) {
 
     try {
 
       const addedCandidates =
         JSON.parse(
-          savedCandidates
+          savedAddedCandidates
         );
 
 
@@ -103,7 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
         )
       ) {
 
-        candidates.unshift(
+        candidates.push(
           ...addedCandidates
         );
 
@@ -112,7 +146,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (error) {
 
       console.error(
-        "추가 후보를 불러오지 못했습니다.",
+        "추가 후보 불러오기 실패:",
         error
       );
 
@@ -138,121 +172,113 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderCandidates() {
 
-    const selectedFriend =
-      friendFilter.value;
-
-    const selectedSort =
-      sortFilter.value;
+    let result =
+      [...candidates];
 
 
-    // ----------------------------------------
+    // ======================================
     // 친구 필터
-    // ----------------------------------------
+    // ======================================
 
-    let filteredCandidates =
-      candidates.filter(
-        (candidate) => {
+    if (
+      friendFilter &&
+      friendFilter.value !== "all"
+    ) {
 
-          if (
-            selectedFriend === "all"
-          ) {
-
-            return true;
-
-          }
-
-
-          return (
+      result =
+        result.filter(
+          (candidate) =>
             candidate.recipient ===
-            selectedFriend
-          );
-
-        }
-      );
-
-
-    // ----------------------------------------
-    // 정렬
-    // ----------------------------------------
-
-    filteredCandidates =
-      [...filteredCandidates];
-
-
-    switch (selectedSort) {
-
-      case "latest":
-
-        filteredCandidates.sort(
-          (a, b) =>
-            parseDate(
-              b.savedDate
-            ) -
-            parseDate(
-              a.savedDate
-            )
+            friendFilter.value
         );
-
-        break;
-
-
-      case "oldest":
-
-        filteredCandidates.sort(
-          (a, b) =>
-            parseDate(
-              a.savedDate
-            ) -
-            parseDate(
-              b.savedDate
-            )
-        );
-
-        break;
-
-
-      case "priceHigh":
-
-        filteredCandidates.sort(
-          (a, b) =>
-            Number(b.price) -
-            Number(a.price)
-        );
-
-        break;
-
-
-      case "priceLow":
-
-        filteredCandidates.sort(
-          (a, b) =>
-            Number(a.price) -
-            Number(b.price)
-        );
-
-        break;
 
     }
 
 
-    // ----------------------------------------
-    // Count
-    // ----------------------------------------
+    // ======================================
+    // 정렬
+    // ======================================
 
-    candidateCount.textContent =
-      `후보 ${filteredCandidates.length}개`;
+    const sortValue =
+      sortFilter
+        ? sortFilter.value
+        : "latest";
+
+
+    if (
+      sortValue === "latest"
+    ) {
+
+      result.sort(
+        (a, b) =>
+          parseDate(b.savedDate) -
+          parseDate(a.savedDate)
+      );
+
+    }
+
+
+    if (
+      sortValue === "oldest"
+    ) {
+
+      result.sort(
+        (a, b) =>
+          parseDate(a.savedDate) -
+          parseDate(b.savedDate)
+      );
+
+    }
+
+
+    if (
+      sortValue === "priceHigh"
+    ) {
+
+      result.sort(
+        (a, b) =>
+          Number(b.price) -
+          Number(a.price)
+      );
+
+    }
+
+
+    if (
+      sortValue === "priceLow"
+    ) {
+
+      result.sort(
+        (a, b) =>
+          Number(a.price) -
+          Number(b.price)
+      );
+
+    }
+
+
+    // ======================================
+    // Count
+    // ======================================
+
+    if (candidateCount) {
+
+      candidateCount.textContent =
+        `후보 ${result.length}개`;
+
+    }
 
 
     candidateList.innerHTML =
       "";
 
 
-    // ----------------------------------------
+    // ======================================
     // Empty
-    // ----------------------------------------
+    // ======================================
 
     if (
-      filteredCandidates.length === 0
+      result.length === 0
     ) {
 
       candidateList.innerHTML = `
@@ -268,11 +294,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // ----------------------------------------
-    // Cards
-    // ----------------------------------------
+    // ======================================
+    // Card
+    // ======================================
 
-    filteredCandidates.forEach(
+    result.forEach(
       (candidate) => {
 
         const card =
@@ -289,25 +315,21 @@ document.addEventListener("DOMContentLoaded", () => {
           candidate.id;
 
 
-        const isSelected =
+        const checked =
           selectedCandidates.has(
-            candidate.id
+            String(candidate.id)
           );
 
 
-        const imageHtml =
+        const imageHTML =
           candidate.image
             ? `
               <div class="candidate-image-wrap">
-
                 <img
                   class="candidate-image"
                   src="${candidate.image}"
-                  alt="${escapeHtml(
-                    candidate.name
-                  )}"
+                  alt="${escapeHtml(candidate.name)}"
                 />
-
               </div>
             `
             : `
@@ -330,39 +352,31 @@ document.addEventListener("DOMContentLoaded", () => {
               class="candidate-checkbox"
               type="checkbox"
               data-id="${candidate.id}"
-              ${isSelected ? "checked" : ""}
-              aria-label="${escapeHtml(
-                candidate.name
-              )} 선택"
+              ${checked ? "checked" : ""}
             />
 
           </div>
 
 
-          ${imageHtml}
+          ${imageHTML}
 
 
           <div class="candidate-info">
 
             <h4 class="candidate-name">
-              ${escapeHtml(
-                candidate.name
-              )}
+              ${escapeHtml(candidate.name)}
             </h4>
 
 
             <p class="candidate-category">
               ${escapeHtml(
-                candidate.category ||
-                "기타"
+                candidate.category || "기타"
               )}
             </p>
 
 
             <strong class="candidate-price">
-              ${formatPrice(
-                candidate.price
-              )}원
+              ${formatPrice(candidate.price)}원
             </strong>
 
 
@@ -370,9 +384,7 @@ document.addEventListener("DOMContentLoaded", () => {
               candidate.memo
                 ? `
                   <p class="candidate-memo">
-                    ${escapeHtml(
-                      candidate.memo
-                    )}
+                    ${escapeHtml(candidate.memo)}
                   </p>
                 `
                 : ""
@@ -428,32 +440,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   // ========================================
-  // Card Event
+  // List Click
   // ========================================
 
   candidateList.addEventListener(
     "click",
     (event) => {
 
-      // --------------------------------------
-      // Checkbox
-      // --------------------------------------
+      // 체크박스
+      if (
+        event.target.classList.contains(
+          "candidate-checkbox"
+        )
+      ) {
 
-      const checkbox =
-        event.target.closest(
-          ".candidate-checkbox"
-        );
+        event.stopPropagation();
 
-
-      if (checkbox) {
 
         const id =
-          Number(
-            checkbox.dataset.id
+          String(
+            event.target.dataset.id
           );
 
 
-        if (checkbox.checked) {
+        if (
+          event.target.checked
+        ) {
 
           selectedCandidates.add(
             id
@@ -475,10 +487,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
 
-      // --------------------------------------
-      // Action Button
-      // --------------------------------------
-
+      // 버튼
       const actionButton =
         event.target.closest(
           "[data-action]"
@@ -491,42 +500,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         const id =
-          Number(
+          String(
             actionButton.dataset.id
           );
 
 
-        const action =
-          actionButton.dataset.action;
+        const candidate =
+          candidates.find(
+            (item) =>
+              String(item.id) === id
+          );
 
 
-        if (action === "edit") {
-
-          const candidate =
-            candidates.find(
-              (item) =>
-                item.id === id
-            );
+        if (!candidate) {
+          return;
+        }
 
 
-          if (!candidate) {
-            return;
-          }
+        // ==================================
+        // 수정
+        // ==================================
 
+        if (
+          actionButton.dataset.action ===
+          "edit"
+        ) {
 
           sessionStorage.setItem(
             "selectedCandidate",
-            JSON.stringify(
-              candidate
-            )
+            JSON.stringify(candidate)
           );
 
 
           sessionStorage.setItem(
             "editPresent",
-            JSON.stringify(
-              candidate
-            )
+            JSON.stringify(candidate)
           );
 
 
@@ -539,16 +547,22 @@ document.addEventListener("DOMContentLoaded", () => {
           window.location.href =
             "./Present-Confirm.html";
 
-
           return;
 
         }
 
 
-        if (action === "delete") {
+        // ==================================
+        // 삭제
+        // ==================================
+
+        if (
+          actionButton.dataset.action ===
+          "delete"
+        ) {
 
           deleteCandidate(
-            id
+            candidate
           );
 
           return;
@@ -558,9 +572,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
 
-      // --------------------------------------
-      // Detail
-      // --------------------------------------
+      // ====================================
+      // 상세 이동
+      // ====================================
 
       const card =
         event.target.closest(
@@ -574,33 +588,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
       const id =
-        Number(
+        String(
           card.dataset.id
         );
 
 
-      const selectedCandidate =
+      const candidate =
         candidates.find(
-          (candidate) =>
-            candidate.id === id
+          (item) =>
+            String(item.id) === id
         );
 
 
-      if (!selectedCandidate) {
+      if (!candidate) {
         return;
       }
 
 
       sessionStorage.setItem(
         "selectedCandidate",
-        JSON.stringify(
-          selectedCandidate
-        )
+        JSON.stringify(candidate)
       );
 
 
       window.location.href =
-        `./Present-Detail.html?id=${id}`;
+        `./Present-Detail.html?id=${candidate.id}`;
 
     }
   );
@@ -610,19 +622,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Delete
   // ========================================
 
-  function deleteCandidate(id) {
-
-    const candidate =
-      candidates.find(
-        (item) =>
-          item.id === id
-      );
-
-
-    if (!candidate) {
-      return;
-    }
-
+  function deleteCandidate(
+    candidate
+  ) {
 
     const confirmed =
       window.confirm(
@@ -635,32 +637,63 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    const index =
-      candidates.findIndex(
+    candidates =
+      candidates.filter(
         (item) =>
-          item.id === id
+          String(item.id) !==
+          String(candidate.id)
       );
 
 
-    if (index !== -1) {
+    selectedCandidates.delete(
+      String(candidate.id)
+    );
 
-      candidates.splice(
-        index,
-        1
+
+    // 직접 추가한 후보 삭제
+    const savedAdded =
+      sessionStorage.getItem(
+        "addedCandidates"
       );
+
+
+    if (savedAdded) {
+
+      try {
+
+        const added =
+          JSON.parse(savedAdded);
+
+
+        if (
+          Array.isArray(added)
+        ) {
+
+          const updated =
+            added.filter(
+              (item) =>
+                String(item.id) !==
+                String(candidate.id)
+            );
+
+
+          sessionStorage.setItem(
+            "addedCandidates",
+            JSON.stringify(updated)
+          );
+
+        }
+
+      } catch (error) {
+
+        console.error(error);
+
+      }
 
     }
 
 
-    selectedCandidates.delete(
-      id
-    );
-
-
-    saveAddedCandidates();
-
     renderCandidates();
-
 
     showToast(
       "후보를 삭제했어요."
@@ -670,115 +703,117 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   // ========================================
-  // 추가 후보 저장
+  // Filter
   // ========================================
 
-  function saveAddedCandidates() {
+  if (friendFilter) {
 
-    const customCandidates =
-      candidates.filter(
-        (candidate) =>
-          Number(candidate.id) > 3
-      );
+    friendFilter.addEventListener(
+      "change",
+      renderCandidates
+    );
+
+  }
 
 
-    sessionStorage.setItem(
-      "addedCandidates",
-      JSON.stringify(
-        customCandidates
-      )
+  if (sortFilter) {
+
+    sortFilter.addEventListener(
+      "change",
+      renderCandidates
     );
 
   }
 
 
   // ========================================
-  // Filter
+  // Add
   // ========================================
 
-  friendFilter.addEventListener(
-    "change",
-    renderCandidates
-  );
+  if (addBtn) {
+
+    addBtn.addEventListener(
+      "click",
+      () => {
+
+        sessionStorage.removeItem(
+          "presentMode"
+        );
+
+        sessionStorage.removeItem(
+          "editPresent"
+        );
+
+        sessionStorage.removeItem(
+          "presentDraft"
+        );
 
 
-  sortFilter.addEventListener(
-    "change",
-    renderCandidates
-  );
+        window.location.href =
+          "./Present-Photo.html";
 
+      }
+    );
 
-  // ========================================
-  // 후보 추가
-  // ========================================
-
-  addBtn.addEventListener(
-    "click",
-    () => {
-
-      sessionStorage.removeItem(
-        "presentMode"
-      );
-
-      sessionStorage.removeItem(
-        "editPresent"
-      );
-
-
-      window.location.href =
-        "./Present-Photo.html";
-
-    }
-  );
+  }
 
 
   // ========================================
   // Tournament
   // ========================================
 
-  tournamentBtn.addEventListener(
-    "click",
-    () => {
+  if (tournamentBtn) {
 
-      if (
-        selectedCandidates.size < 2
-      ) {
+    tournamentBtn.addEventListener(
+      "click",
+      () => {
+
+        if (
+          selectedCandidates.size < 2
+        ) {
+
+          showToast(
+            "후보를 2개 이상 선택해주세요."
+          );
+
+          return;
+
+        }
+
+
+        const selectedData =
+          candidates.filter(
+            (candidate) =>
+              selectedCandidates.has(
+                String(candidate.id)
+              )
+          );
+
+
+        sessionStorage.setItem(
+          "tournamentCandidates",
+          JSON.stringify(
+            selectedData
+          )
+        );
+
 
         showToast(
-          "후보를 2개 이상 선택해주세요."
+          "토너먼트 후보가 선택됐어요."
         );
-
-        return;
 
       }
+    );
 
-
-      const selectedData =
-        candidates.filter(
-          (candidate) =>
-            selectedCandidates.has(
-              candidate.id
-            )
-        );
-
-
-      sessionStorage.setItem(
-        "tournamentCandidates",
-        JSON.stringify(
-          selectedData
-        )
-      );
-
-
-      showToast(
-        "토너먼트 후보가 선택됐어요."
-      );
-
-    }
-  );
+  }
 
 
   function updateTournamentButton() {
+
+    if (!tournamentBtn) {
+      return;
+    }
+
 
     const count =
       selectedCandidates.size;
@@ -797,7 +832,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   // ========================================
-  // Date
+  // Utils
   // ========================================
 
   function parseDate(
@@ -810,30 +845,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     const normalized =
-      String(dateString)
-        .replaceAll(".", "-");
-
-
-    const date =
-      new Date(
-        normalized
+      dateString.replace(
+        /\./g,
+        "-"
       );
 
 
-    const time =
-      date.getTime();
+    const date =
+      new Date(normalized);
 
 
-    return Number.isNaN(time)
+    return Number.isNaN(
+      date.getTime()
+    )
       ? 0
-      : time;
+      : date.getTime();
 
   }
 
-
-  // ========================================
-  // Price
-  // ========================================
 
   function formatPrice(
     price
@@ -847,10 +876,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   }
 
-
-  // ========================================
-  // Escape
-  // ========================================
 
   function escapeHtml(
     value
@@ -882,10 +907,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   }
 
-
-  // ========================================
-  // Toast
-  // ========================================
 
   function showToast(
     message
