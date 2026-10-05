@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   homeBtn.addEventListener("click", () => {
     // 실제 홈 페이지 파일명에 맞춰 변경 가능
-    window.location.href = "./Home.html";
+    window.location.href = "./Present-List.html";
   });
 
 
