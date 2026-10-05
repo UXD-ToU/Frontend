@@ -45,50 +45,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const candidates = [
     {
-      id: 1,
+  id: 1,
 
-      name:
-        "버즈 라이트 이어폰 프로",
+  name: "버즈 라이트 이어폰 프로",
 
-      category:
-        "블루투스 이어폰",
+  category: "삼성",
 
-      price:
-        68000,
+  price: 68000,
 
-      savedDate:
-        "2025.05.18",
+  savedDate: "2025.05.18",
 
-      source:
-        "AI 제안",
+  recipient: "지수",
 
-      recipient:
-        "지수",
+  relationship: "친구",
 
-      relationship:
-        "친구",
+  reasonType: "direct",
 
-      reasonType:
-        "direct",
+  reason: "직접 갖고 싶다고 했어요",
 
-      reasonLabel:
-        "직접 표현",
+  status: "considering",
 
-      reason:
-        "직접 갖고 싶다고 했어요",
+  statusLabel: "고려 중",
 
-      status:
-        "considering",
-
-      statusLabel:
-        "고려 중",
-
-      memo:
-        "생일 선물로 고려 중. 작년에 이어폰 잃어버렸다고 했음.",
-
-      image:
-        null
-    },
+  image: "https://img.danuri.io/catalog-image/462/010/013/4f26520466984e6cb05036c94d6b68f4.jpg"
+}
 
   ];
 
@@ -244,98 +224,74 @@ document.addEventListener("DOMContentLoaded", () => {
         // ====================================
 
         card.innerHTML = `
-          <div class="candidate-select">
-            <input
-              class="candidate-checkbox"
-              type="checkbox"
-              data-id="${candidate.id}"
-              ${isSelected ? "checked" : ""}
-              aria-label="${escapeHtml(candidate.name)} 선택"
-            />
-          </div>
+  <div class="candidate-select">
+    <input
+      class="candidate-checkbox"
+      type="checkbox"
+      data-id="${candidate.id}"
+      ${isSelected ? "checked" : ""}
+      aria-label="${escapeHtml(candidate.name)} 선택"
+    />
+  </div>
 
-          ${imageHtml}
+  ${imageHtml}
 
-          <div class="candidate-info">
+  <div class="candidate-info">
 
-            <div class="candidate-top">
-              <div class="candidate-title-area">
-                <span class="source-badge">
-                  ${escapeHtml(candidate.source)}
-                </span>
+    <div class="candidate-top">
 
-                <h4>
-                  ${escapeHtml(candidate.name)}
-                </h4>
+      <div class="candidate-title-area">
+        <h4>
+          ${escapeHtml(candidate.name)}
+        </h4>
 
-                <p class="candidate-category">
-                  ${escapeHtml(candidate.category)}
-                </p>
-              </div>
+        <p class="candidate-category">
+          ${escapeHtml(candidate.category)}
+        </p>
+      </div>
 
-              <span class="status-badge ${candidate.status}">
-                ${escapeHtml(candidate.statusLabel)}
-              </span>
-            </div>
+      <span class="status-badge ${candidate.status}">
+        ${escapeHtml(candidate.statusLabel)}
+      </span>
 
+    </div>
 
-            <div class="candidate-meta">
-              <strong>
-                ${formatPrice(candidate.price)}원
-              </strong>
+    <strong class="candidate-price">
+      ${formatPrice(candidate.price)}원
+    </strong>
 
-              <span>
-                ${escapeHtml(candidate.savedDate)}
-              </span>
-            </div>
+    <p class="candidate-reason">
+      ${escapeHtml(candidate.reason)}
+    </p>
 
+    <div class="candidate-actions">
 
-            <div class="candidate-reason">
-              <span class="reason-label">
-                ${escapeHtml(candidate.reasonLabel)}
-              </span>
+      <button
+        class="edit-btn"
+        type="button"
+        data-action="edit"
+        data-id="${candidate.id}"
+      >
+        수정
+      </button>
 
-              <p>
-                ${escapeHtml(candidate.reason)}
-              </p>
-            </div>
+      <button
+        class="delete-btn"
+        type="button"
+        data-action="delete"
+        data-id="${candidate.id}"
+      >
+        삭제
+      </button>
 
+    </div>
 
-            ${
-              candidate.memo
-                ? `
-                  <p class="candidate-memo">
-                    ${escapeHtml(candidate.memo)}
-                  </p>
-                `
-                : ""
-            }
+    <p class="candidate-date">
+      ${escapeHtml(candidate.savedDate)}
+    </p>
 
-
-            <div class="candidate-actions">
-
-              <button
-                class="edit-btn"
-                type="button"
-                data-action="edit"
-                data-id="${candidate.id}"
-              >
-                수정
-              </button>
-
-              <button
-                class="delete-btn"
-                type="button"
-                data-action="delete"
-                data-id="${candidate.id}"
-              >
-                삭제
-              </button>
-
-            </div>
-
-          </div>
-        `;
+  </div>
+`;
 
 
         candidateList.appendChild(
@@ -440,8 +396,23 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
 
-      window.location.href =
-        `./Present-Detail.html?id=${id}`;
+      const selectedCandidate =
+  candidates.find(
+    (candidate) =>
+      candidate.id === id
+  );
+
+if (!selectedCandidate) {
+  return;
+}
+
+sessionStorage.setItem(
+  "selectedCandidate",
+  JSON.stringify(selectedCandidate)
+);
+
+window.location.href =
+  `./Present-Detail.html?id=${id}`;
     }
   );
 

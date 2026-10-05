@@ -1,66 +1,95 @@
 document.addEventListener("DOMContentLoaded", () => {
-
   // ========================================
   // DOM
   // ========================================
 
-  const backButton =
-    document.querySelector("#backButton");
+  const backBtn =
+    document.getElementById("backBtn");
 
-  const editButton =
-    document.querySelector("#editButton");
+  const presentImage =
+    document.getElementById("presentImage");
 
-  const deleteButton =
-    document.querySelector("#deleteButton");
+  const imagePlaceholder =
+    document.getElementById("imagePlaceholder");
+
+  const presentName =
+    document.getElementById("presentName");
+
+  const presentPrice =
+    document.getElementById("presentPrice");
+
+  const savedDate =
+    document.getElementById("savedDate");
+
+  const recipient =
+    document.getElementById("recipient");
+
+  const relationship =
+    document.getElementById("relationship");
+
+  const reasonList =
+    document.getElementById("reasonList");
+
+  const memo =
+    document.getElementById("memo");
+
+  const memoSection =
+    document.getElementById("memoSection");
+
+  const editBtn =
+    document.getElementById("editBtn");
+
+  const deleteBtn =
+    document.getElementById("deleteBtn");
 
   const deleteModal =
-    document.querySelector("#deleteModal");
+    document.getElementById("deleteModal");
 
-  const cancelDeleteButton =
-    document.querySelector("#cancelDeleteButton");
+  const cancelDeleteBtn =
+    document.getElementById("cancelDeleteBtn");
 
-  const confirmDeleteButton =
-    document.querySelector("#confirmDeleteButton");
-
-
-  // ========================================
-  // 임시 후보 데이터
-  // 추후 API 응답으로 교체
-  // ========================================
-
-  const presentData = {
-    id: 1,
-
-    name: "버즈 라이트 이어폰 프로",
-
-    price: 68000,
-
-    savedDate: "2025.05.18",
-
-    source: "AI 제안",
-
-    recipient: "지수",
-
-    relationship: "친구",
-
-    reasons: [
-      "직접 갖고 싶다고 했어요",
-      "요즘 자주 쓰는 것 같아요"
-    ],
-
-    memo:
-      "생일 선물로 고려 중. 작년에 이어폰 잃어버렸다고 했음.",
-
-    image: null
-  };
+  const confirmDeleteBtn =
+    document.getElementById("confirmDeleteBtn");
 
 
   // ========================================
-  // 가격 포맷
+  // List에서 선택한 후보 데이터 가져오기
   // ========================================
 
-  function formatPrice(price) {
-    return `${price.toLocaleString("ko-KR")}원`;
+  const savedCandidate =
+    sessionStorage.getItem(
+      "selectedCandidate"
+    );
+
+
+  if (!savedCandidate) {
+    console.error(
+      "선택된 후보 데이터가 없습니다."
+    );
+
+    window.location.href =
+      "./Present-List.html";
+
+    return;
+  }
+
+
+  let presentData;
+
+
+  try {
+    presentData =
+      JSON.parse(savedCandidate);
+  } catch (error) {
+    console.error(
+      "후보 데이터를 불러오지 못했습니다.",
+      error
+    );
+
+    window.location.href =
+      "./Present-List.html";
+
+    return;
   }
 
 
@@ -68,107 +97,153 @@ document.addEventListener("DOMContentLoaded", () => {
   // 데이터 렌더링
   // ========================================
 
-  function renderPresent(data) {
-
-    const productName =
-      document.querySelector("#productName");
-
-    const productPrice =
-      document.querySelector("#productPrice");
-
-    const savedDate =
-      document.querySelector("#savedDate");
-
-    const sourceBadge =
-      document.querySelector("#sourceBadge");
-
-    const recipient =
-      document.querySelector("#recipient");
-
-    const relationship =
-      document.querySelector("#relationship");
-
-    const reasonList =
-      document.querySelector("#reasonList");
-
-    const memoText =
-      document.querySelector("#memoText");
+  renderPresentDetail();
 
 
-    productName.textContent =
-      data.name;
+  function renderPresentDetail() {
+    // --------------------------------------
+    // 이미지
+    // --------------------------------------
 
-    productPrice.textContent =
-      formatPrice(data.price);
+    if (presentData.image) {
+      presentImage.src =
+        presentData.image;
 
-    savedDate.textContent =
-      data.savedDate;
+      presentImage.alt =
+        presentData.name;
 
-    sourceBadge.textContent =
-      data.source;
-
-    recipient.textContent =
-      data.recipient;
-
-    relationship.textContent =
-      data.relationship;
-
-    memoText.textContent =
-      data.memo;
+      presentImage.hidden =
+        false;
 
 
-    // 관심 근거 렌더링
-    reasonList.innerHTML = "";
+      if (imagePlaceholder) {
+        imagePlaceholder.hidden =
+          true;
+      }
 
-    data.reasons.forEach((reason) => {
-
-      const chip =
-        document.createElement("span");
-
-      chip.className =
-        "outline-chip reason-chip";
-
-      chip.textContent =
-        reason;
-
-      reasonList.appendChild(chip);
-    });
+    } else {
+      presentImage.hidden =
+        true;
 
 
-    // 이미지 렌더링
-    renderProductImage(data.image);
-  }
+      if (imagePlaceholder) {
+        imagePlaceholder.hidden =
+          false;
+      }
+    }
 
 
-  // ========================================
-  // 상품 이미지
-  // ========================================
+    // --------------------------------------
+    // 상품명
+    // --------------------------------------
 
-  function renderProductImage(imageUrl) {
+    if (presentName) {
+      presentName.textContent =
+        presentData.name || "-";
+    }
 
-    if (!imageUrl) return;
 
-    const imageBox =
-      document.querySelector("#productImageBox");
+    // --------------------------------------
+    // 가격
+    // --------------------------------------
 
-    const placeholder =
-      document.querySelector("#imagePlaceholder");
+    if (presentPrice) {
+      presentPrice.textContent =
+        presentData.price
+          ? `${formatPrice(
+              presentData.price
+            )}원`
+          : "-";
+    }
 
-    placeholder?.remove();
 
-    const image =
-      document.createElement("img");
+    // --------------------------------------
+    // 저장 날짜
+    // --------------------------------------
 
-    image.className =
-      "product-image";
+    if (savedDate) {
+      savedDate.textContent =
+        presentData.savedDate || "-";
+    }
 
-    image.src =
-      imageUrl;
 
-    image.alt =
-      presentData.name;
+    // --------------------------------------
+    // 선물 대상
+    // --------------------------------------
 
-    imageBox.appendChild(image);
+    if (recipient) {
+      recipient.textContent =
+        presentData.recipient || "-";
+    }
+
+
+    // --------------------------------------
+    // 관계
+    // --------------------------------------
+
+    if (relationship) {
+      relationship.textContent =
+        presentData.relationship || "-";
+    }
+
+
+    // --------------------------------------
+    // 관심 근거
+    // --------------------------------------
+
+    if (reasonList) {
+      reasonList.innerHTML = "";
+
+
+      if (presentData.reason) {
+        const reasonItem =
+          document.createElement("li");
+
+        reasonItem.textContent =
+          presentData.reason;
+
+        reasonList.appendChild(
+          reasonItem
+        );
+
+      } else {
+        const reasonItem =
+          document.createElement("li");
+
+        reasonItem.textContent =
+          "등록된 관심 근거가 없습니다.";
+
+        reasonList.appendChild(
+          reasonItem
+        );
+      }
+    }
+
+
+    // --------------------------------------
+    // 메모
+    // --------------------------------------
+
+    if (memo) {
+      if (presentData.memo) {
+        memo.textContent =
+          presentData.memo;
+
+
+        if (memoSection) {
+          memoSection.hidden =
+            false;
+        }
+
+      } else {
+        // 메모가 없으면 섹션 자체 숨김
+
+        if (memoSection) {
+          memoSection.hidden =
+            true;
+        }
+      }
+    }
   }
 
 
@@ -176,164 +251,185 @@ document.addEventListener("DOMContentLoaded", () => {
   // 뒤로가기
   // ========================================
 
-  backButton.addEventListener("click", () => {
-
-    // 이전 페이지가 있는 경우
-    if (window.history.length > 1) {
-      window.history.back();
-      return;
-    }
-
-    // 직접 URL로 접근했을 경우
-    window.location.href =
-      "./Present-List.html";
-  });
-
-
-  // ========================================
-  // 편집하기
-  // ========================================
-
-  editButton.addEventListener("click", () => {
-
-    const presentId =
-      presentData.id;
-
-    console.log(
-      "편집할 후보:",
-      presentId
+  if (backBtn) {
+    backBtn.addEventListener(
+      "click",
+      () => {
+        window.location.href =
+          "./Present-List.html";
+      }
     );
-
-    // 추후 편집 페이지 연결
-    //
-    // window.location.href =
-    //   `./Present-Edit.html?id=${presentId}`;
-  });
-
-
-  // ========================================
-  // 삭제 Modal 열기
-  // ========================================
-
-  function openDeleteModal() {
-
-    deleteModal.classList.add("open");
-
-    deleteModal.setAttribute(
-      "aria-hidden",
-      "false"
-    );
-
-    document.body.style.overflow =
-      "hidden";
   }
 
 
   // ========================================
-  // 삭제 Modal 닫기
+  // 수정
   // ========================================
 
-  function closeDeleteModal() {
+  if (editBtn) {
+    editBtn.addEventListener(
+      "click",
+      () => {
+        /*
+         * 추후 수정 페이지가 생기면
+         *
+         * window.location.href =
+         *   `./Present-Edit.html?id=${presentData.id}`;
+         */
 
-    deleteModal.classList.remove("open");
-
-    deleteModal.setAttribute(
-      "aria-hidden",
-      "true"
+        alert(
+          "수정 기능은 준비 중입니다."
+        );
+      }
     );
-
-    document.body.style.overflow =
-      "";
   }
 
 
-  deleteButton.addEventListener(
-    "click",
-    openDeleteModal
-  );
-
-
-  cancelDeleteButton.addEventListener(
-    "click",
-    closeDeleteModal
-  );
-
-
   // ========================================
-  // Modal 바깥 영역 클릭
+  // 삭제 모달 열기
   // ========================================
 
-  deleteModal.addEventListener(
-    "click",
-    (event) => {
+  if (deleteBtn) {
+    deleteBtn.addEventListener(
+      "click",
+      () => {
+        if (!deleteModal) {
+          return;
+        }
 
-      if (event.target === deleteModal) {
-        closeDeleteModal();
+        deleteModal.hidden =
+          false;
       }
-    }
-  );
+    );
+  }
 
 
   // ========================================
-  // ESC
+  // 삭제 취소
   // ========================================
 
-  document.addEventListener(
-    "keydown",
-    (event) => {
+  if (cancelDeleteBtn) {
+    cancelDeleteBtn.addEventListener(
+      "click",
+      () => {
+        if (!deleteModal) {
+          return;
+        }
 
-      if (event.key !== "Escape") {
-        return;
+        deleteModal.hidden =
+          true;
       }
+    );
+  }
 
-      if (
-        deleteModal.classList.contains("open")
-      ) {
-        closeDeleteModal();
+
+  // ========================================
+  // 삭제 확인
+  // ========================================
+
+  if (confirmDeleteBtn) {
+    confirmDeleteBtn.addEventListener(
+      "click",
+      () => {
+        deletePresent();
       }
-    }
-  );
+    );
+  }
 
 
   // ========================================
-  // 실제 삭제
+  // 모달 바깥 클릭
   // ========================================
 
-  confirmDeleteButton.addEventListener(
-    "click",
-    () => {
+  if (deleteModal) {
+    deleteModal.addEventListener(
+      "click",
+      (event) => {
+        if (
+          event.target ===
+          deleteModal
+        ) {
+          deleteModal.hidden =
+            true;
+        }
+      }
+    );
+  }
 
-      const presentId =
-        presentData.id;
 
-      console.log(
-        "삭제 후보:",
-        presentId
+  // ========================================
+  // 후보 삭제
+  // ========================================
+
+  function deletePresent() {
+    /*
+     * 직접 추가한 후보라면
+     * sessionStorage에서도 삭제
+     */
+
+    const savedCandidates =
+      sessionStorage.getItem(
+        "addedCandidates"
       );
 
-      /*
-       * 추후 API 연결 예시
-       *
-       * await fetch(
-       *   `/api/presents/${presentId}`,
-       *   {
-       *     method: "DELETE"
-       *   }
-       * );
-       */
 
-      closeDeleteModal();
+    if (savedCandidates) {
+      try {
+        const addedCandidates =
+          JSON.parse(
+            savedCandidates
+          );
 
-      // 삭제 완료 후 목록 이동
-      window.location.href =
-        "./Present-List.html";
+
+        if (
+          Array.isArray(
+            addedCandidates
+          )
+        ) {
+          const updatedCandidates =
+            addedCandidates.filter(
+              (candidate) =>
+                candidate.id !==
+                presentData.id
+            );
+
+
+          sessionStorage.setItem(
+            "addedCandidates",
+            JSON.stringify(
+              updatedCandidates
+            )
+          );
+        }
+
+      } catch (error) {
+        console.error(
+          "후보 삭제 중 오류가 발생했습니다.",
+          error
+        );
+      }
     }
-  );
+
+
+    sessionStorage.removeItem(
+      "selectedCandidate"
+    );
+
+
+    window.location.href =
+      "./Present-List.html";
+  }
 
 
   // ========================================
-  // Initial Render
+  // 가격 포맷
   // ========================================
 
-  renderPresent(presentData);
+  function formatPrice(price) {
+    return Number(
+      price
+    ).toLocaleString(
+      "ko-KR"
+    );
+  }
 });
