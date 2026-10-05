@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  />
+
+  <title>저장 완료 확인</title>
+
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/present-complete.css" />
+</head>
+
+<body>
+  <main class="mobile-shell present-complete-page">
+
+    <!-- Header -->
+    <header class="app-header complete-header">
+      <button
+        class="back-btn"
+        id="backBtn"
+        type="button"
+        aria-label="이전 페이지로 이동"
+      >
+        ‹
+      </button>
+
+      <h1>저장 완료 확인</h1>
+    </header>
+
+    <!-- Content -->
+    <section class="complete-content">
+
+      <!-- Complete Icon -->
+      <div class="complete-icon" aria-hidden="true">
+        <svg
+          width="42"
+          height="42"
+          viewBox="0 0 42 42"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M21 7L26 15H16L21 7Z"
+            stroke="currentColor"
+            stroke-width="2.2"
+            stroke-linejoin="round"
+          />
+
+          <rect
+            x="9"
+            y="22"
+            width="9"
+            height="9"
+            rx="1.5"
+            stroke="currentColor"
+            stroke-width="2.2"
+          />
+
+          <circle
+            cx="29"
+            cy="26.5"
+            r="4.5"
+            stroke="currentColor"
+            stroke-width="2.2"
+          />
+        </svg>
+      </div>
+
+      <!-- Message -->
+      <div class="complete-message">
+        <h2>선물 저장 완료!</h2>
+        <p>
+          선택하신 선물이 선물함에 저장되었습니다
+        </p>
+      </div>
+
+      <!-- Actions -->
+      <div class="complete-actions">
+        <button
+          class="home-btn"
+          id="homeBtn"
+          type="button"
+        >
+          홈으로
+        </button>
+
+        <button
+          class="continue-btn"
+          id="continueBtn"
+          type="button"
+        >
+          계속 등록
+        </button>
+      </div>
+
+    </section>
+
+  </main>
+
+  <script src="../js/present-complete.js"></script>
+</body>
+</html>
