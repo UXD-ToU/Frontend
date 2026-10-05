@@ -46,58 +46,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       image: null
     },
-
-    {
-      id: 2,
-
-      name: "조 말론 우드 세이지 앤 씨 솔트 코롱",
-      category: "향수",
-
-      price: 110000,
-      savedDate: "2025.05.12",
-
-      source: "직접 저장",
-
-      recipient: "지수",
-      relationship: "친구",
-
-      reasonType: "judgment",
-      reasonLabel: "내 판단",
-      reason: "좋아하는 브랜드 매장에서 오래 구경함",
-
-      status: "considering",
-      statusLabel: "고려 중",
-
-      memo: "",
-
-      image: null
-    },
-
-    {
-      id: 3,
-
-      name: "아뮤트, 여름 — 김신희",
-      category: "도서",
-
-      price: 18000,
-      savedDate: "2025.05.08",
-
-      source: "직접 저장",
-
-      recipient: "지수",
-      relationship: "친구",
-
-      reasonType: "direct",
-      reasonLabel: "직접 표현",
-      reason: "읽어보고 싶다고 말함",
-
-      status: "saved",
-      statusLabel: "저장",
-
-      memo: "",
-
-      image: null
-    }
   ];
 
 
