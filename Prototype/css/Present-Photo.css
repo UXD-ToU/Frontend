@@ -1,0 +1,527 @@
+/* ========================================
+   Present Photo
+======================================== */
+
+.present-photo-page {
+  position: relative;
+
+  height: 100dvh;
+
+  overflow: hidden;
+
+  background: #ffffff;
+}
+
+
+/* ========================================
+   Header
+======================================== */
+
+.photo-header {
+  position: relative;
+
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+
+  height: 64px;
+
+  padding: 0 20px;
+
+  border-bottom: 1px solid #eeeeee;
+
+  background: rgba(255, 255, 255, 0.96);
+
+  z-index: 10;
+}
+
+.photo-header h1 {
+  margin: 0;
+
+  text-align: center;
+
+  color: #222222;
+
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.back-btn {
+  width: 44px;
+  height: 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  padding: 0;
+
+  border: 0;
+
+  background: transparent;
+  color: #222222;
+
+  cursor: pointer;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+.back-btn svg {
+  width: 28px;
+  height: 28px;
+}
+
+.back-btn:active {
+  opacity: 0.45;
+}
+
+.header-space {
+  width: 44px;
+}
+
+
+/* ========================================
+   Scroll
+======================================== */
+
+.photo-scroll {
+  height: calc(100dvh - 64px);
+
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+
+  scrollbar-width: none;
+}
+
+.photo-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+
+/* ========================================
+   Main Content
+======================================== */
+
+.photo-content {
+  padding:
+    28px
+    24px
+    calc(36px + env(safe-area-inset-bottom));
+}
+
+
+/* ========================================
+   Section Heading
+======================================== */
+
+.section-heading {
+  margin-bottom: 20px;
+}
+
+.section-heading h2 {
+  margin: 0;
+
+  color: #222222;
+
+  font-size: 22px;
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+.section-heading p {
+  margin: 7px 0 0;
+
+  color: #999999;
+
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+
+/* ========================================
+   Preview
+======================================== */
+
+.photo-preview {
+  position: relative;
+
+  width: 100%;
+  aspect-ratio: 4 / 3;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  border: 1px solid #e4e4e4;
+  border-radius: 16px;
+
+  background: #fafafa;
+}
+
+
+/* ----------------------------------------
+   Placeholder
+---------------------------------------- */
+
+.preview-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  color: #a5a5a5;
+
+  text-align: center;
+}
+
+.preview-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 9px;
+
+  color: #c4c4c4;
+}
+
+.preview-placeholder > span {
+  color: #888888;
+
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.preview-placeholder small {
+  margin-top: 5px;
+
+  color: #b0b0b0;
+
+  font-size: 12px;
+  font-weight: 400;
+}
+
+
+/* ----------------------------------------
+   Actual Image
+---------------------------------------- */
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+}
+
+/* hidden 속성이 있으면 무조건 숨김 */
+.preview-image[hidden],
+.preview-placeholder[hidden],
+.remove-photo-btn[hidden] {
+  display: none;
+}
+
+
+/* ========================================
+   Remove Image
+======================================== */
+
+.remove-photo-btn {
+  position: absolute;
+
+  top: 12px;
+  right: 12px;
+
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 0;
+  border-radius: 50%;
+
+  background: rgba(20, 20, 20, 0.72);
+  color: #ffffff;
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  cursor: pointer;
+
+  z-index: 2;
+}
+
+.remove-photo-btn:active {
+  transform: scale(0.94);
+}
+
+
+/* ========================================
+   Photo Actions
+======================================== */
+
+.photo-actions {
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
+
+  margin-top: 18px;
+}
+
+.photo-action-btn {
+  width: 100%;
+  height: 54px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  border-radius: 14px;
+
+  font-size: 16px;
+  font-weight: 650;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.12s ease,
+    opacity 0.12s ease;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+/* 기존 global primary-btn을 사용하지만
+   사진 페이지 크기만 조정 */
+
+.photo-action-btn.primary-btn {
+  border: 0;
+
+  background: #222222;
+  color: #ffffff;
+}
+
+
+/* 앨범 선택 */
+
+.secondary-btn {
+  border: 1px solid var(--main-color, #f8c6d8);
+
+  background: var(--sub-color, #fde8f1);
+
+  color: #4a3b41;
+}
+
+.photo-action-btn:active {
+  transform: scale(0.985);
+  opacity: 0.8;
+}
+
+
+/* ========================================
+   Memo
+======================================== */
+
+.memo-field {
+  margin-top: 30px;
+}
+
+.memo-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 10px;
+}
+
+.memo-label-row label {
+  color: #333333;
+
+  font-size: 16px;
+  font-weight: 650;
+}
+
+.memo-label-row label span {
+  margin-left: 3px;
+
+  color: #999999;
+
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.memo-count {
+  color: #aaaaaa;
+
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.memo-field textarea {
+  width: 100%;
+  min-height: 132px;
+
+  display: block;
+
+  padding: 15px 16px;
+
+  resize: none;
+
+  border: 1px solid #dedede;
+  border-radius: 14px;
+
+  outline: none;
+
+  background: #ffffff;
+  color: #333333;
+
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.6;
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.memo-field textarea::placeholder {
+  color: #bbbbbb;
+}
+
+.memo-field textarea:focus {
+  border-color: var(--main-color, #f8c6d8);
+
+  box-shadow:
+    0 0 0 3px rgba(248, 198, 216, 0.22);
+}
+
+
+/* ========================================
+   Save
+======================================== */
+
+.save-area {
+  margin-top: 30px;
+}
+
+.save-btn {
+  width: 100%;
+  height: 56px;
+
+  border: 0;
+  border-radius: 14px;
+
+  background: var(--main-color, #f8c6d8);
+  color: #3d2c33;
+
+  font-size: 17px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.12s ease,
+    opacity 0.12s ease;
+}
+
+.save-btn:disabled {
+  background: #eeeeee;
+  color: #aaaaaa;
+
+  cursor: default;
+}
+
+.save-btn:not(:disabled):active {
+  transform: scale(0.985);
+  opacity: 0.8;
+}
+
+
+/* ========================================
+   Toast
+======================================== */
+
+.present-photo-page .toast {
+  position: absolute;
+
+  left: 50%;
+  bottom:
+    calc(24px + env(safe-area-inset-bottom));
+
+  max-width: calc(100% - 48px);
+
+  padding: 11px 17px;
+
+  border-radius: 999px;
+
+  background: rgba(30, 30, 30, 0.9);
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  white-space: nowrap;
+
+  opacity: 0;
+  visibility: hidden;
+
+  transform:
+    translateX(-50%)
+    translateY(8px);
+
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    visibility 0.2s ease;
+
+  z-index: 100;
+}
+
+.present-photo-page .toast.show {
+  opacity: 1;
+  visibility: visible;
+
+  transform:
+    translateX(-50%)
+    translateY(0);
+}
+
+
+/* ========================================
+   Small Mobile
+======================================== */
+
+@media (max-width: 360px) {
+
+  .photo-content {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .photo-preview {
+    border-radius: 14px;
+  }
+
+  .photo-action-btn {
+    height: 52px;
+
+    font-size: 15px;
+  }
+
+  .section-heading h2 {
+    font-size: 21px;
+  }
+}
