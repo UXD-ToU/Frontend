@@ -470,21 +470,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // 후보 추가
   // ========================================
 
-  addBtn.addEventListener("click", () => {
-    console.log("후보 추가");
-
-
-    /*
-     * 후보 추가 페이지가 생기면 사용
-     *
-     * window.location.href =
-     *   "./Present-Add.html";
-     */
-
-
-    showToast("후보 추가 페이지 준비 중이에요.");
-  });
-
+addBtn.addEventListener("click", () => {
+  window.location.href = "./Present-Photo.html";
+});
 
   // ========================================
   // 토너먼트 버튼 상태
