@@ -318,7 +318,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
       // 현재 프로토타입
-      window.location.href = "./Present-Confirm.html";
+      // ========================================
+// 프로토타입 - 사진 데이터 임시 저장
+// ========================================
+
+const reader = new FileReader();
+
+reader.onload = () => {
+  const presentDraft = {
+    image: reader.result,
+    memo: memo
+  };
+
+  sessionStorage.setItem(
+    "presentDraft",
+    JSON.stringify(presentDraft)
+  );
+
+  window.location.href = "./Present-Confirm.html";
+};
+
+reader.onerror = () => {
+  showToast("사진을 불러오지 못했어요.");
+};
+
+reader.readAsDataURL(selectedFile);
     }
   );
 
