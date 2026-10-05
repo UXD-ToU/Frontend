@@ -219,6 +219,13 @@
   object-fit: cover;
 }
 
+/* hidden 속성이 있으면 무조건 숨김 */
+.preview-image[hidden],
+.preview-placeholder[hidden],
+.remove-photo-btn[hidden] {
+  display: none;
+}
+
 
 /* ========================================
    Remove Image

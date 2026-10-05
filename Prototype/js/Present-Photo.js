@@ -127,79 +127,43 @@ document.addEventListener("DOMContentLoaded", () => {
   // 이미지 처리
   // ========================================
 
-  function handleSelectedImage(file) {
-
-    if (!file) {
-      return;
-    }
-
-
-    // 이미지 파일인지 확인
-    if (!file.type.startsWith("image/")) {
-
-      showToast(
-        "이미지 파일만 등록할 수 있어요."
-      );
-
-      return;
-    }
-
-
-    // 10MB 제한
-    const maxFileSize =
-      10 * 1024 * 1024;
-
-
-    if (file.size > maxFileSize) {
-
-      showToast(
-        "10MB 이하의 이미지를 선택해주세요."
-      );
-
-      return;
-    }
-
-
-    selectedFile = file;
-
-
-    // 기존 Object URL 제거
-    if (previewUrl) {
-      URL.revokeObjectURL(previewUrl);
-    }
-
-
-    previewUrl =
-      URL.createObjectURL(file);
-
-
-    // 이미지 표시
-    previewImage.src =
-      previewUrl;
-
-    previewImage.hidden =
-      false;
-
-
-    // Placeholder 숨기기
-    previewPlaceholder.hidden =
-      true;
-
-
-    // 삭제 버튼 표시
-    removePhotoBtn.hidden =
-      false;
-
-
-    // 저장 버튼 활성화
-    updateSaveButton();
-
-
-    showToast(
-      "사진을 선택했어요."
-    );
+ function handleSelectedImage(file) {
+  if (!file) {
+    return;
   }
 
+  if (!file.type.startsWith("image/")) {
+    showToast("이미지 파일만 등록할 수 있어요.");
+    return;
+  }
+
+  const maxFileSize = 10 * 1024 * 1024;
+
+  if (file.size > maxFileSize) {
+    showToast("10MB 이하의 이미지를 선택해주세요.");
+    return;
+  }
+
+  selectedFile = file;
+
+  if (previewUrl) {
+    URL.revokeObjectURL(previewUrl);
+  }
+
+  previewUrl = URL.createObjectURL(file);
+
+  // 사진 표시
+  previewImage.src = previewUrl;
+  previewImage.hidden = false;
+
+  // 안내문 전체 숨기기
+  previewPlaceholder.hidden = true;
+
+  // X 버튼 표시
+  removePhotoBtn.hidden = false;
+
+  updateSaveButton();
+}
 
   // ========================================
   // 이미지 삭제
@@ -216,48 +180,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   function removeSelectedImage() {
+  selectedFile = null;
 
-    selectedFile = null;
-
-
-    if (previewUrl) {
-
-      URL.revokeObjectURL(
-        previewUrl
-      );
-
-      previewUrl = null;
-    }
-
-
-    previewImage.src = "";
-
-    previewImage.hidden =
-      true;
-
-
-    previewPlaceholder.hidden =
-      false;
-
-
-    removePhotoBtn.hidden =
-      true;
-
-
-    // 같은 파일을 다시 선택할 수 있도록 초기화
-    cameraInput.value = "";
-
-    albumInput.value = "";
-
-
-    updateSaveButton();
-
-
-    showToast(
-      "사진을 삭제했어요."
-    );
+  if (previewUrl) {
+    URL.revokeObjectURL(previewUrl);
+    previewUrl = null;
   }
 
+  // 사진 제거
+  previewImage.src = "";
+  previewImage.hidden = true;
+
+  // 안내문 다시 표시
+  previewPlaceholder.hidden = false;
+
+  // X 버튼 숨김
+  removePhotoBtn.hidden = true;
+
+  cameraInput.value = "";
+  albumInput.value = "";
+
+  updateSaveButton();
+}
 
   // ========================================
   // 메모 글자 수
