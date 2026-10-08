@@ -24,27 +24,27 @@
 
 .loading-spinner {
   position: relative;
-
-  width: 64px;
-  height: 64px;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
 }
-
-/* 12개 막대 */
 
 .loading-spinner span {
   position: absolute;
+  display: block;
 
-  left: calc(50% - 3px);
   top: 0;
+  left: 50%;
 
-  width: 6px;
-  height: 18px;
+  width: 4px;
+  height: 12px;
+
+  margin-left: -2px;
 
   border-radius: var(--radius-full);
-
   background-color: var(--color-gray);
 
-  transform-origin: 3px 32px;
+  transform-origin: 50% 20px;
 
   animation: spinner-fade 1.2s linear infinite;
 }
