@@ -1,0 +1,449 @@
+
+/* ==================================================
+   GLOBAL DESIGN SYSTEM
+
+   Design Reference: 390 × 844
+   Font: Apple SD Gothic Neo
+   Color: Accent / Black / White / Gray
+
+   [GLOBAL DESIGN RULE]
+   모든 페이지와 컴포넌트는 본 Global CSS를
+   최우선 디자인 기준으로 사용한다.
+
+   화면 비율, 컬러, 폰트, 여백, 타이포그래피,
+   모서리 곡률 등 모든 디자인 요소에
+   아래 정의된 공통 규칙을 최대한 반영한다.
+
+   개별 페이지에서 불필요한 하드코딩을 지양하고
+   CSS 변수를 적극적으로 재사용한다.
+================================================== */
+
+
+/* ==================================================
+   1. FONT SYSTEM
+
+   Apple SD Gothic Neo 폰트 파일 4종 사용
+
+   UL : Ultra Light
+   T  : Thin
+   R  : Regular
+   SB : Semi Bold
+
+   [DESIGN RULE]
+   모든 페이지의 제목, 본문, 버튼, 입력 필드,
+   내비게이션, 모달 등에 Apple SD Gothic Neo를
+   최우선으로 적용한다.
+
+   임의의 다른 폰트 사용을 지양하며
+   아래 정의된 폰트 굵기를 최대한 활용한다.
+================================================== */
+
+@font-face {
+  font-family: "Apple SD Gothic Neo";
+  src: url("../assets/fonts/AppleSDGothicNeoUL.ttf")
+       format("truetype");
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Apple SD Gothic Neo";
+  src: url("../assets/fonts/AppleSDGothicNeoT.ttf")
+       format("truetype");
+  font-style: normal;
+  font-weight: 100;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Apple SD Gothic Neo";
+  src: url("../assets/fonts/AppleSDGothicNeoR.ttf")
+       format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Apple SD Gothic Neo";
+  src: url("../assets/fonts/AppleSDGothicNeoSB.ttf")
+       format("truetype");
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+
+
+/* ==================================================
+   2. ROOT DESIGN TOKENS
+
+   [DESIGN RULE]
+   모든 UI 요소는 아래 CSS 변수를 우선 사용한다.
+
+   동일한 역할의 디자인 요소는 동일한 변수를
+   사용하여 페이지 간 일관성을 유지한다.
+================================================== */
+
+:root {
+
+  /* ---------- COLORS ---------- */
+
+  --color-accent: #FF61A2;
+  --color-black: #292929;
+  --color-white: #FFFFFF;
+  --color-gray: #A3AFB8;
+
+  --color-primary: var(--color-accent);
+  --color-text: var(--color-black);
+  --color-background: var(--color-white);
+  --color-placeholder: var(--color-gray);
+  --color-disabled: var(--color-gray);
+
+
+  /* ---------- FONT FAMILY ---------- */
+
+  --font-family:
+    "Apple SD Gothic Neo",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+
+
+  /* ---------- FONT WEIGHTS ---------- */
+
+  --font-weight-thin: 100;
+  --font-weight-ultralight: 200;
+  --font-weight-regular: 400;
+  --font-weight-semibold: 600;
+
+
+  /* ---------- SCREEN SIZE ---------- */
+
+  --design-width: 390px;
+  --design-height: 844px;
+
+  --screen-width: min(100%, 390px);
+  --screen-height: 100dvh;
+
+
+  /* ---------- SPACING ---------- */
+
+  --page-padding-x: 20px;
+  --page-padding-y: 32px;
+
+  --content-width: calc(
+    100% - (var(--page-padding-x) * 2)
+  );
+
+
+  /* ---------- BORDER RADIUS ---------- */
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+
+  /* ---------- SAFE AREA ---------- */
+
+  --safe-area-top: env(safe-area-inset-top, 0px);
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+
+  --navbar-height: 64px;
+
+}
+
+
+/* ==================================================
+   3. GLOBAL CSS RESET
+
+   [DESIGN RULE]
+   브라우저별 기본 스타일 차이를 제거하고
+   모든 페이지에서 동일한 디자인을 유지한다.
+
+   Margin, Padding, Box Sizing 등의 기본값을
+   통일하여 레이아웃 오차를 최소화한다.
+================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body,
+h1, h2, h3, h4, h5, h6,
+p, ul, ol {
+  margin: 0;
+  padding: 0;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+
+/* ==================================================
+   4. MOBILE SCREEN SYSTEM
+
+   Design Reference: 390 × 844
+
+   [DESIGN RULE]
+   모든 화면은 390 × 844 모바일 디자인을
+   최우선 기준으로 제작한다.
+
+   화면 너비는 최대 390px로 제한하며,
+   더 넓은 화면에서는 중앙에 배치한다.
+
+   작은 모바일 화면에서는 너비를 유동적으로
+   조절하여 가로 스크롤을 방지한다.
+
+   세로 레이아웃은 844px 디자인을 기준으로
+   설계하되 실제 기기 높이에 대응한다.
+================================================== */
+
+body {
+  width: var(--screen-width);
+  min-height: var(--screen-height);
+
+  margin: 0 auto;
+
+  position: relative;
+
+  background-color: var(--color-white);
+  color: var(--color-black);
+
+  font-family: var(--font-family);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-normal);
+
+  overflow-x: hidden;
+}
+
+.page {
+  position: relative;
+
+  width: 100%;
+  min-height: 100dvh;
+
+  background-color: var(--color-white);
+}
+
+
+/* ==================================================
+   5. SPACING & CONTENT LAYOUT
+
+   [DESIGN RULE]
+   페이지의 좌우 기본 여백은 20px,
+   상하 기본 여백은 32px을 기준으로 한다.
+
+   모든 컴포넌트의 Margin, Padding, Gap은
+   공통 spacing 변수를 최대한 사용한다.
+
+   같은 유형의 컴포넌트는 동일한 여백을 적용하고
+   페이지마다 간격이 달라지지 않도록 한다.
+================================================== */
+
+.page-content {
+  width: 100%;
+
+  padding:
+    var(--page-padding-y)
+    var(--page-padding-x);
+}
+
+.container {
+  width: 100%;
+  max-width: var(--design-width);
+
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.content {
+  width: var(--content-width);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+/* ==================================================
+   6. TYPOGRAPHY SYSTEM
+
+   [DESIGN RULE]
+   모든 텍스트는 Apple SD Gothic Neo를 사용한다.
+
+   제목, 본문, 설명, 버튼, 라벨 등의 위계는
+   공통 폰트 크기와 굵기로 구분한다.
+
+   임의의 폰트 크기 및 굵기 사용을 최소화하고
+   정의된 타이포그래피 변수를 우선 사용한다.
+================================================== */
+
+h1 {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+}
+
+h2 {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+}
+
+h3 {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+}
+
+h4 {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-normal);
+}
+
+p {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-normal);
+}
+
+small {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray);
+}
+
+
+/* ==================================================
+   7. FORM & BUTTON SYSTEM
+
+   [DESIGN RULE]
+   버튼과 입력 필드는 공통 폰트 및 컬러를 사용한다.
+
+   주요 CTA 버튼에는 Accent 컬러를 우선 사용하고
+   일반 텍스트에는 Black 컬러를 적용한다.
+
+   Placeholder 및 비활성화 상태에는
+   Gray 컬러를 우선 사용한다.
+================================================== */
+
+input,
+textarea,
+select {
+  font-family: var(--font-family);
+  font-size: var(--font-size-md);
+
+  background-color: var(--color-white);
+  color: var(--color-black);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-gray);
+}
+
+button {
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-semibold);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+
+/* ==================================================
+   8. SAFE AREA & NAVIGATION
+
+   [DESIGN RULE]
+   모든 모바일 페이지는 기기의 Safe Area를
+   고려하여 UI 요소를 배치한다.
+
+   하단 NavBar 및 고정 버튼은 Home Indicator와
+   겹치지 않도록 구성한다.
+
+   NavBar의 실제 디자인과 기능은
+   components/navbar에서 별도로 관리한다.
+================================================== */
+
+.page-with-navbar {
+  padding-bottom: calc(
+    var(--navbar-height) + var(--safe-area-bottom)
+  );
+}
+
+.safe-area-top {
+  padding-top: var(--safe-area-top);
+}
+
+.safe-area-bottom {
+  padding-bottom: var(--safe-area-bottom);
+}
+
+
+/* ==================================================
+   9. RESPONSIVE SYSTEM
+
+   [DESIGN RULE]
+   390 × 844를 최우선 기준으로 유지한다.
+
+   더 작은 화면에서도 컴포넌트가 잘리거나
+   가로 스크롤이 발생하지 않도록 한다.
+
+   큰 화면에서는 모바일 콘텐츠를
+   중앙 정렬하여 동일한 디자인을 유지한다.
+================================================== */
+
+@media (max-width: 390px) {
+  body {
+    width: 100%;
+  }
+}
+
+@media (min-width: 391px) {
+  body {
+    max-width: var(--design-width);
+  }
+}
