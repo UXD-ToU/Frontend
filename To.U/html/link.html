@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  />
+
+  <title>링크 입력</title>
+
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/link.css" />
+
+  <script src="../js/link.js" defer></script>
+</head>
+
+<body>
+  <main class="page link-page">
+
+    <section class="link-content">
+      <h1 class="link-title">
+        링크를 입력해주세요.
+      </h1>
+
+      <div class="link-input-wrapper" id="linkInputWrapper">
+        <input
+          id="linkInput"
+          class="link-input"
+          type="text"
+          inputmode="url"
+          placeholder="🔗 링크"
+          aria-label="분석할 링크"
+          autocomplete="url"
+          spellcheck="false"
+        />
+      </div>
+    </section>
+
+    <div class="link-button-wrapper">
+      <button
+        id="analyzeButton"
+        class="analyze-button"
+        type="button"
+        disabled
+      >
+        <img
+          id="analyzeIcon"
+          src="../assets/icon/AI_Gray.svg"
+          alt=""
+          class="analyze-icon"
+          aria-hidden="true"
+        />
+
+        <span>AI 분석 시작하기</span>
+      </button>
+    </div>
+
+  </main>
+</body>
+</html>

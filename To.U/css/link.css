@@ -1,0 +1,186 @@
+
+.link-page {
+  position: relative;
+  width: 100%;
+  min-height: 100dvh;
+  background-color: var(--color-white);
+  padding-bottom: 110px;
+}
+
+/* =========================
+   링크 입력 영역
+========================= */
+
+.link-content {
+  width: 100%;
+  padding: var(--page-padding-y) var(--page-padding-x);
+  padding-top: clamp(32px, 14vh, 120px);
+}
+
+.link-title {
+  margin: 0 0 24px;
+
+  font-family: var(--font-family);
+  font-size: 28px;
+  font-weight: 1000;
+  line-height: 1.3;
+
+  color: var(--color-black);
+}
+
+/* =========================
+   링크 입력 필드
+========================= */
+
+.link-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.link-input {
+  display: block;
+  width: 100%;
+  height: auto;
+
+  padding: 0 0 4px;
+
+  border: none;
+  border-radius: 0;
+  outline: none;
+
+  background-color: transparent;
+  color: var(--color-black);
+
+  font-family: var(--font-family);
+  font-size: 20px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.4;
+}
+
+.link-input::placeholder {
+  color: var(--color-gray);
+  font-size: 20px;
+  font-weight: var(--font-weight-semibold);
+  opacity: 1;
+}
+
+/* =========================
+   밑줄 애니메이션
+========================= */
+
+/* 기본 상태: 밑줄 숨김 */
+.link-input-wrapper::after {
+  content: "";
+
+  position: absolute;
+  left: 0;
+  bottom: 0;
+
+  width: 100%;
+  height: 1px;
+
+  background-color: var(--color-black);
+
+  transform: scaleX(0);
+  transform-origin: left center;
+
+  transition: transform 0.45s ease-in-out;
+
+  pointer-events: none;
+}
+
+/* 포커스 중이거나 입력값이 있으면 밑줄 표시 */
+.link-input-wrapper.is-active::after {
+  transform: scaleX(1);
+}
+
+/* =========================
+   AI 분석 버튼
+========================= */
+
+.link-button-wrapper {
+  position: fixed;
+  left: 50%;
+
+  bottom: calc(
+    28px + var(--safe-area-bottom)
+    + var(--keyboard-offset, 0px)
+  );
+
+  transform: translateX(-50%);
+
+  width: min(
+    calc(100% - (var(--page-padding-x) * 2)),
+    calc(var(--design-width) - (var(--page-padding-x) * 2))
+  );
+
+  z-index: 10;
+}
+
+.analyze-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  width: 100%;
+  height: 52px;
+  padding: 0 20px;
+
+  border: none;
+  border-radius: var(--radius-full);
+
+  background-color: var(--color-accent);
+  color: var(--color-white);
+
+  font-family: var(--font-family);
+  font-size: 16px;
+  font-weight: var(--font-weight-semibold);
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+/* 비활성화 버튼 */
+.analyze-button:disabled {
+  background-color: #F2F2F2;
+  color: var(--color-gray);
+
+  border: 1px dashed var(--color-gray);
+
+  opacity: 1;
+  cursor: not-allowed;
+}
+
+/* 활성화 버튼 클릭 */
+.analyze-button:not(:disabled):active {
+  opacity: 0.85;
+}
+
+/* AI 아이콘 */
+.analyze-icon {
+  width: 20px;
+  height: 20px;
+
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/* =========================
+   반응형
+========================= */
+
+@media (max-height: 650px) {
+  .link-content {
+    padding-top: 32px;
+  }
+}
+
+@media (max-width: 390px) {
+  .link-title {
+    font-size: 28px;
+  }
+}
