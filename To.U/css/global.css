@@ -93,6 +93,7 @@
   --color-black: #292929;
   --color-white: #FFFFFF;
   --color-gray: #A3AFB8;
+  --color-accent-10: #FFF0F6;
 
   --color-primary: var(--color-accent);
   --color-text: var(--color-black);
