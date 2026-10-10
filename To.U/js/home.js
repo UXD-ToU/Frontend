@@ -84,8 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 사진/카메라 → 파일 선택
     registerPhoto?.addEventListener("click", () => {
-      closeRegisterMenu();
-      photoInput?.click();
+      window.location.href = "./photo.html";
     });
 
     photoInput?.addEventListener("change", (event) => {

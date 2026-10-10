@@ -1,0 +1,821 @@
+
+/* ==================================================
+   PHOTO REGISTRATION PAGE
+
+   Design Reference: 390 × 844
+   Global CSS 디자인 토큰 재사용
+
+   기존 global.css는 수정하지 않습니다.
+================================================== */
+
+
+/* ==================================================
+   1. PAGE LAYOUT
+================================================== */
+
+.present-photo-page {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  height: 100dvh;
+  min-height: 0;
+
+  overflow: hidden;
+
+  background: var(--color-white);
+  color: var(--color-black);
+
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-regular);
+}
+
+/* Global CSS에 정의되지 않은 폰트 크기 보완 */
+.present-photo-page {
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-md: 15px;
+  --font-size-lg: 17px;
+}
+
+/* 폼 요소 폰트 통일 */
+.present-photo-page button,
+.present-photo-page input,
+.present-photo-page textarea {
+  font-family: var(--font-family);
+  color: inherit;
+}
+
+/* 스크린 리더 전용 */
+.present-photo-page .sr-only {
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+
+  padding: 0;
+  margin: -1px;
+
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+
+  white-space: nowrap;
+  border: 0;
+}
+
+
+/* ==================================================
+   2. HEADER
+================================================== */
+
+.photo-header {
+  display: flex;
+  align-items: flex-end;
+
+  flex: 0 0 108px;
+  height: 108px;
+
+  padding:
+    0
+    var(--page-padding-x)
+    17px;
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 32px;
+  height: 32px;
+
+  padding: 0;
+
+  background: transparent;
+  color: var(--color-black);
+
+  cursor: pointer;
+}
+
+.back-btn svg {
+  width: 30px;
+  height: 30px;
+}
+
+
+/* ==================================================
+   3. SCROLL CONTENT
+================================================== */
+
+.photo-scroll {
+  flex: 1;
+  min-height: 0;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.photo-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.photo-content {
+  width: 100%;
+
+  padding:
+    0
+    var(--page-padding-x)
+    20px;
+}
+
+
+/* ==================================================
+   4. IMAGE GALLERY
+================================================== */
+
+.image-row {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 10px;
+
+  width: 100%;
+  min-height: 99px;
+
+  padding-bottom: 5px;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-gray) transparent;
+}
+
+.image-row::-webkit-scrollbar {
+  height: 4px;
+}
+
+.image-row::-webkit-scrollbar-thumb {
+  background: var(--color-gray);
+  border-radius: var(--radius-full);
+}
+
+/* 이미지 미리보기 및 추가 버튼 공통 크기 */
+.photo-preview,
+.add-photo-btn {
+  width: 94px;
+  height: 94px;
+
+  flex: 0 0 94px;
+
+  border-radius: var(--radius-md);
+  background: #F2F2F2;
+}
+
+/* 등록된 이미지 */
+.photo-preview {
+  position: relative;
+
+  overflow: hidden;
+
+  border: 1px solid var(--color-gray);
+}
+
+.preview-placeholder {
+  width: 100%;
+  height: 100%;
+}
+
+.preview-image {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.preview-image[hidden],
+.remove-photo-btn[hidden],
+.friend-dropdown[hidden] {
+  display: none !important;
+}
+
+/* 이미지 삭제 버튼 */
+.remove-photo-btn {
+  position: absolute;
+
+  top: 4px;
+  right: 4px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 23px;
+  height: 23px;
+
+  padding: 0;
+
+  border-radius: var(--radius-full);
+
+  background: rgba(41, 41, 41, 0.75);
+  color: var(--color-white) !important;
+
+  font-size: 20px !important;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+/* ==================================================
+   ADD PHOTO BUTTON
+
+   처음에는 + 버튼 하나만 표시
+   이미지 추가 시 왼쪽에 미리보기 생성
+================================================== */
+
+.add-photo-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  padding: 0;
+  margin: 0;
+
+  border: 1px dashed var(--color-gray);
+
+  background: #F2F2F2;
+  color: var(--color-gray) !important;
+
+  cursor: pointer;
+}
+
+.add-photo-btn span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+
+  font-family: Arial, sans-serif;
+  font-size: 40px;
+  font-weight: 300;
+  line-height: 1;
+
+  transform: none;
+}
+
+
+/* ==================================================
+   5. PRODUCT NAME
+================================================== */
+
+.product-name-row {
+  margin-top: 20px;
+  padding-bottom: 14px;
+
+  border-bottom: 1px dashed var(--color-gray);
+}
+
+.product-name-row input {
+  width: 100%;
+  height: 28px;
+
+  padding: 0;
+
+  border: 0;
+  outline: none;
+
+  background: transparent;
+  color: var(--color-black);
+
+  font-size: 17px;
+  font-weight: var(--font-weight-semibold);
+}
+
+.present-photo-page input::placeholder,
+.present-photo-page textarea::placeholder {
+  color: var(--color-gray);
+  opacity: 1;
+}
+
+
+/* ==================================================
+   6. PRODUCT FIELDS
+================================================== */
+
+.product-fields {
+  margin-top: 21px;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: 80px minmax(0, 1fr);
+
+  align-items: center;
+
+  min-height: 41px;
+  margin-bottom: 1px;
+}
+
+.field-label {
+  color: var(--color-black);
+
+  font-size: 15px;
+  font-weight: var(--font-weight-semibold);
+}
+
+.required {
+  color: var(--color-accent);
+}
+
+.text-field {
+  min-width: 0;
+  width: 100%;
+
+  padding: 0;
+
+  border: 0;
+  outline: none;
+
+  background: transparent;
+  color: var(--color-black);
+
+  font-size: 15px;
+  font-weight: var(--font-weight-regular);
+}
+
+
+/* ==================================================
+   7. FRIEND SELECTOR
+================================================== */
+
+.friend-control {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+
+  gap: 8px;
+  min-width: 0;
+}
+
+/* 친구 선택 칩 영역 */
+.friend-chips {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+  min-width: 0;
+
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.friend-chips::-webkit-scrollbar {
+  display: none;
+}
+
+/* 친구별 선택 타원 */
+.friend-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  flex: 0 0 82px;
+
+  width: 82px;
+  height: 24px;
+
+  padding: 0 9px;
+
+  gap: 5px;
+
+  border-radius: var(--radius-full);
+
+  background: #F1F1F1;
+  color: var(--color-black);
+
+  cursor: pointer;
+}
+
+.friend-chips .friend-toggle {
+  flex: 0 0 82px;
+}
+
+.friend-summary {
+  flex: 1;
+  min-width: 0;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  text-align: center;
+
+  font-size: 14px;
+  font-weight: var(--font-weight-regular);
+}
+
+/* 드롭다운 화살표 */
+.caret {
+  width: 0;
+  height: 0;
+
+  flex-shrink: 0;
+
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 6px solid var(--color-gray);
+}
+
+/* 친구 추가 + 버튼 */
+.add-friend-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex: 0 0 24px;
+
+  width: 24px;
+  height: 24px;
+
+  padding: 0;
+
+  border-radius: var(--radius-full);
+
+  background: #F1F1F1;
+  color: var(--color-gray) !important;
+
+  cursor: pointer;
+}
+
+.add-friend-btn span {
+  display: block;
+
+  font-size: 23px;
+  font-weight: var(--font-weight-regular);
+  line-height: 1;
+
+  transform: translateY(-1px);
+}
+
+/* 친구 드롭다운 */
+.friend-dropdown {
+  position: absolute;
+
+  z-index: 30;
+
+  top: 31px;
+  left: 0;
+
+  width: 132px;
+  max-height: 110px;
+
+  overflow-y: auto;
+
+  padding: 6px 0;
+
+  border-radius: var(--radius-md);
+
+  background: #F1F1F1;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-gray) transparent;
+}
+
+.friend-option {
+  display: block;
+
+  width: 100%;
+
+  padding: 5px 12px;
+
+  text-align: left;
+
+  border: 0;
+  background: transparent;
+  color: var(--color-black);
+
+  font-size: 15px !important;
+  font-weight: var(--font-weight-regular);
+
+  cursor: pointer;
+}
+
+.friend-option[aria-pressed="true"] {
+  color: var(--color-black);
+  font-weight: var(--font-weight-semibold);
+}
+
+.friend-empty-message {
+  display: block;
+
+  padding: 7px 10px;
+
+  color: var(--color-gray);
+  font-size: 12px;
+}
+
+
+/* ==================================================
+   8. MEMO
+================================================== */
+
+.memo-row {
+  align-items: start;
+  margin-top: 12px;
+}
+
+.memo-row .field-label {
+  padding-top: 2px;
+}
+
+.memo-box {
+  position: relative;
+
+  height: 129px;
+
+  border: 1px solid var(--color-gray);
+  border-radius: var(--radius-md);
+
+  background: #F2F2F2;
+}
+
+.memo-box textarea {
+  width: 100%;
+  height: 100%;
+
+  padding: 12px 12px 26px;
+
+  resize: none;
+
+  border: 0;
+  outline: none;
+
+  border-radius: inherit;
+
+  background: transparent;
+  color: var(--color-black);
+
+  font-size: 14px;
+  font-weight: var(--font-weight-regular);
+}
+
+.memo-count {
+  position: absolute;
+
+  right: 10px;
+  bottom: 7px;
+
+  color: var(--color-gray);
+
+  font-size: 10px;
+  pointer-events: none;
+}
+
+
+/* ==================================================
+   9. SAVE BUTTON
+================================================== */
+
+.save-area {
+  flex: 0 0 auto;
+
+  padding:
+    24px;
+
+  background: var(--color-white);
+}
+
+.save-btn {
+  width: 100%;
+  height: 50px;
+
+  border: 0;
+  border-radius: var(--radius-full);
+
+  background: var(--color-accent);
+  color: var(--color-white) !important;
+
+  font-size: 17px !important;
+  font-weight: var(--font-weight-semibold) !important;
+
+  cursor: pointer;
+}
+
+.save-btn:disabled {
+  border: 1px dashed var(--color-gray);
+
+  background: #F2F2F2 !important;
+  color: var(--color-gray) !important;
+
+  opacity: 1;
+  cursor: not-allowed;
+}
+
+
+/* ==================================================
+   10. TOAST MESSAGE
+================================================== */
+
+.present-photo-page .toast {
+  position: absolute;
+
+  z-index: 50;
+
+  left: 50%;
+  bottom: 120px;
+
+  max-width: calc(100% - 40px);
+
+  padding: 10px 15px;
+
+  border-radius: var(--radius-full);
+
+  background: rgba(41, 41, 41, 0.88);
+  color: var(--color-white);
+
+  font-size: 12px;
+  text-align: center;
+
+  opacity: 0;
+  visibility: hidden;
+
+  transform: translate(-50%, 8px);
+
+  transition:
+    opacity 0.2s,
+    transform 0.2s,
+    visibility 0.2s;
+}
+
+.present-photo-page .toast.show {
+  opacity: 1;
+  visibility: visible;
+
+  transform: translate(-50%, 0);
+}
+
+
+/* ==================================================
+   11. CANCEL CONFIRMATION MODAL
+================================================== */
+
+.cancel-overlay {
+  position: absolute;
+
+  inset: 0;
+  z-index: 90;
+
+  display: grid;
+  place-items: center;
+
+  padding: var(--page-padding-x);
+
+  background: rgba(0, 0, 0, 0.3);
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
+}
+
+.cancel-overlay.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.cancel-dialog {
+  width: min(100%, 240px);
+
+  overflow: hidden;
+
+  border-radius: var(--radius-lg);
+
+  background: #F4F4F4;
+  color: var(--color-black);
+
+  text-align: center;
+
+  box-shadow: 0 2px 9px rgba(0, 0, 0, 0.24);
+
+  transform: scale(0.97);
+  transition: transform 0.3s ease;
+}
+
+.cancel-overlay.open .cancel-dialog {
+  transform: scale(1);
+}
+
+.cancel-dialog p {
+  margin: 0;
+  padding: 19px 8px 18px;
+
+  font-size: 15px;
+  font-weight: var(--font-weight-regular);
+
+  white-space: nowrap;
+}
+
+.cancel-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  border-top: 1px solid var(--color-gray);
+}
+
+.cancel-actions button {
+  min-height: 39px;
+
+  padding: 8px 3px;
+
+  background: transparent;
+  color: var(--color-black);
+
+  font-size: 15px;
+  font-weight: var(--font-weight-regular);
+
+  cursor: pointer;
+}
+
+.cancel-actions button + button {
+  border-left: 1px solid var(--color-gray);
+}
+
+.cancel-actions button:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+
+/* ==================================================
+   12. ACCESSIBILITY
+================================================== */
+
+.back-btn:focus-visible,
+.add-photo-btn:focus-visible,
+.friend-toggle:focus-visible,
+.add-friend-btn:focus-visible,
+.friend-option:focus-visible,
+.save-btn:focus-visible,
+.cancel-actions button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+
+/* ==================================================
+   13. RESPONSIVE
+================================================== */
+
+@media (max-width: 350px) {
+  .field-row {
+    grid-template-columns: 70px minmax(0, 1fr);
+  }
+
+  .friend-control {
+    gap: 5px;
+  }
+
+  .friend-chips {
+    gap: 5px;
+  }
+}
+
+@media (max-height: 700px) {
+  .photo-header {
+    height: 68px;
+    flex-basis: 68px;
+  }
+
+  .save-area {
+    padding-bottom: calc(
+      18px + var(--safe-area-bottom)
+    );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cancel-overlay,
+  .cancel-dialog,
+  .present-photo-page .toast {
+    transition-duration: 0.01ms;
+  }
+}

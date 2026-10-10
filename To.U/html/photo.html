@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>상품 등록</title>
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/photo.css" />
+  <script src="../js/photo.js" defer></script>
+</head>
+<body>
+  <main class="mobile-shell present-photo-page">
+    <header class="photo-header">
+      <button class="back-btn" id="backBtn" type="button" aria-label="닫기">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5L19 19M19 5L5 19" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" /></svg>
+      </button>
+    </header>
+    <section class="photo-scroll">
+      <div class="photo-content">
+        <div class="image-row" id="imageRow" aria-label="상품 이미지 목록">
+          <button class="add-photo-btn" id="albumBtn" type="button" aria-label="이미지 추가"><span aria-hidden="true">+</span></button>
+        </div>
+        <input id="albumInput" type="file" accept="image/*" multiple hidden />
+
+        <div class="product-name-row">
+          <label class="sr-only" for="productName">상품명</label>
+          <input id="productName" type="text" placeholder="제품명을 입력해주세요" autocomplete="off" />
+        </div>
+
+        <div class="product-fields">
+          <div class="field-row friend-row">
+            <span class="field-label" id="friendLabel">친구 <span class="required">*</span></span>
+            <div class="field-control friend-control" id="friendControl">
+              <div id="friendChips" class="friend-chips" aria-label="선택된 친구"></div>
+              <button id="addFriendBtn" class="add-friend-btn" type="button" aria-label="친구 추가" aria-expanded="false"><span aria-hidden="true">+</span></button>
+              <div class="friend-dropdown" id="friendDropdown" role="group" aria-label="친구 선택" hidden></div>
+            </div>
+          </div>
+          <div class="field-row">
+            <label class="field-label" for="brandInput">브랜드</label>
+            <input class="text-field" id="brandInput" type="text" placeholder="브랜드명을 입력해주세요" />
+          </div>
+          <div class="field-row">
+            <label class="field-label" for="priceInput">가격</label>
+            <input class="text-field" id="priceInput" type="text" inputmode="numeric" placeholder="가격을 입력해주세요" />
+          </div>
+          <div class="field-row memo-row">
+            <label class="field-label" for="memoInput">메모</label>
+            <div class="memo-box">
+              <textarea id="memoInput" maxlength="100" aria-describedby="memoCount"></textarea>
+              <span class="memo-count" id="memoCount">0/100</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="save-area"><button class="save-btn" id="saveBtn" type="button" disabled>등록하기</button></div>
+    <div class="cancel-overlay" id="cancelOverlay" aria-hidden="true">
+      <div class="cancel-dialog" role="dialog" aria-modal="true" aria-labelledby="cancelTitle" tabindex="-1">
+        <p id="cancelTitle">등록을 취소하시겠습니까?</p>
+        <div class="cancel-actions">
+          <button id="draftSaveBtn" type="button">임시 저장</button>
+          <button id="discardBtn" type="button">등록 취소</button>
+        </div>
+      </div>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </main>
+</body>
+</html>
