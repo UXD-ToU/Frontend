@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>상품 등록</title>
+  <title>링크 상품 등록</title>
   <link rel="stylesheet" href="../css/global.css" />
   <link rel="stylesheet" href="../css/photo.css" />
-  <script src="../js/photo.js" defer></script>
   <script src="../js/link-test.js" defer></script>
 </head>
 <body>
@@ -19,34 +18,16 @@
     <section class="photo-scroll">
       <div class="photo-content">
         <div class="image-row" id="imageRow" aria-label="상품 이미지 목록">
-          <div class="image-row" id="imageRow" aria-label="상품 이미지 목록">
-
-  <div class="photo-preview">
-    <img
-      src="../assets/images/link-test.png"
-      alt="K리그 산리오캐릭터즈 인형 키링"
-      class="preview-image"
-    />
-  </div>
-
-  <button
-    class="add-photo-btn"
-    id="albumBtn"
-    type="button"
-    aria-label="이미지 추가"
-  >
-    <span aria-hidden="true">+</span>
-  </button>
-
-</div>
+          <div class="photo-preview">
+            <img src="../assets/images/link-test.png" alt="K리그 산리오캐릭터즈 인형 키링" class="preview-image" />
+          </div>
+          <button class="add-photo-btn" id="albumBtn" type="button" aria-label="이미지 추가"><span aria-hidden="true">+</span></button>
         </div>
         <input id="albumInput" type="file" accept="image/*" multiple hidden />
-
         <div class="product-name-row">
           <label class="sr-only" for="productName">상품명</label>
           <input id="productName" type="text" value="K리그x산리오캐릭터즈 인형 키링 코로코로쿠리링" placeholder="제품명을 입력해주세요" autocomplete="off" />
         </div>
-
         <div class="product-fields">
           <div class="field-row friend-row">
             <span class="field-label" id="friendLabel">친구 <span class="required">*</span></span>
@@ -58,18 +39,15 @@
           </div>
           <div class="field-row">
             <label class="field-label" for="brandInput">브랜드</label>
-            <input class="text-field" id="brandInput" value="K리그 × 산리오캐릭터즈" type="text" placeholder="브랜드명을 입력해주세요" />
+            <input class="text-field" id="brandInput" type="text" value="K리그 × 산리오캐릭터즈" placeholder="브랜드명을 입력해주세요" />
           </div>
           <div class="field-row">
             <label class="field-label" for="priceInput">가격</label>
-            <input class="text-field" id="priceInput" value="20,000" type="text" inputmode="numeric" placeholder="가격을 입력해주세요" />
+            <input class="text-field" id="priceInput" type="text" value="20,000" inputmode="numeric" placeholder="가격을 입력해주세요" />
           </div>
           <div class="field-row memo-row">
             <label class="field-label" for="memoInput">메모</label>
-            <div class="memo-box">
-              <textarea id="memoInput" maxlength="100" aria-describedby="memoCount"></textarea>
-              <span class="memo-count" id="memoCount">0/100</span>
-            </div>
+            <div class="memo-box"><textarea id="memoInput" maxlength="100" aria-describedby="memoCount"></textarea><span class="memo-count" id="memoCount">0/100</span></div>
           </div>
         </div>
       </div>
@@ -78,10 +56,7 @@
     <div class="cancel-overlay" id="cancelOverlay" aria-hidden="true">
       <div class="cancel-dialog" role="dialog" aria-modal="true" aria-labelledby="cancelTitle" tabindex="-1">
         <p id="cancelTitle">등록을 취소하시겠습니까?</p>
-        <div class="cancel-actions">
-          <button id="draftSaveBtn" type="button">임시 저장</button>
-          <button id="discardBtn" type="button">등록 취소</button>
-        </div>
+        <div class="cancel-actions"><button id="draftSaveBtn" type="button">임시 저장</button><button id="discardBtn" type="button">등록 취소</button></div>
       </div>
     </div>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>

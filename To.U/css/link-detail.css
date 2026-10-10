@@ -1,0 +1,15 @@
+/* link-detail은 기존 detail.css 디자인을 그대로 재사용합니다. */
+@import url("./detail.css");
+
+/* 투명 PNG의 배경을 흰색으로 표시 */
+.detail-page .photo-gallery,
+.detail-page .photo-placeholder,
+.detail-page .gallery-wrap {
+  background: var(--color-white, #fff);
+}
+.detail-page .photo-gallery img { object-fit: contain; }
+
+/* 추천 상품 이미지 */
+.detail-page .recommend-card { position: relative; overflow: hidden; }
+.detail-page .recommend-image { display: block; width: 100%; height: 100%; object-fit: cover; }
+.detail-page .recommend-add { position: absolute; right: 7px; bottom: 7px; z-index: 2; }
