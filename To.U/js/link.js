@@ -8,8 +8,8 @@ const analyzeIcon = document.getElementById("analyzeIcon");
 // 페이지 및 아이콘 경로
 const NEXT_PAGE = "./loading.html";
 
-const ICON_GRAY = "../assets/icons/AI_Gray.svg";
-const ICON_WHITE = "../assets/icons/AI_White.svg";
+const ICON_GRAY = "../assets/icons/AI_gray.svg";
+const ICON_WHITE = "../assets/icons/AI_white.svg";
 
 /* =========================
    밑줄 상태 업데이트
