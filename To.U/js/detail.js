@@ -616,52 +616,45 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ========================================
-  // SAVE EDIT
-  // ========================================
+// SAVE EDIT
+// ========================================
 
-  $("#saveEditButton").addEventListener("click", async () => {
-    if (!working) return;
+$("#saveEditButton").addEventListener("click", async () => {
+  if (!working) return;
 
-    const name = $("#inputName").value.trim();
+  // 친구만 한 명 이상 선택되어 있으면 저장 가능
+  if (!working.friends.length) {
+    toast("친구를 한 명 이상 선택해 주세요.");
+    return;
+  }
 
-    if (!name) {
-      toast("상품명을 입력해 주세요.");
-      return;
-    }
+  const next = {
+    ...working,
+    name: $("#inputName").value.trim(),
+    brand: $("#inputBrand").value.trim(),
+    price: $("#inputPrice").value.replace(/\D/g, ""),
+    memo: $("#inputMemo").value.trim(),
+  };
 
-    if (!working.friends.length) {
-      toast("친구를 한 명 이상 선택해 주세요.");
-      return;
-    }
+  $("#saveEditButton").disabled = true;
 
-    const next = {
-      ...working,
-      name,
-      brand: $("#inputBrand").value.trim(),
-      price: $("#inputPrice").value.replace(/\D/g, ""),
-      memo: $("#inputMemo").value.trim(),
-    };
+  try {
+    await save(next);
 
-    $("#saveEditButton").disabled = true;
+    product = next;
+    working = null;
 
-    try {
-      await save(next);
+    showEdit(false);
+    render();
 
-      product = next;
-      working = null;
-
-      showEdit(false);
-      render();
-
-      toast("수정이 완료되었습니다.");
-    } catch (error) {
-      console.error("상품 수정 실패:", error);
-
-      toast("저장하지 못했습니다. 다시 시도해 주세요.");
-    } finally {
-      $("#saveEditButton").disabled = false;
-    }
-  });
+    toast("수정이 완료되었습니다.");
+  } catch (error) {
+    console.error("상품 수정 실패:", error);
+    toast("저장하지 못했습니다. 다시 시도해 주세요.");
+  } finally {
+    $("#saveEditButton").disabled = false;
+  }
+});
 
   // ========================================
   // DELETE MODAL

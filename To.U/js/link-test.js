@@ -656,7 +656,6 @@ document.addEventListener("DOMContentLoaded", () => {
     saveBtn.disabled = true;
     try {
       await saveProduct(product);
-      showToast("상품을 등록했습니다.");
       setTimeout(() => {
         window.location.href = `./link-detail.html?id=${encodeURIComponent(product.id)}`;
       }, 600);
