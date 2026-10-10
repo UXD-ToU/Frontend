@@ -1,0 +1,131 @@
+.detail-page{background:#fff;height:100dvh;position:relative}.detail-page [hidden]{display:none!important}.detail-header{height:58px;display:flex;justify-content:space-between;align-items:center;padding:0 17px;background:#fff;position:relative;z-index:4}.header-right{display:flex;align-items:center;gap:13px;position:relative}.icon-button{background:transparent;color:#111;cursor:pointer;width:36px;height:42px;font-size:34px;display:grid;place-items:center;line-height:1}.dots{font-size:27px}.action-menu{position:absolute;right:0;top:46px;background:#f5f5f5;border:1px solid #eee;border-radius:13px;box-shadow:0 8px 20px #0002;min-width:140px;padding:5px;z-index:10;animation:menu-in .18s ease}.action-menu button{display:block;width:100%;text-align:left;padding:12px 10px;background:transparent;border-radius:8px;cursor:pointer;font-size:14px}.action-menu button:hover{background:#e9e9e9}@keyframes menu-in{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}.detail-scroll{height:calc(100% - 58px);overflow:auto;padding-bottom:42px}.photo-gallery{height:300px;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:thin}.photo-gallery img,.photo-placeholder{width:100%;height:100%;flex:0 0 100%;object-fit:cover;scroll-snap-align:start}.photo-placeholder{background:#d9d9d9}.product-info{padding:23px 23px 0}.name-row{display:flex;align-items:start;justify-content:space-between;gap:8px}.name-row h1{font-size:21px;font-weight:750;margin:0;min-width:0;overflow-wrap:anywhere}.name-row time{font-size:11px;color:#a5a5a5;white-space:nowrap;padding-top:7px}.dashed-divider{border-top:1px dashed #bbb;margin:20px 0 20px}.info-line{display:flex;align-items:center;justify-content:space-between;min-height:49px;gap:14px;font-size:14px}.info-line strong{font-weight:650;white-space:nowrap}.info-line>span{color:#444;text-align:right}.friend-list{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px}.friend-chip{background:#ededed;border-radius:30px;padding:8px 14px;font-size:12px;color:#333}.memo-box{border:1px solid #d2d2d2;background:#f1f1f1;border-radius:10px;padding:15px;margin-top:19px;min-height:78px;font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.65}.recommendations{padding:37px 23px 20px}.recommend-title{font-size:16px;font-weight:700;margin-bottom:17px}.recommend-title span{font-size:22px;vertical-align:-1px}.recommend-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.recommend-card{border:1px solid #d6d6d6;border-radius:12px;aspect-ratio:.82;position:relative}.recommend-add{position:absolute;bottom:8px;right:8px;width:29px;height:29px;background:#171717;color:#fff;border-radius:50%;font-size:23px;line-height:1;cursor:pointer}.edit-input{border:1px solid #ddd;background:#fafafa;border-radius:9px;padding:10px;min-width:0;max-width:70%;font-size:14px}.name-row .edit-input{max-width:65%;width:65%}.memo-edit{position:relative;margin-top:18px}.memo-edit textarea{width:100%;min-height:94px;resize:vertical;border:1px solid #ddd;border-radius:10px;padding:12px 12px 27px;font:inherit;font-size:13px}.memo-edit span{position:absolute;right:11px;bottom:11px;font-size:11px;color:#888}.edit-actions{display:flex;gap:12px;margin-top:25px}.edit-actions button{flex:1;padding:13px;border-radius:10px;cursor:pointer}.secondary-button{background:#eee;color:#333}.primary-button{background:#f8c6d8;color:#333;font-weight:700}.edit-photos{padding:12px 23px;border-bottom:1px solid #eee}.edit-photos input{display:none}.small-button{background:#eee;border-radius:8px;padding:10px 15px;cursor:pointer}.photo-editor{display:flex;gap:8px;overflow-x:auto;margin-top:10px}.photo-edit-item{position:relative;flex:0 0 75px;height:75px}.photo-edit-item img{width:100%;height:100%;object-fit:cover;border-radius:8px}.photo-edit-item button{position:absolute;top:0;right:0;border-radius:50%;background:#111;color:white;cursor:pointer}.friend-edit-chip{border:1px solid #ddd;border-radius:20px;padding:6px 9px;background:#fff;cursor:pointer;font-size:12px}.friend-edit-chip.selected{background:#f8c6d8;border-color:#f8c6d8}.modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,0);display:flex;align-items:center;justify-content:center;z-index:20;opacity:0;visibility:hidden;transition:background .3s ease,opacity .3s ease,visibility .3s}.modal-backdrop.open{background:rgba(0,0,0,.48);opacity:1;visibility:visible}.delete-dialog{background:#fff;border-radius:17px;width:calc(100% - 70px);max-width:320px;text-align:center;overflow:hidden;transform:translateY(8px);transition:transform .3s ease}.modal-backdrop.open .delete-dialog{transform:translateY(0)}.delete-dialog h2{font-size:16px;margin:0;padding:32px 12px}.modal-actions{display:flex;border-top:1px solid #eee}.modal-actions button{width:50%;background:#fff;padding:17px 5px;cursor:pointer;font-size:14px}.modal-actions button+button{border-left:1px solid #eee;color:#d44}.detail-toast{position:absolute;bottom:40px;left:50%;transform:translate(-50%,12px);opacity:0;pointer-events:none;background:#333;color:#fff;border-radius:25px;padding:11px 18px;font-size:13px;white-space:nowrap;transition:opacity .2s,transform .2s;z-index:30}.detail-toast.show{opacity:1;transform:translate(-50%,0)}@media(max-width:360px){.photo-gallery{height:260px}.product-info,.recommendations{padding-left:17px;padding-right:17px}}
+
+/* Wireframe-aligned detail presentation (scoped; global.css unchanged). */
+.detail-page{color:#292929}
+.detail-header{height:110px;padding:45px 28px 0 27px;align-items:center}
+.detail-header .icon-button{width:32px;height:40px;display:grid;place-items:center;color:#292929;font-weight:600}
+.detail-header #backButton{font-size:0}
+.detail-header #backButton::before{content:"";display:block;width:17px;height:17px;border-left:3px solid currentColor;border-bottom:3px solid currentColor;transform:rotate(45deg) translate(2px,-2px);border-radius:1px}
+.detail-header #homeButton{font-size:0}
+.detail-header #homeButton::before{content:"";width:25px;height:25px;display:block;background:currentColor;clip-path:polygon(50% 0,100% 43%,100% 100%,62% 100%,62% 65%,38% 65%,38% 100%,0 100%,0 43%)}
+.detail-header .header-right{gap:9px}
+.detail-header .dots{font-size:29px;font-weight:700}
+.detail-scroll{height:calc(100% - 110px);padding-bottom:58px}
+.photo-gallery{height:314px;}
+.product-info{padding:22px 33px 0}
+.name-row{align-items:center;gap:12px}
+.name-row h1{font-size:19px;line-height:1.45;font-weight:750}
+.name-row time{font-size:12px;color:#a9b6c0;padding-top:0}
+.dashed-divider{border-top:1.5px dashed #a9b6c0;margin:19px 0 17px}
+.info-line{display:grid;grid-template-columns:89px minmax(0,1fr);justify-content:initial;align-items:center;min-height:29px;gap:0;font-size:14px}
+.info-line strong{font-size:14px;color:#a6b5c0;font-weight:400}
+.info-line>span{font-size:14px;color:#292929;text-align:left}
+.friend-list{display:flex;justify-content:flex-start;gap:8px;flex-wrap:wrap;min-width:0}
+.friend-chip{background:#f1f1f1;border-radius:999px;min-width:74px;text-align:center;padding:4px 13px;font-size:14px;line-height:1.25;color:#292929}
+.memo-box{margin-top:17px;border:1px solid #aab8c2;background:#f1f1f1;border-radius:13px;min-height:141px;padding:15px;font-size:14px;line-height:1.55}
+.recommendations{padding:36px 33px 40px}
+.recommend-title{font-size:19px;line-height:1.35;font-weight:750;margin-bottom:15px}
+.recommend-title span{font-size:30px;font-weight:750;vertical-align:-2px;margin-left:2px;line-height:0}
+.recommend-row{gap:15px;grid-template-columns:repeat(3,minmax(0,1fr))}
+.recommend-card{aspect-ratio:1;border:1px solid #aab8c2;border-radius:13px}
+.recommend-add{bottom:7px;right:7px;width:24px;height:24px;font-size:23px;background:#292929;display:grid;place-items:center;line-height:1}
+.action-menu{top:40px;right:-8px;min-width:130px;background:#f3f3f3;border:none;border-radius:13px}
+.action-menu button{font-size:14px}
+/* Keep editing controls usable within the same left-aligned information grid. */
+.info-line .edit-input{max-width:100%;width:100%;font-size:14px}
+.info-line #editFriends{justify-content:flex-start}
+.name-row .edit-input{max-width:62%;width:62%}
+@media(max-width:360px){.detail-header{padding-left:22px;padding-right:22px}.product-info,.recommendations{padding-left:24px;padding-right:24px}.photo-gallery{height:290px}.info-line{grid-template-columns:82px minmax(0,1fr)}.recommend-row{gap:10px}}
+
+/* Final wireframe icon alignment and recommendation controls. */
+.detail-header{align-items:center}
+.detail-header .icon-button{display:flex;align-items:center;justify-content:center;padding:0;border:0;line-height:0;flex:0 0 32px}
+.detail-header .icon-button svg{display:block;overflow:visible}
+.detail-header #backButton::before,.detail-header #homeButton::before{content:none;display:none}
+.detail-header #backButton svg{width:26px;height:30px;fill:none;stroke:#292929;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.detail-header #homeButton svg{width:26px;height:26px;fill:#292929}
+.detail-header #menuButton svg{width:23px;height:28px;fill:#292929}
+.detail-header .header-right{align-items:center}
+.recommend-add{padding:0;display:flex;align-items:center;justify-content:center;line-height:1;border:0}
+.recommend-add span{display:block;font-family:Arial,sans-serif;font-size:24px;font-weight:400;line-height:1;transform:translateY(-1px)}
+
+/* Registration-style editing controls, without changing the detail layout. */
+.detail-page .name-row .edit-input,
+.detail-page .info-line .edit-input {
+  background:#fff;
+  border:0;
+  border-bottom:1.5px solid #aab8c2;
+  border-radius:0;
+  box-shadow:none;
+  padding:7px 2px;
+  color:#292929;
+  outline:none;
+  font-size:15px;
+}
+.detail-page .name-row .edit-input:focus,
+.detail-page .info-line .edit-input:focus {border-bottom-color:#fa5a9e;}
+.detail-page .name-row .edit-input::placeholder,
+.detail-page .info-line .edit-input::placeholder {color:#a6b5c0;}
+.detail-page #editFriends {align-items:center;gap:7px;}
+.detail-page .friend-edit-chip {
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  min-width:72px;min-height:30px;padding:5px 10px 5px 15px;
+  background:#f1f1f1;border:0;border-radius:999px;
+  color:#292929;font-size:14px;line-height:1.2;
+}
+.detail-page .friend-edit-chip::after {
+  content:"";width:0;height:0;border-left:5px solid transparent;
+  border-right:5px solid transparent;border-top:7px solid #aab8c2;
+}
+.detail-page .friend-edit-chip.selected {background:#f1f1f1;border:0;}
+.detail-page .friend-edit-chip:focus-visible {outline:2px solid #fa5a9e;outline-offset:2px;}
+.detail-page .memo-edit {margin-top:17px;}
+.detail-page .memo-edit textarea {
+  background:#f1f1f1;border:1px solid #aab8c2;border-radius:13px;
+  min-height:141px;padding:15px 15px 30px;
+  font-size:14px;line-height:1.55;color:#292929;resize:vertical;
+}
+.detail-page .memo-edit textarea::placeholder {color:#aab8c2;}
+.detail-page .memo-edit textarea:focus {outline:1px solid #fa5a9e;}
+.detail-page .memo-edit #memoCount {color:#aab8c2;font-size:12px;right:13px;bottom:12px;}
+.detail-page .edit-photos {padding:12px 23px 15px;border-bottom:0;}
+.detail-page .edit-photos .small-button {border:1.5px dashed #aab8c2;background:#f1f1f1;color:#aab8c2;border-radius:12px;padding:11px 15px;}
+.detail-page .photo-edit-item {flex-basis:78px;height:78px;}
+.detail-page .photo-edit-item img {border:1px solid #aab8c2;border-radius:12px;}
+.detail-page .edit-actions .primary-button {background:#fa5a9e;color:white;border-radius:999px;}
+.detail-page .edit-actions .secondary-button {border-radius:999px;}
+
+/* Detail edit controls: registration-style interactions, original detail layout retained. */
+.detail-page .name-row .edit-input,.detail-page .info-line .edit-input,
+.detail-page .name-row .edit-input:focus,.detail-page .info-line .edit-input:focus{
+  border:0!important;border-bottom:0!important;box-shadow:none!important;outline:0!important;
+}
+.detail-page .gallery-wrap{position:relative}
+.detail-page .gallery-add-button{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:62px;height:62px;display:grid;place-items:center;background:rgba(241,241,241,.94);border:2px dashed #aab8c2;border-radius:15px;color:#aab8c2;font-size:47px;font-weight:300;line-height:1;cursor:pointer;z-index:2}
+.detail-page .gallery-add-button:focus-visible{outline:2px solid #fa5a9e;outline-offset:3px}
+.detail-page .edit-photos{padding-top:0}
+.detail-page .edit-photos .photo-editor:empty{display:none}
+.detail-page #editFriends.friend-control{position:relative;display:flex;align-items:center;gap:7px;flex-wrap:nowrap;min-width:0}
+.detail-page #friendChips{display:flex;align-items:center;gap:7px;overflow-x:auto;min-width:0;scrollbar-width:none}
+.detail-page #friendChips::-webkit-scrollbar{display:none}
+.detail-page .friend-toggle{display:flex;align-items:center;justify-content:space-between;gap:5px;flex:0 0 74px;height:26px;padding:0 8px;border:0;border-radius:999px;background:#f1f1f1;color:#292929;cursor:pointer}
+.detail-page .friend-summary{flex:1;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px}
+.detail-page .friend-caret{width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;border-top:6px solid #aab8c2}
+.detail-page .friend-add{display:grid;place-items:center;flex:0 0 26px;width:26px;height:26px;padding:0;border:0;border-radius:50%;background:#f1f1f1;color:#aab8c2;font-size:25px;line-height:1;cursor:pointer}
+.detail-page .friend-dropdown{position:absolute;top:33px;left:0;z-index:15;width:132px;max-height:125px;overflow-y:auto;background:#f1f1f1;border-radius:12px;padding:5px 0;box-shadow:0 4px 12px #0002}
+.detail-page .friend-option{display:block;width:100%;border:0;padding:7px 12px;background:transparent;color:#292929;text-align:left;font-size:14px;cursor:pointer}
+.detail-page .friend-option[aria-pressed=true]{color:#d93482;font-weight:700}
+.detail-page .friend-option:hover{background:#e5e5e5}
+.detail-page .friend-empty-message{display:block;padding:8px;font-size:12px;color:#8999a4}
+
+/* Requested refinements: bare white gallery plus, registration placeholders, Figma menu icons. */
+.detail-page .gallery-add-button{background:transparent;border:0;border-radius:0;color:#FFFFFF;box-shadow:none;width:62px;height:62px;font-family:Arial,sans-serif;font-size:49px;font-weight:300;line-height:1;padding:0;}
+.detail-page .gallery-add-button:hover{background:transparent;color:#FFFFFF;}
+.detail-page .action-menu{padding:7px 10px;min-width:147px;background:#f1f1f1;border-radius:14px;}
+.detail-page .action-menu button{display:flex;align-items:center;gap:12px;padding:8px 6px;font-size:15px;line-height:1.25;white-space:nowrap;}
+.detail-page .action-menu .menu-action-icon{width:23px;height:23px;flex:0 0 23px;color:#292929;}
+.detail-page .edit-input::placeholder{color:#aab8c2;opacity:1;}
+
+.detail-page .photo-gallery img {
+  object-fit: contain;
+}

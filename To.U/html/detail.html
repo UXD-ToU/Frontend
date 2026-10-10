@@ -1,0 +1,386 @@
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    />
+
+    <title>상품 상세</title>
+
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/detail.css" />
+  </head>
+
+  <body>
+    <main class="mobile-shell detail-page">
+
+      <!-- =========================
+           HEADER
+      ========================= -->
+      <header class="detail-header">
+
+        <!-- 뒤로 가기 -->
+        <button
+          id="backButton"
+          class="icon-button"
+          aria-label="뒤로 가기"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M15 3 6 12l9 9" />
+          </svg>
+        </button>
+
+        <div class="header-right">
+
+          <!-- 홈으로 -->
+          <button
+            id="homeButton"
+            class="icon-button"
+            aria-label="홈으로"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M3 10.3 12 2l9 8.3v10a1.7 1.7 0 0 1-1.7 1.7h-4.9v-7h-4.8v7H4.7A1.7 1.7 0 0 1 3 20.3z"
+              />
+            </svg>
+          </button>
+
+          <!-- 더 보기 -->
+          <button
+            id="menuButton"
+            class="icon-button dots"
+            aria-label="더 보기"
+            aria-expanded="false"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="5" r="1.8" />
+              <circle cx="12" cy="12" r="1.8" />
+              <circle cx="12" cy="19" r="1.8" />
+            </svg>
+          </button>
+
+          <!-- 수정 / 삭제 메뉴 -->
+          <div
+            id="actionMenu"
+            class="action-menu"
+            hidden
+          >
+            <button id="editButton">
+              <svg
+                class="menu-action-icon"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  fill="currentColor"
+                  d="M4 4h11v3H7v11h11v-8h3v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 1-2z"
+                />
+                <path
+                  fill="currentColor"
+                  d="m11 14 1-4 7.7-7.7a1.8 1.8 0 0 1 2.5 2.5L14.5 12.5z"
+                />
+              </svg>
+              <span>수정하기</span>
+            </button>
+
+            <button id="deleteButton">
+              <svg
+                class="menu-action-icon"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  d="M4 6h16M9 6V4h6v2M6 6l1 15h10l1-15M10 10v8m4-8v8"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span>삭제하기</span>
+            </button>
+          </div>
+
+        </div>
+      </header>
+
+      <!-- =========================
+           MAIN CONTENT
+      ========================= -->
+      <div class="detail-scroll">
+
+        <!-- 상품 이미지 갤러리 -->
+        <div class="gallery-wrap">
+
+          <div id="photoGallery" class="photo-gallery">
+            <div class="photo-placeholder"></div>
+          </div>
+
+          <button
+            id="galleryAddButton"
+            class="gallery-add-button"
+            type="button"
+            aria-label="사진 추가"
+            hidden
+          >
+            +
+          </button>
+        </div>
+
+        <!-- 이미지 수정 -->
+        <div id="editPhotos" class="edit-photos" hidden>
+          <input
+            id="photoInput"
+            type="file"
+            accept="image/*"
+            multiple
+          />
+
+          <div id="photoEditor" class="photo-editor"></div>
+        </div>
+
+        <!-- =========================
+             PRODUCT INFORMATION
+        ========================= -->
+        <section class="product-info">
+
+          <!-- 상품명 / 등록일 -->
+          <div class="name-row">
+            <h1 id="displayName">상품 이름</h1>
+
+            <input
+              id="inputName"
+              class="edit-input"
+              placeholder="상품명"
+              hidden
+            />
+
+            <time id="savedDate"></time>
+          </div>
+
+          <div class="dashed-divider"></div>
+
+          <!-- 친구 -->
+          <div class="info-line">
+            <strong>친구</strong>
+
+            <div
+              id="displayFriends"
+              class="friend-list"
+            ></div>
+
+            <div
+              id="editFriends"
+              class="friend-control"
+              hidden
+            >
+              <div
+                id="friendChips"
+                class="friend-chips"
+              ></div>
+
+              <button
+                id="addFriendButton"
+                class="friend-add"
+                type="button"
+                aria-label="친구 추가"
+                aria-expanded="false"
+              >
+                +
+              </button>
+
+              <div
+                id="friendDropdown"
+                class="friend-dropdown"
+                hidden
+              ></div>
+            </div>
+          </div>
+
+          <!-- 브랜드 -->
+          <div class="info-line">
+            <strong>브랜드</strong>
+
+            <span id="displayBrand">-</span>
+
+            <input
+              id="inputBrand"
+              class="edit-input"
+              placeholder="브랜드명을 입력해주세요"
+              hidden
+            />
+          </div>
+
+          <!-- 가격 -->
+          <div class="info-line">
+            <strong>가격</strong>
+
+            <span id="displayPrice">-</span>
+
+            <input
+              id="inputPrice"
+              class="edit-input"
+              inputmode="numeric"
+              placeholder="가격을 입력해주세요"
+              hidden
+            />
+          </div>
+
+          <!-- 메모 -->
+          <div
+            id="memoBox"
+            class="memo-box"
+            hidden
+          ></div>
+
+          <!-- 메모 수정 -->
+          <div
+            id="memoEditWrap"
+            class="memo-edit"
+            hidden
+          >
+            <textarea
+              id="inputMemo"
+              maxlength="100"
+              placeholder="메모를 입력하세요"
+            ></textarea>
+
+            <span id="memoCount">0/100</span>
+          </div>
+
+          <!-- 수정 버튼 -->
+          <div
+            id="editActions"
+            class="edit-actions"
+            hidden
+          >
+            <button
+              id="cancelEditButton"
+              class="secondary-button"
+            >
+              취소
+            </button>
+
+            <button
+              id="saveEditButton"
+              class="primary-button"
+            >
+              저장하기
+            </button>
+          </div>
+
+        </section>
+
+        <!-- =========================
+             RECOMMENDATIONS 여기 나중에 실제 서비스 시에는 코드 수정
+        ========================= -->
+        
+<!-- 비슷한 제품 추천 -->
+<section class="recommendations">
+  <div class="recommend-title">
+    비슷한 제품 추천
+    <span>›</span>
+  </div>
+
+  <div class="recommend-row">
+
+    <!-- 추천 상품 1 -->
+    <div class="recommend-card">
+      <img
+        src="../assets/images/photo-test-1.png"
+        alt="추천 상품 1"
+        class="recommend-image"
+      />
+      <button
+        class="recommend-add"
+        type="button"
+        aria-label="첫 번째 추천 상품 추가"
+      >
+        <span aria-hidden="true">+</span>
+      </button>
+    </div>
+
+    <!-- 추천 상품 2 -->
+    <div class="recommend-card">
+      <img
+        src="../assets/images/photo-test-2.png"
+        alt="추천 상품 2"
+        class="recommend-image"
+      />
+      <button
+        class="recommend-add"
+        type="button"
+        aria-label="두 번째 추천 상품 추가"
+      >
+        <span aria-hidden="true">+</span>
+      </button>
+    </div>
+
+    <!-- 추천 상품 3 -->
+    <div class="recommend-card">
+      <img
+        src="../assets/images/photo-test-3.png"
+        alt="추천 상품 3"
+        class="recommend-image"
+      />
+      <button
+        class="recommend-add"
+        type="button"
+        aria-label="세 번째 추천 상품 추가"
+      >
+        <span aria-hidden="true">+</span>
+      </button>
+    </div>
+
+  </div>
+</section>
+
+
+      <!-- =========================
+           DELETE MODAL
+      ========================= -->
+      <div
+        id="deleteModal"
+        class="modal-backdrop"
+        aria-hidden="true"
+      >
+        <div
+          class="delete-dialog"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="deleteTitle"
+          tabindex="-1"
+        >
+          <h2 id="deleteTitle">
+            상품을 삭제하시겠습니까?
+          </h2>
+
+          <div class="modal-actions">
+            <button id="cancelDeleteButton">
+              취소
+            </button>
+
+            <button id="confirmDeleteButton">
+              삭제하기
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 토스트 메시지 -->
+      <div
+        id="toast"
+        class="detail-toast"
+        role="status"
+        aria-live="polite"
+      ></div>
+
+    </main>
+
+    <script src="../js/detail.js"></script>
+  </body>
+</html>
