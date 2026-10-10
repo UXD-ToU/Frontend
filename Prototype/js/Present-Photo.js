@@ -1,396 +1,347 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const $ = (selector) => document.querySelector(selector);
+  const backBtn = $("#backBtn");
+  const albumBtn = $("#albumBtn");
+  const albumInput = $("#albumInput");
+  const imageRow = $("#imageRow");
+  const productName = $("#productName");
+  const friendChips = $("#friendChips");
+  const friendDropdown = $("#friendDropdown");
+  const friendControl = $("#friendControl");
+  const addFriendBtn = $("#addFriendBtn");
+  const brandInput = $("#brandInput");
+  const priceInput = $("#priceInput");
+  const memoInput = $("#memoInput");
+  const memoCount = $("#memoCount");
+  const saveBtn = $("#saveBtn");
+  const toast = $("#toast");
+  const cancelOverlay = $("#cancelOverlay");
+  const draftSaveBtn = $("#draftSaveBtn");
+  const discardBtn = $("#discardBtn");
+  const cancelDialog = cancelOverlay.querySelector(".cancel-dialog");
 
-  // ========================================
-  // DOM
-  // ========================================
-
-  const backBtn =
-    document.querySelector("#backBtn");
-
-  const cameraBtn =
-    document.querySelector("#cameraBtn");
-
-  const albumBtn =
-    document.querySelector("#albumBtn");
-
-  const cameraInput =
-    document.querySelector("#cameraInput");
-
-  const albumInput =
-    document.querySelector("#albumInput");
-
-  const previewImage =
-    document.querySelector("#previewImage");
-
-  const previewPlaceholder =
-    document.querySelector("#previewPlaceholder");
-
-  const removePhotoBtn =
-    document.querySelector("#removePhotoBtn");
-
-  const memoInput =
-    document.querySelector("#memoInput");
-
-  const memoCount =
-    document.querySelector("#memoCount");
-
-  const saveBtn =
-    document.querySelector("#saveBtn");
-
-  const toast =
-    document.querySelector("#toast");
-
-
-  // ========================================
-  // State
-  // ========================================
-
-  let selectedFile = null;
-
-  let previewUrl = null;
-
+  // 첫 번째 회색 실선 상자는 디자인상 기본 이미지 자리입니다.
+  // 실제 이미지 파일은 전달받지 않았으므로 서버 전송 데이터에는 포함하지 않습니다.
+  const addedImages = [];
   let toastTimer = null;
 
+  // 예시 데이터. 실제 친구 데이터가 연결되면 교체합니다.
+  const friends = [
+    { id: "demo-yujin", name: "유진" },
+    { id: "demo-eunsu", name: "은수" },
+    { id: "demo-jimin", name: "지민" }
+  ];
 
-  // ========================================
-  // 뒤로가기
-  // ========================================
+  function navigateBack() {
+    if (window.history.length > 1) window.history.back();
+    else window.location.href = "./Present-List.html";
+  }
+
+  function openCancelDialog() {
+    closeDropdown();
+    cancelOverlay.classList.add("open");
+    cancelOverlay.setAttribute("aria-hidden", "false");
+    cancelDialog.focus();
+  }
+  function closeCancelDialog() {
+    cancelOverlay.classList.remove("open");
+    cancelOverlay.setAttribute("aria-hidden", "true");
+    backBtn.focus();
+  }
+  function hasEnteredProductInfo() {
+    return Boolean(
+      productName.value.trim() ||
+      brandInput.value.trim() ||
+      priceInput.value.trim() ||
+      memoInput.value.trim() ||
+      addedImages.length > 0 ||
+      slots.some(slot => slot.friendId)
+    );
+  }
 
   backBtn.addEventListener("click", () => {
-
-    if (window.history.length > 1) {
-      window.history.back();
-
+    if (!hasEnteredProductInfo()) {
+      navigateBack();
       return;
     }
+    openCancelDialog();
+  });
+  cancelOverlay.addEventListener("click", (event) => {
+    if (event.target === cancelOverlay) closeCancelDialog();
+  });
+  cancelOverlay.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeCancelDialog();
+    if (event.key !== "Tab") return;
+    const buttons = [draftSaveBtn, discardBtn].filter(btn => !btn.disabled);
+    if (event.shiftKey && document.activeElement === buttons[0]) {
+      event.preventDefault(); buttons[buttons.length - 1].focus();
+    } else if (!event.shiftKey && document.activeElement === buttons[buttons.length - 1]) {
+      event.preventDefault(); buttons[0].focus();
+    }
+  });
+  discardBtn.addEventListener("click", navigateBack);
 
-    window.location.href =
-      "./Present-List.html";
+  // IndexedDB는 문자열 필드뿐 아니라 File 객체도 그대로 보관할 수 있습니다.
+  const DRAFT_DB = "present-photo-drafts-v1";
+  const DRAFT_KEY = "product-registration";
+  function openDraftDatabase() {
+    return new Promise((resolve, reject) => {
+      if (!window.indexedDB) { reject(new Error("IndexedDB를 사용할 수 없습니다.")); return; }
+      const request = indexedDB.open(DRAFT_DB, 1);
+      request.onupgradeneeded = () => {
+        const db = request.result;
+        if (!db.objectStoreNames.contains("drafts")) db.createObjectStore("drafts");
+      };
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+      request.onblocked = () => reject(new Error("저장소가 다른 탭에서 사용 중입니다."));
+    });
+  }
+  async function writeDraft(draft) {
+    const db = await openDraftDatabase();
+    try {
+      await new Promise((resolve, reject) => {
+        const tx = db.transaction("drafts", "readwrite");
+        tx.objectStore("drafts").put(draft, DRAFT_KEY);
+        tx.oncomplete = resolve;
+        tx.onerror = () => reject(tx.error);
+        tx.onabort = () => reject(tx.error || new Error("임시 저장이 중단되었습니다."));
+      });
+    } finally { db.close(); }
+  }
+  async function readDraft() {
+    const db = await openDraftDatabase();
+    try {
+      return await new Promise((resolve, reject) => {
+        const tx = db.transaction("drafts", "readonly");
+        const request = tx.objectStore("drafts").get(DRAFT_KEY);
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+    } finally { db.close(); }
+  }
+  draftSaveBtn.addEventListener("click", async () => {
+    draftSaveBtn.disabled = true;
+    discardBtn.disabled = true;
+    const draft = {
+      productName: productName.value,
+      brand: brandInput.value,
+      price: priceInput.value,
+      memo: memoInput.value,
+      friendIds: slots.map(slot => slot.friendId),
+      images: addedImages.map(({ file }) => file),
+      savedAt: Date.now()
+    };
+    try {
+      await writeDraft(draft);
+      closeCancelDialog();
+      showToast("임시 저장되었습니다.");
+      setTimeout(navigateBack, 1100);
+    } catch (error) {
+      console.error("임시 저장 실패:", error);
+      showToast("임시 저장에 실패했습니다. 다시 시도해주세요.");
+    } finally {
+      draftSaveBtn.disabled = false;
+      discardBtn.disabled = false;
+    }
   });
 
-
-  // ========================================
-  // 카메라 열기
-  // ========================================
-
-  cameraBtn.addEventListener("click", () => {
-
-    cameraInput.click();
-
+  albumBtn.addEventListener("click", () => albumInput.click());
+  albumInput.addEventListener("change", (event) => {
+    for (const file of Array.from(event.target.files || [])) addImage(file);
+    albumInput.value = "";
   });
 
+  function addImage(file) {
+    if (!file.type.startsWith("image/")) {
+      showToast("이미지 파일만 등록할 수 있어요.");
+      return;
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      showToast("10MB 이하의 이미지를 선택해주세요.");
+      return;
+    }
+    const url = URL.createObjectURL(file);
+    const entry = { file, url };
+    addedImages.push(entry);
 
-  // ========================================
-  // 앨범 열기
-  // ========================================
+    const card = document.createElement("div");
+    card.className = "photo-preview";
+    const img = document.createElement("img");
+    img.className = "preview-image";
+    img.src = url;
+    img.alt = "추가한 상품 이미지";
+    const remove = document.createElement("button");
+    remove.type = "button";
+    remove.className = "remove-photo-btn";
+    remove.setAttribute("aria-label", "이 이미지 삭제");
+    remove.textContent = "×";
+    remove.addEventListener("click", () => {
+      const index = addedImages.indexOf(entry);
+      if (index !== -1) addedImages.splice(index, 1);
+      URL.revokeObjectURL(url);
+      card.remove();
+    });
+    card.append(img, remove);
+    imageRow.insertBefore(card, albumBtn);
+    // + 버튼은 항상 맨 오른쪽에 위치합니다.
+    albumBtn.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
+  }
 
-  albumBtn.addEventListener("click", () => {
+  // 첫 번째 타원은 항상 존재하며, + 버튼은 새로운 친구 선택용입니다.
+  // 각 타원에서 친구를 선택하면 그 타원의 값만 교체합니다.
+  const slots = [{ key: 0, friendId: null }];
+  let nextSlotKey = 1;
+  let activeSlotKey = null; // "add" 또는 슬롯 key
 
-    albumInput.click();
+  function selectedFriendIds() {
+    return new Set(slots.map(slot => slot.friendId).filter(Boolean));
+  }
 
+  function renderFriendChips() {
+    friendChips.replaceChildren();
+    slots.forEach(slot => {
+      const friend = friends.find(item => item.id === slot.friendId);
+      const chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = "friend-toggle";
+      chip.setAttribute("aria-label", friend ? `${friend.name} 선택 변경` : "친구 선택");
+      chip.setAttribute("aria-expanded", String(!friendDropdown.hidden && activeSlotKey === slot.key));
+      const name = document.createElement("span");
+      name.className = "friend-summary";
+      name.textContent = friend?.name || "";
+      const caret = document.createElement("span");
+      caret.className = "caret";
+      caret.setAttribute("aria-hidden", "true");
+      chip.append(name, caret);
+      chip.addEventListener("click", () => toggleDropdown(slot.key, chip));
+      friendChips.append(chip);
+    });
+  }
+
+  function closeDropdown() {
+    friendDropdown.hidden = true;
+    activeSlotKey = null;
+    addFriendBtn.setAttribute("aria-expanded", "false");
+    friendChips.querySelectorAll(".friend-toggle").forEach(chip => chip.setAttribute("aria-expanded", "false"));
+  }
+
+  function toggleDropdown(slotKey, trigger) {
+    if (!friendDropdown.hidden && activeSlotKey === slotKey) {
+      closeDropdown();
+      return;
+    }
+    activeSlotKey = slotKey;
+    friendDropdown.replaceChildren();
+    const currentSlot = slots.find(slot => slot.key === slotKey);
+    const taken = selectedFriendIds();
+    friends.forEach(friend => {
+      // 다른 타원에 이미 지정된 친구는 중복 지정하지 않습니다.
+      if (taken.has(friend.id) && currentSlot?.friendId !== friend.id) return;
+      const option = document.createElement("button");
+      option.type = "button";
+      option.className = "friend-option";
+      option.textContent = friend.name;
+      option.setAttribute("aria-pressed", String(currentSlot?.friendId === friend.id));
+      option.addEventListener("click", () => {
+        if (slotKey === "add") {
+          slots.push({ key: nextSlotKey++, friendId: friend.id });
+        } else if (currentSlot) {
+          if (currentSlot.friendId === friend.id) {
+            if (currentSlot.key === 0) currentSlot.friendId = null;
+            else slots.splice(slots.indexOf(currentSlot), 1);
+          } else {
+            currentSlot.friendId = friend.id;
+          }
+        }
+        closeDropdown();
+        renderFriendChips();
+        updateSaveButton();
+      });
+      friendDropdown.append(option);
+    });
+    if (!friendDropdown.childElementCount) {
+      const message = document.createElement("span");
+      message.className = "friend-empty-message";
+      message.textContent = "추가할 친구가 없습니다";
+      friendDropdown.append(message);
+    }
+    const controlRect = friendControl.getBoundingClientRect();
+    const triggerRect = trigger.getBoundingClientRect();
+    const left = Math.max(0, Math.min(triggerRect.left - controlRect.left, friendControl.clientWidth - 132));
+    friendDropdown.style.left = `${left}px`;
+    friendDropdown.hidden = false;
+    addFriendBtn.setAttribute("aria-expanded", String(slotKey === "add"));
+    renderFriendChips();
+  }
+
+  addFriendBtn.addEventListener("click", () => toggleDropdown("add", addFriendBtn));
+  document.addEventListener("pointerdown", event => {
+    if (!friendControl.contains(event.target)) closeDropdown();
+  });
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape") closeDropdown();
   });
 
-
-  // ========================================
-  // 카메라 이미지 선택
-  // ========================================
-
-  cameraInput.addEventListener(
-    "change",
-    (event) => {
-
-      const file =
-        event.target.files[0];
-
-      handleSelectedImage(file);
-    }
-  );
-
-
-  // ========================================
-  // 앨범 이미지 선택
-  // ========================================
-
-  albumInput.addEventListener(
-    "change",
-    (event) => {
-
-      const file =
-        event.target.files[0];
-
-      handleSelectedImage(file);
-    }
-  );
-
-
-  // ========================================
-  // 이미지 처리
-  // ========================================
-
- function handleSelectedImage(file) {
-  if (!file) {
-    return;
-  }
-
-  if (!file.type.startsWith("image/")) {
-    showToast("이미지 파일만 등록할 수 있어요.");
-    return;
-  }
-
-  const maxFileSize = 10 * 1024 * 1024;
-
-  if (file.size > maxFileSize) {
-    showToast("10MB 이하의 이미지를 선택해주세요.");
-    return;
-  }
-
-  selectedFile = file;
-
-  if (previewUrl) {
-    URL.revokeObjectURL(previewUrl);
-  }
-
-  previewUrl = URL.createObjectURL(file);
-
-  // 사진 표시
-  previewImage.src = previewUrl;
-  previewImage.hidden = false;
-
-  // 안내문 전체 숨기기
-  previewPlaceholder.hidden = true;
-
-  // X 버튼 표시
-  removePhotoBtn.hidden = false;
-
-  updateSaveButton();
-}
-
-  // ========================================
-  // 이미지 삭제
-  // ========================================
-
-  removePhotoBtn.addEventListener(
-    "click",
-    () => {
-
-      removeSelectedImage();
-
-    }
-  );
-
-
-  function removeSelectedImage() {
-  selectedFile = null;
-
-  if (previewUrl) {
-    URL.revokeObjectURL(previewUrl);
-    previewUrl = null;
-  }
-
-  // 사진 제거
-  previewImage.src = "";
-  previewImage.hidden = true;
-
-  // 안내문 다시 표시
-  previewPlaceholder.hidden = false;
-
-  // X 버튼 숨김
-  removePhotoBtn.hidden = true;
-
-  cameraInput.value = "";
-  albumInput.value = "";
-
-  updateSaveButton();
-}
-
-  // ========================================
-  // 메모 글자 수
-  // ========================================
-
-  memoInput.addEventListener(
-    "input",
-    () => {
-
-      const length =
-        memoInput.value.length;
-
-
-      memoCount.textContent =
-        `${length}/200`;
-    }
-  );
-
-
-  // ========================================
-  // 저장 버튼 상태
-  // ========================================
+  priceInput.addEventListener("input", () => {
+    const digits = priceInput.value.replace(/\D/g, "");
+    priceInput.value = digits ? BigInt(digits).toLocaleString("ko-KR") : "";
+  });
+  memoInput.addEventListener("input", () => {
+    memoCount.textContent = `${memoInput.value.length}/100`;
+  });
 
   function updateSaveButton() {
-
-    saveBtn.disabled =
-      !selectedFile;
+    saveBtn.disabled = selectedFriendIds().size < 1;
   }
-
-
-  // ========================================
-  // 사진 등록
-  // ========================================
-
-  saveBtn.addEventListener(
-    "click",
-    () => {
-
-      if (!selectedFile) {
-
-        showToast(
-          "등록할 사진을 선택해주세요."
-        );
-
-        return;
-      }
-
-
-      const memo =
-        memoInput.value.trim();
-
-
-      // ====================================
-      // FormData 생성
-      // ====================================
-
-      const formData =
-        new FormData();
-
-
-      formData.append(
-        "image",
-        selectedFile
-      );
-
-
-      formData.append(
-        "memo",
-        memo
-      );
-
-
-      console.log(
-        "선택 이미지:",
-        selectedFile
-      );
-
-
-      console.log(
-        "메모:",
-        memo
-      );
-
-
-      /*
-       * 추후 백엔드 연결 예시
-       *
-       *
-       * fetch("/api/presents/photo", {
-       *
-       *   method: "POST",
-       *
-       *   body: formData
-       *
-       * })
-       *
-       * .then((response) => {
-       *
-       *   if (!response.ok) {
-       *     throw new Error();
-       *   }
-       *
-       *   return response.json();
-       *
-       * })
-       *
-       * .then((data) => {
-       *
-       *   window.location.href =
-       *     `./Present-Detail.html?id=${data.id}`;
-       *
-       * })
-       *
-       * .catch(() => {
-       *
-       *   showToast(
-       *     "사진 등록에 실패했어요."
-       *   );
-       *
-       * });
-       */
-
-
-      // 현재 프로토타입
-      showToast(
-        "사진을 등록했어요."
-      );
-    }
-  );
-
-
-  // ========================================
-  // Toast
-  // ========================================
+  saveBtn.addEventListener("click", () => {
+    if (selectedFriendIds().size < 1) return;
+    const formData = new FormData();
+    addedImages.forEach(({ file }) => formData.append("images", file));
+    formData.append("productName", productName.value.trim());
+    formData.append("brand", brandInput.value.trim());
+    formData.append("price", priceInput.value.replace(/\D/g, ""));
+    formData.append("memo", memoInput.value.trim());
+    friends.filter((friend) => selectedFriendIds().has(friend.id))
+      .forEach((friend) => formData.append("friendIds", friend.id));
+    console.log("상품 등록 데이터 (프로토타입, 서버 저장 안 됨):", [...formData.entries()]);
+    showToast("상품을 등록했습니다.");
+    saveBtn.disabled = true;
+    setTimeout(navigateBack, 1100);
+  });
 
   function showToast(message) {
-
-    if (!toast) {
-      return;
-    }
-
-
-    clearTimeout(
-      toastTimer
-    );
-
-
-    toast.textContent =
-      message;
-
-
-    toast.classList.add(
-      "show"
-    );
-
-
-    toastTimer =
-      setTimeout(() => {
-
-        toast.classList.remove(
-          "show"
-        );
-
-      }, 2000);
+    clearTimeout(toastTimer);
+    toast.textContent = message;
+    toast.classList.add("show");
+    toastTimer = setTimeout(() => toast.classList.remove("show"), 2500);
   }
-
-
-  // ========================================
-  // 페이지 종료 시 Object URL 정리
-  // ========================================
-
-  window.addEventListener(
-    "beforeunload",
-    () => {
-
-      if (previewUrl) {
-
-        URL.revokeObjectURL(
-          previewUrl
-        );
-      }
-    }
-  );
-
-
-  // ========================================
-  // Initial
-  // ========================================
-
+  window.addEventListener("beforeunload", () => {
+    addedImages.forEach(({ url }) => URL.revokeObjectURL(url));
+  });
+  renderFriendChips();
   updateSaveButton();
-
+  // 이전에 저장된 초안이 있으면 같은 브라우저에서 자동 복원합니다.
+  (async () => {
+    try {
+      const draft = await readDraft();
+      if (!draft) return;
+      productName.value = draft.productName || "";
+      brandInput.value = draft.brand || "";
+      priceInput.value = draft.price || "";
+      memoInput.value = (draft.memo || "").slice(0, 100);
+      memoCount.textContent = `${memoInput.value.length}/100`;
+      const restoredIds = Array.isArray(draft.friendIds) ? draft.friendIds : [];
+      const validIds = [...new Set(restoredIds.filter(id => friends.some(friend => friend.id === id)))];
+      slots.splice(0, slots.length, { key: 0, friendId: validIds[0] || null });
+      validIds.slice(1).forEach(id => slots.push({ key: nextSlotKey++, friendId: id }));
+      renderFriendChips();
+      updateSaveButton();
+      for (const file of draft.images || []) {
+        if (file instanceof Blob) addImage(file);
+      }
+    } catch (error) {
+      console.warn("임시 저장 데이터 불러오기 실패:", error);
+    }
+  })();
 });

@@ -1,527 +1,84 @@
-/* ========================================
-   Present Photo
-======================================== */
-
-.present-photo-page {
-  position: relative;
-
-  height: 100dvh;
-
-  overflow: hidden;
-
-  background: #ffffff;
-}
-
-
-/* ========================================
-   Header
-======================================== */
-
-.photo-header {
-  position: relative;
-
-  display: grid;
-  grid-template-columns: 44px 1fr 44px;
-  align-items: center;
-
-  height: 64px;
-
-  padding: 0 20px;
-
-  border-bottom: 1px solid #eeeeee;
-
-  background: rgba(255, 255, 255, 0.96);
-
-  z-index: 10;
-}
-
-.photo-header h1 {
-  margin: 0;
-
-  text-align: center;
-
-  color: #222222;
-
-  font-size: 20px;
-  font-weight: 700;
-}
-
-.back-btn {
-  width: 44px;
-  height: 44px;
-
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-
-  padding: 0;
-
-  border: 0;
-
-  background: transparent;
-  color: #222222;
-
-  cursor: pointer;
-
-  -webkit-tap-highlight-color: transparent;
-}
-
-.back-btn svg {
-  width: 28px;
-  height: 28px;
-}
-
-.back-btn:active {
-  opacity: 0.45;
-}
-
-.header-space {
-  width: 44px;
-}
-
-
-/* ========================================
-   Scroll
-======================================== */
-
-.photo-scroll {
-  height: calc(100dvh - 64px);
-
-  overflow-y: auto;
-  overscroll-behavior-y: contain;
-
-  scrollbar-width: none;
-}
-
-.photo-scroll::-webkit-scrollbar {
-  display: none;
-}
-
-
-/* ========================================
-   Main Content
-======================================== */
-
-.photo-content {
-  padding:
-    28px
-    24px
-    calc(36px + env(safe-area-inset-bottom));
-}
-
-
-/* ========================================
-   Section Heading
-======================================== */
-
-.section-heading {
-  margin-bottom: 20px;
-}
-
-.section-heading h2 {
-  margin: 0;
-
-  color: #222222;
-
-  font-size: 22px;
-  font-weight: 750;
-  line-height: 1.35;
-}
-
-.section-heading p {
-  margin: 7px 0 0;
-
-  color: #999999;
-
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.5;
-}
-
-
-/* ========================================
-   Preview
-======================================== */
-
-.photo-preview {
-  position: relative;
-
-  width: 100%;
-  aspect-ratio: 4 / 3;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  overflow: hidden;
-
-  border: 1px solid #e4e4e4;
-  border-radius: 16px;
-
-  background: #fafafa;
-}
-
-
-/* ----------------------------------------
-   Placeholder
----------------------------------------- */
-
-.preview-placeholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  padding: 20px;
-
-  color: #a5a5a5;
-
-  text-align: center;
-}
-
-.preview-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  margin-bottom: 9px;
-
-  color: #c4c4c4;
-}
-
-.preview-placeholder > span {
-  color: #888888;
-
-  font-size: 15px;
-  font-weight: 600;
-}
-
-.preview-placeholder small {
-  margin-top: 5px;
-
-  color: #b0b0b0;
-
-  font-size: 12px;
-  font-weight: 400;
-}
-
-
-/* ----------------------------------------
-   Actual Image
----------------------------------------- */
-
-.preview-image {
-  width: 100%;
-  height: 100%;
-
-  display: block;
-
-  object-fit: cover;
-}
-
-/* hidden 속성이 있으면 무조건 숨김 */
-.preview-image[hidden],
-.preview-placeholder[hidden],
-.remove-photo-btn[hidden] {
-  display: none;
-}
-
-
-/* ========================================
-   Remove Image
-======================================== */
-
-.remove-photo-btn {
-  position: absolute;
-
-  top: 12px;
-  right: 12px;
-
-  width: 34px;
-  height: 34px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 0;
-
-  border: 0;
-  border-radius: 50%;
-
-  background: rgba(20, 20, 20, 0.72);
-  color: #ffffff;
-
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-
-  cursor: pointer;
-
-  z-index: 2;
-}
-
-.remove-photo-btn:active {
-  transform: scale(0.94);
-}
-
-
-/* ========================================
-   Photo Actions
-======================================== */
-
-.photo-actions {
-  display: flex;
-  flex-direction: column;
-
-  gap: 10px;
-
-  margin-top: 18px;
-}
-
-.photo-action-btn {
-  width: 100%;
-  height: 54px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  gap: 8px;
-
-  border-radius: 14px;
-
-  font-size: 16px;
-  font-weight: 650;
-
-  cursor: pointer;
-
-  transition:
-    transform 0.12s ease,
-    opacity 0.12s ease;
-
-  -webkit-tap-highlight-color: transparent;
-}
-
-
-/* 기존 global primary-btn을 사용하지만
-   사진 페이지 크기만 조정 */
-
-.photo-action-btn.primary-btn {
-  border: 0;
-
-  background: #222222;
-  color: #ffffff;
-}
-
-
-/* 앨범 선택 */
-
-.secondary-btn {
-  border: 1px solid var(--main-color, #f8c6d8);
-
-  background: var(--sub-color, #fde8f1);
-
-  color: #4a3b41;
-}
-
-.photo-action-btn:active {
-  transform: scale(0.985);
-  opacity: 0.8;
-}
-
-
-/* ========================================
-   Memo
-======================================== */
-
-.memo-field {
-  margin-top: 30px;
-}
-
-.memo-label-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  margin-bottom: 10px;
-}
-
-.memo-label-row label {
-  color: #333333;
-
-  font-size: 16px;
-  font-weight: 650;
-}
-
-.memo-label-row label span {
-  margin-left: 3px;
-
-  color: #999999;
-
-  font-size: 13px;
-  font-weight: 400;
-}
-
-.memo-count {
-  color: #aaaaaa;
-
-  font-size: 12px;
-  font-weight: 400;
-}
-
-.memo-field textarea {
-  width: 100%;
-  min-height: 132px;
-
-  display: block;
-
-  padding: 15px 16px;
-
-  resize: none;
-
-  border: 1px solid #dedede;
-  border-radius: 14px;
-
-  outline: none;
-
-  background: #ffffff;
-  color: #333333;
-
-  font-family: inherit;
-  font-size: 15px;
-  font-weight: 400;
-  line-height: 1.6;
-
-  transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease;
-}
-
-.memo-field textarea::placeholder {
-  color: #bbbbbb;
-}
-
-.memo-field textarea:focus {
-  border-color: var(--main-color, #f8c6d8);
-
-  box-shadow:
-    0 0 0 3px rgba(248, 198, 216, 0.22);
-}
-
-
-/* ========================================
-   Save
-======================================== */
-
-.save-area {
-  margin-top: 30px;
-}
-
-.save-btn {
-  width: 100%;
-  height: 56px;
-
-  border: 0;
-  border-radius: 14px;
-
-  background: var(--main-color, #f8c6d8);
-  color: #3d2c33;
-
-  font-size: 17px;
-  font-weight: 700;
-
-  cursor: pointer;
-
-  transition:
-    transform 0.12s ease,
-    opacity 0.12s ease;
-}
-
-.save-btn:disabled {
-  background: #eeeeee;
-  color: #aaaaaa;
-
-  cursor: default;
-}
-
-.save-btn:not(:disabled):active {
-  transform: scale(0.985);
-  opacity: 0.8;
-}
-
-
-/* ========================================
-   Toast
-======================================== */
-
-.present-photo-page .toast {
-  position: absolute;
-
-  left: 50%;
-  bottom:
-    calc(24px + env(safe-area-inset-bottom));
-
-  max-width: calc(100% - 48px);
-
-  padding: 11px 17px;
-
-  border-radius: 999px;
-
-  background: rgba(30, 30, 30, 0.9);
-  color: #ffffff;
-
-  font-size: 13px;
-  font-weight: 500;
-
-  white-space: nowrap;
-
-  opacity: 0;
-  visibility: hidden;
-
-  transform:
-    translateX(-50%)
-    translateY(8px);
-
-  transition:
-    opacity 0.2s ease,
-    transform 0.2s ease,
-    visibility 0.2s ease;
-
-  z-index: 100;
-}
-
-.present-photo-page .toast.show {
-  opacity: 1;
-  visibility: visible;
-
-  transform:
-    translateX(-50%)
-    translateY(0);
-}
-
-
-/* ========================================
-   Small Mobile
-======================================== */
-
-@media (max-width: 360px) {
-
-  .photo-content {
-    padding-left: 18px;
-    padding-right: 18px;
-  }
-
-  .photo-preview {
-    border-radius: 14px;
-  }
-
-  .photo-action-btn {
-    height: 52px;
-
-    font-size: 15px;
-  }
-
-  .section-heading h2 {
-    font-size: 21px;
-  }
-}
+/* 상품 등록 페이지 전용 스타일. global.css는 변경하지 않습니다. */
+.present-photo-page { position: relative; display: flex; flex-direction: column; height: min(100dvh, var(--mobile-height, 844px)); min-height: 667px; overflow: hidden; background: var(--color-surface, #fff); }
+.present-photo-page button, .present-photo-page input, .present-photo-page textarea { font: inherit; }
+.present-photo-page .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.photo-header { height: 108px; flex: 0 0 108px; display: flex; align-items: flex-end; padding: 0 var(--page-padding, 20px) 17px; }
+.back-btn { width: 32px; height: 32px; display: grid; place-items: center; padding: 0; background: none; color: #252525; cursor: pointer; }
+.back-btn svg { width: 30px; height: 30px; }
+.photo-scroll { flex: 1; min-height: 0; overflow-y: auto; scrollbar-width: none; }
+.photo-scroll::-webkit-scrollbar { display: none; }
+.photo-content { padding: 0 var(--page-padding, 20px) 20px; }
+.image-row { display: flex; gap: 10px; align-items: flex-start; min-height: 94px; }
+.photo-preview, .add-photo-btn { width: 94px; height: 94px; flex: 0 0 94px; border-radius: 12px; background: #f2f2f2; }
+.photo-preview { position: relative; border: 1px solid #a9b5bd; overflow: hidden; }
+.preview-placeholder { width: 100%; height: 100%; }
+.preview-image { display: block; width: 100%; height: 100%; object-fit: cover; }
+.preview-image[hidden], .remove-photo-btn[hidden], .friend-dropdown[hidden] { display: none !important; }
+.remove-photo-btn { position: absolute; right: 4px; top: 4px; width: 23px; height: 23px; padding: 0; border-radius: 50%; background: rgba(25,25,25,.7); color: #fff; font-size: 20px !important; cursor: pointer; }
+.add-photo-btn { display: grid; place-items: center; border: 1px dashed #a9b5bd; color: #a5b2bb; cursor: pointer; }
+.add-photo-btn span { font-size: 48px; line-height: 1; font-weight: 300; transform: translateY(-3px); }
+.product-name-row { margin-top: 20px; border-bottom: 1px dashed #a9b5bd; padding-bottom: 14px; }
+.product-name-row input { width: 100%; height: 28px; border: 0; outline: 0; background: transparent; color: #282828; font-size: 17px; font-weight: 700; }
+.present-photo-page input::placeholder { color: #a5b2bb; opacity: 1; }
+.product-fields { margin-top: 21px; }
+.field-row { display: grid; grid-template-columns: 80px minmax(0,1fr); align-items: center; min-height: 41px; margin-bottom: 1px; }
+.field-label { color: #282828; font-size: 15px; font-weight: 700; }
+.required { color: #ff579d; }
+.text-field { min-width: 0; width: 100%; border: 0; background: transparent; outline: 0; color: #292929; font-size: 15px; }
+.friend-control { display: flex; align-items: center; gap: 8px; position: relative; min-width: 0; }
+.friend-toggle { width: 82px; height: 24px; padding: 0 9px; display: flex; align-items: center; justify-content: space-between; gap: 5px; border-radius: 20px; background: #f1f1f1; color: #292929; cursor: pointer; }
+.friend-summary { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; }
+.caret { width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 6px solid #a6b2ba; flex-shrink: 0; }
+.add-friend-btn { display: grid; place-items: center; width: 24px; height: 24px; padding: 0; border-radius: 50%; background: #f1f1f1; color: #a6b2ba; font-size: 23px !important; line-height: 1; cursor: pointer; }
+.friend-dropdown { position: absolute; z-index: 30; left: 0; top: 0; width: 132px; max-height: 110px; overflow-y: auto; padding: 6px 0; border-radius: 12px; background: #f1f1f1; box-shadow: 0 4px 12px rgba(0,0,0,.05); scrollbar-width: thin; scrollbar-color: #a6b2ba transparent; }
+.friend-option { display: block; width: 100%; padding: 5px 12px; text-align: left; background: transparent; color: #292929; font-size: 15px !important; cursor: pointer; }
+.friend-option[aria-pressed="true"] { color: #d93482; font-weight: 700; }
+.friend-option:focus-visible, .friend-toggle:focus-visible, .add-photo-btn:focus-visible { outline: 2px solid #ff579d; outline-offset: 2px; }
+.memo-row { align-items: start; margin-top: 12px; }
+.memo-row .field-label { padding-top: 2px; }
+.memo-box { position: relative; height: 129px; border: 1px solid #a9b5bd; border-radius: 12px; background: #f2f2f2; }
+.memo-box textarea { width: 100%; height: 100%; padding: 12px 12px 26px; resize: none; border: 0; outline: none; border-radius: inherit; background: transparent; color: #292929; font-size: 14px; }
+.memo-count { position: absolute; bottom: 7px; right: 10px; color: #a5b2bb; font-size: 10px; pointer-events: none; }
+.save-area { flex: 0 0 auto; padding: 12px var(--page-padding,20px) calc(58px + env(safe-area-inset-bottom)); background: #fff; }
+.save-btn { width: 100%; height: 50px; border-radius: 999px; border: 0; background: #ff579d; color: #fff; font-size: 17px !important; font-weight: 700 !important; cursor: pointer; }
+.save-btn:disabled { border: 1px dashed #a9b5bd; background: #f2f2f2; color: #a5b2bb; cursor: default; }
+.present-photo-page .toast { position: absolute; left: 50%; bottom: 120px; max-width: calc(100% - 40px); padding: 10px 15px; border-radius: 30px; background: rgba(25,25,25,.88); color: #fff; font-size: 12px; text-align: center; opacity: 0; visibility: hidden; transform: translate(-50%,8px); transition: opacity .2s, transform .2s, visibility .2s; z-index: 50; }
+.present-photo-page .toast.show { opacity: 1; visibility: visible; transform: translate(-50%,0); }
+@media (max-height: 700px) { .photo-header { height: 68px; flex-basis: 68px; } .save-area { padding-bottom: 18px; } }
+@media (max-width: 350px) { .field-row { grid-template-columns: 70px minmax(0,1fr); } }
+
+/* 수정: 가로 스크롤 이미지 갤러리 및 친구 추가 버튼 */
+.image-row { overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; scrollbar-color: #a9b5bd transparent; padding-bottom: 5px; }
+.image-row::-webkit-scrollbar { height: 4px; }
+.image-row::-webkit-scrollbar-thumb { background: #a9b5bd; border-radius: 4px; }
+.photo-preview { flex-shrink: 0; }
+.initial-photo { background: #f2f2f2; }
+.add-photo-btn { flex-shrink: 0; }
+.add-friend-btn { display: flex; align-items: center; justify-content: center; flex: 0 0 24px; line-height: normal; }
+.add-friend-btn span { display: block; font-size: 23px; line-height: 1; transform: translateY(-1px); }
+.friend-summary { text-align: center; flex: 1; }
+.friend-toggle { flex: 0 0 82px; }
+.save-btn:disabled { background: #f2f2f2 !important; color: #a5b2bb !important; border: 1px dashed #a9b5bd !important; }
+
+/* 친구별 독립 타원: 와이어프레임의 유진 / 은수 / + 배치 */
+.friend-control { flex-wrap: nowrap; }
+.friend-chips { display: flex; align-items: center; gap: 8px; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+.friend-chips::-webkit-scrollbar { display: none; }
+.friend-chips .friend-toggle { flex: 0 0 82px; }
+.friend-dropdown { top: 31px; }
+.friend-option[aria-pressed="true"] { color: #292929; font-weight: 700; }
+
+.friend-empty-message { display: block; padding: 7px 10px; color: #777; font-size: 12px; }
+
+/* 닫기 확인: 배경은 0.3초 동안 점진적으로 어두워집니다. */
+.cancel-overlay { position: absolute; inset: 0; z-index: 90; display: grid; place-items: center; padding: 20px; background: rgba(0,0,0,.30); opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .3s ease, visibility .3s ease; }
+.cancel-overlay.open { opacity: 1; visibility: visible; pointer-events: auto; }
+.cancel-dialog { width: min(100%, 240px); overflow: hidden; border-radius: 14px; background: #f4f4f4; color: #252525; box-shadow: 0 2px 9px rgba(0,0,0,.24); transform: scale(.97); transition: transform .3s ease; text-align: center; }
+.cancel-overlay.open .cancel-dialog { transform: scale(1); }
+.cancel-dialog p { margin: 0; padding: 19px 8px 18px; font-size: 15px; white-space: nowrap; }
+.cancel-actions { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid #bbc4ca; }
+.cancel-actions button { min-height: 39px; padding: 8px 3px; background: transparent; color: #252525; cursor: pointer; font-size: 15px; }
+.cancel-actions button + button { border-left: 1px solid #bbc4ca; }
+.cancel-actions button:disabled { opacity: .55; cursor: wait; }
+.cancel-actions button:focus-visible { outline: 2px solid #ff579d; outline-offset: -3px; }
+@media (prefers-reduced-motion: reduce) { .cancel-overlay, .cancel-dialog { transition-duration: .01ms; } }
