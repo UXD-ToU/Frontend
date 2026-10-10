@@ -1,0 +1,120 @@
+/* ==========================================
+   BOTTOM NAVBAR COMPONENT
+========================================== */
+
+.bottom-navbar {
+  position: fixed;
+
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+
+  z-index: 50;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+
+  width: 100%;
+  max-width: var(--design-width);
+
+  height: calc(
+    var(--navbar-height) +
+    var(--safe-area-bottom)
+  );
+
+  padding-top: 10px;
+  padding-bottom: var(--safe-area-bottom);
+
+  border-top: 1px solid #E1E5E8;
+
+  background: var(--color-white);
+}
+
+.nav-item {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 3px;
+
+  min-width: 0;
+  height: 46px;
+
+  color: var(--color-black);
+  text-decoration: none;
+
+  font-size: 11px;
+  font-weight: var(--font-weight-regular);
+}
+
+.nav-icon {
+  display: block;
+
+  width: 23px;
+  height: 23px;
+
+  object-fit: contain;
+}
+
+.nav-item span {
+  line-height: 1.2;
+}
+
+.nav-item.active {
+  font-weight: var(--font-weight-semibold);
+}
+
+.nav-item:active {
+  opacity: 0.6;
+}
+
+.bottom-navbar .nav-item {
+  padding: 0;
+  border: none;
+  border-radius: 0;
+
+  background: transparent;
+  color: var(--color-black);
+
+  font-family: var(--font-family);
+  font-size: 11px;
+  font-weight: var(--font-weight-regular);
+
+  cursor: pointer;
+}
+
+.bottom-navbar .nav-item.active {
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ==========================================
+   NAVBAR ACTIVE OPACITY
+========================================== */
+
+/* 기본 아이콘: 30% */
+.bottom-navbar .nav-icon {
+  opacity: 0.3;
+  transition: opacity 0.2s ease;
+}
+
+/* 현재 선택된 페이지: 100% */
+.bottom-navbar .nav-item.active .nav-icon {
+  opacity: 1;
+}
+
+/* NavBar 버튼 기본 스타일 통일 */
+.bottom-navbar .nav-item {
+  padding: 0;
+  border: none;
+  border-radius: 0;
+
+  background: transparent;
+  color: var(--color-black);
+}
+
+.bottom-navbar .nav-item.active {
+  font-weight: var(--font-weight-semibold);
+}

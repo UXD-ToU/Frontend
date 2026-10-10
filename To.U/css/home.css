@@ -1,0 +1,506 @@
+/* ==========================================
+   HOME PAGE DESIGN
+   Reference: 390 × 844
+========================================== */
+
+:root {
+  /* Global CSS에 없는 typography 변수 보완 */
+  --font-size-xs: 12px;
+  --font-size-sm: 13px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+  --font-size-2xl: 20px;
+  --font-size-3xl: 24px;
+  --font-size-4xl: 28px;
+
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+
+  --color-border: #D2D9DE;
+}
+
+/* ==========================================
+   PAGE
+========================================== */
+
+.home-page {
+  position: relative;
+  min-height: 100dvh;
+  background: var(--color-white);
+}
+
+.home-content {
+  padding: 64px var(--page-padding-x) 110px;
+}
+
+/* ==========================================
+   HEADER
+========================================== */
+
+.home-header {
+  margin-bottom: 24px;
+}
+
+.home-header h1 {
+  font-size: 28px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.2;
+}
+
+
+/* ==========================================
+   RANKING
+========================================== */
+
+.ranking-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  width: 100%;
+  height: 28px;
+
+  margin-bottom: 24px;
+}
+
+/* 고정 랭킹 배지 */
+.ranking-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  padding: 5px 8px;
+  border-radius: var(--radius-full);
+
+  background: var(--color-black);
+  color: var(--color-white);
+
+  font-size: 12px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1;
+}
+
+/* 움직이는 영역 */
+.ranking-viewport {
+  flex: 1;
+  min-width: 0;
+  height: 28px;
+
+  overflow: hidden;
+}
+
+.ranking-track {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  height: 28px;
+
+  will-change: transform;
+}
+
+.ranking-slide {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  flex: 0 0 28px;
+
+  width: 100%;
+  height: 28px;
+}
+
+.ranking-number {
+  flex-shrink: 0;
+  min-width: 12px;
+
+  color: var(--color-gray);
+  font-size: 14px;
+}
+
+.ranking-product {
+  flex: 1;
+  min-width: 0;
+
+  color: var(--color-black);
+
+  font-size: 13px;
+  font-weight: var(--font-weight-semibold);
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ranking-track {
+    transition: none !important;
+  }
+}
+
+
+/* ==========================================
+   FEATURED BIRTHDAY CARD
+========================================== */
+
+.birthday-feature {
+  width: 100%;
+  padding: 16px;
+
+  border-radius: var(--radius-xl);
+  background: var(--color-accent-10);
+}
+
+.birthday-feature-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 10px;
+}
+
+.dday-badge {
+  padding: 5px 12px;
+
+  border-radius: var(--radius-full);
+  background: var(--color-accent);
+  color: var(--color-white);
+
+  font-size: 14px;
+  font-weight: var(--font-weight-semibold);
+}
+
+.birthday-date {
+  color: #9898A3;
+  font-size: 12px;
+}
+
+.birthday-feature-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.birthday-feature-copy {
+  min-width: 0;
+}
+
+.birthday-feature-copy h2 {
+  margin-bottom: 2px;
+
+  font-size: 20px;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: -0.7px;
+  line-height: 1.35;
+}
+
+.birthday-feature-copy p {
+  color: #9997A1;
+  font-size: 14px;
+  font-weight: var(--font-weight-semibold);
+}
+
+.feature-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  width: 24px;
+  height: 32px;
+
+  padding: 0;
+  background: transparent;
+  color: var(--color-black);
+}
+
+/* ==========================================
+   GIFT PREVIEW
+========================================== */
+
+.gift-preview-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.gift-preview {
+  min-width: 0;
+}
+
+.gift-preview img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+
+  margin-bottom: 5px;
+}
+
+.gift-name {
+  width: 100%;
+
+  font-size: 12px;
+  font-weight: var(--font-weight-regular);
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gift-price {
+  display: block;
+  margin-top: 1px;
+
+  font-size: 14px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.4;
+}
+
+/* ==========================================
+   UPCOMING BIRTHDAYS
+========================================== */
+
+.upcoming-section {
+  margin-top: 36px;
+}
+
+.upcoming-section h2 {
+  margin-bottom: 20px;
+
+  font-size: 18px;
+  font-weight: var(--font-weight-semibold);
+}
+
+.upcoming-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.upcoming-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  width: 100%;
+  min-height: 78px;
+  padding: 12px 14px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+
+  background: var(--color-white);
+}
+
+.friend-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  width: 50px;
+  height: 50px;
+
+  border-radius: 50%;
+  font-size: 33px;
+}
+
+.avatar-pink {
+  background: #FFD7D9;
+}
+
+.avatar-gray {
+  background: #E7E7E7;
+}
+
+.friend-info h3 {
+  margin-bottom: 4px;
+
+  font-size: 16px;
+  font-weight: var(--font-weight-semibold);
+}
+
+.friend-info p {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  color: var(--color-gray);
+  font-size: 13px;
+}
+
+.friend-info strong {
+  color: var(--color-accent);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ==========================================
+   REGISTER FLOATING BUTTON
+========================================== */
+
+.register-button {
+  position: fixed;
+
+  right: max(
+    12px,
+    calc((100vw - var(--design-width)) / 2 + 12px)
+  );
+
+  bottom: calc(
+    var(--navbar-height) +
+    var(--safe-area-bottom) +
+    22px
+  );
+
+  z-index: 20;
+
+  padding: 12px 22px;
+
+  border-radius: var(--radius-full);
+
+  background: var(--color-black);
+  color: var(--color-white);
+
+  font-size: 18px;
+  font-weight: var(--font-weight-semibold);
+
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.18);
+}
+
+/* ==========================================
+   REGISTER OVERLAY
+========================================== */
+
+.register-overlay {
+  position: fixed;
+  inset: 0;
+
+  z-index: 100;
+
+  display: none;
+  justify-content: center;
+
+  pointer-events: none;
+}
+
+.register-overlay.is-open {
+  display: flex;
+  pointer-events: auto;
+}
+
+.overlay-backdrop {
+  position: absolute;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.58);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* 메뉴는 모바일 화면 최대 너비 기준 */
+.register-menu {
+  position: absolute;
+
+  right: max(
+    12px,
+    calc((100vw - var(--design-width)) / 2 + 12px)
+  );
+
+  bottom: calc(
+    var(--navbar-height) +
+    var(--safe-area-bottom) +
+    90px
+  );
+
+  width: 172px;
+
+  overflow: hidden;
+  border-radius: 22px;
+
+  background: #222222;
+  color: var(--color-white);
+}
+
+.register-menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  min-height: 52px;
+
+  background: transparent;
+  color: var(--color-white);
+
+  font-size: 16px;
+  font-weight: var(--font-weight-semibold);
+}
+
+.register-menu-item + .register-menu-item {
+  border-top: 1px solid rgba(0, 0, 0, 0.8);
+}
+
+.register-menu-item:active {
+  background: #363636;
+}
+
+/* 닫기 버튼 */
+.register-close {
+  position: absolute;
+
+  right: max(
+    12px,
+    calc((100vw - var(--design-width)) / 2 + 12px)
+  );
+
+  bottom: calc(
+    var(--navbar-height) +
+    var(--safe-area-bottom) +
+    22px
+  );
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 58px;
+  height: 58px;
+
+  border-radius: 50%;
+
+  background: var(--color-black);
+  color: var(--color-white);
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 350px) {
+  .home-content {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .gift-preview-list {
+    gap: 10px;
+  }
+
+  .birthday-feature-copy h2 {
+    font-size: 18px;
+  }
+
+  .birthday-feature-copy p {
+    font-size: 12px;
+  }
+}

@@ -1,0 +1,283 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>홈 | To.U</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/home.css" />
+  <link
+    rel="stylesheet"
+    href="../components/navbar/navbar.css"
+  />
+
+  <!-- JavaScript -->
+  <script src="../js/home.js" defer></script>
+  <script
+    src="../components/navbar/navbar.js"
+    defer
+  ></script>
+</head>
+
+<body>
+  <div class="page home-page page-with-navbar">
+
+    <main class="home-content">
+
+      <!-- =========================
+           HEADER
+      ========================== -->
+      <header class="home-header">
+        <h1>홈</h1>
+      </header>
+
+      <!-- =========================
+           RANKING
+      ========================== -->
+
+      <section class="ranking-section" aria-label="인기 선물 랭킹">
+
+  <!-- 고정 영역 -->
+  <span class="ranking-badge">랭킹</span>
+
+  <!-- 애니메이션 영역 -->
+  <div class="ranking-viewport">
+    <div id="rankingTrack" class="ranking-track">
+      <!-- JS에서 순위와 상품명 생성 -->
+    </div>
+  </div>
+
+</section>
+
+      <!-- =========================
+           BIRTHDAY FEATURE
+      ========================== -->
+      <section class="birthday-feature">
+
+        <div class="birthday-feature-top">
+          <span class="dday-badge">D - 13</span>
+
+          <span class="birthday-date">
+            10월 21일
+          </span>
+        </div>
+
+        <div class="birthday-feature-heading">
+
+          <div class="birthday-feature-copy">
+            <h2>곧 유진이 생일이에요 🎂</h2>
+
+            <p>
+              유진이를 위해 모아둔 선물 후보 7개
+            </p>
+          </div>
+
+          <button
+            class="feature-arrow"
+            type="button"
+            aria-label="유진이 선물함 보기"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="m9 5 7 7-7 7" />
+            </svg>
+          </button>
+
+        </div>
+
+        <!-- GIFT PREVIEW -->
+        <div class="gift-preview-list">
+
+          <article class="gift-preview">
+            <img
+              src="../assets/images/gift-1.png"
+              alt="첫 번째 선물 후보"
+            />
+
+            <p class="gift-name">
+              eee.space Sunlig...
+            </p>
+
+            <strong class="gift-price">
+              63,000원
+            </strong>
+          </article>
+
+          <article class="gift-preview">
+            <img
+              src="../assets/images/gift-2.png"
+              alt="두 번째 선물 후보"
+            />
+
+            <p class="gift-name">
+              eee.space phon...
+            </p>
+
+            <strong class="gift-price">
+              42,000원
+            </strong>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- =========================
+           UPCOMING BIRTHDAYS
+      ========================== -->
+      <section class="upcoming-section">
+
+        <h2>다음으로 챙길 생일</h2>
+
+        <div class="upcoming-list">
+
+          <!-- 지민 -->
+          <article class="upcoming-card">
+
+            <div class="friend-avatar avatar-pink">
+              🥰
+            </div>
+
+            <div class="friend-info">
+              <h3>지민</h3>
+
+              <p>
+                <span>10월 28일</span>
+                <span class="date-dot">·</span>
+                <strong>D-19</strong>
+              </p>
+            </div>
+
+          </article>
+
+          <!-- 은수 -->
+          <article class="upcoming-card">
+
+            <div class="friend-avatar avatar-gray">
+              🤠
+            </div>
+
+            <div class="friend-info">
+              <h3>은수</h3>
+
+              <p>
+                <span>11월 3일</span>
+                <span class="date-dot">·</span>
+                <strong>D-25</strong>
+              </p>
+            </div>
+
+          </article>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- =========================
+         REGISTER BUTTON
+    ========================== -->
+    <button
+      id="registerButton"
+      class="register-button"
+      type="button"
+      aria-haspopup="dialog"
+      aria-expanded="false"
+      aria-controls="registerOverlay"
+    >
+      + 등록
+    </button>
+
+    <!-- =========================
+         REGISTER OVERLAY
+    ========================== -->
+    <div
+      id="registerOverlay"
+      class="register-overlay"
+      aria-hidden="true"
+    >
+
+      <!-- 어두운 배경 -->
+      <div class="overlay-backdrop"></div>
+
+      <!-- 등록 메뉴 -->
+      <div
+        class="register-menu"
+        role="dialog"
+        aria-modal="true"
+        aria-label="선물 등록 방법"
+      >
+
+        <button
+          id="registerLink"
+          class="register-menu-item"
+          type="button"
+        >
+          🔗 링크
+        </button>
+
+        <button
+          id="registerPhoto"
+          class="register-menu-item"
+          type="button"
+        >
+          📷 사진/카메라
+        </button>
+
+      </div>
+
+      <!-- 닫기 버튼 -->
+      <button
+        id="closeRegister"
+        class="register-close"
+        type="button"
+        aria-label="등록 메뉴 닫기"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          width="30"
+          height="30"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.8"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <path d="M5 5 19 19M19 5 5 19" />
+        </svg>
+      </button>
+
+    </div>
+
+    <!-- 사진 선택 -->
+    <input
+      type="file"
+      id="photoInput"
+      accept="image/*"
+      hidden
+    />
+
+    <!-- =========================
+         NAVBAR COMPONENT
+    ========================== -->
+    <div id="navbar-root"></div>
+
+  </div>
+</body>
+</html>
