@@ -276,48 +276,69 @@
         </section>
 
         <!-- =========================
-             RECOMMENDATIONS
+             RECOMMENDATIONS 여기 나중에 실제 서비스 시에는 코드 수정
         ========================= -->
-        <section class="recommendations">
+        
+<!-- 비슷한 제품 추천 -->
+<section class="recommendations">
+  <div class="recommend-title">
+    비슷한 제품 추천
+    <span>›</span>
+  </div>
 
-          <div class="recommend-title">
-            비슷한 제품 추천
-            <span>›</span>
-          </div>
+  <div class="recommend-row">
 
-          <div class="recommend-row">
+    <!-- 추천 상품 1 -->
+    <div class="recommend-card">
+      <img
+        src="../assets/images/photo-test-1.png"
+        alt="추천 상품 1"
+        class="recommend-image"
+      />
+      <button
+        class="recommend-add"
+        type="button"
+        aria-label="첫 번째 추천 상품 추가"
+      >
+        <span aria-hidden="true">+</span>
+      </button>
+    </div>
 
-            <div class="recommend-card">
-              <button
-                class="recommend-add"
-                aria-label="첫 번째 추천 상품 추가"
-              >
-                <span aria-hidden="true">+</span>
-              </button>
-            </div>
+    <!-- 추천 상품 2 -->
+    <div class="recommend-card">
+      <img
+        src="../assets/images/photo-test-2.png"
+        alt="추천 상품 2"
+        class="recommend-image"
+      />
+      <button
+        class="recommend-add"
+        type="button"
+        aria-label="두 번째 추천 상품 추가"
+      >
+        <span aria-hidden="true">+</span>
+      </button>
+    </div>
 
-            <div class="recommend-card">
-              <button
-                class="recommend-add"
-                aria-label="두 번째 추천 상품 추가"
-              >
-                <span aria-hidden="true">+</span>
-              </button>
-            </div>
+    <!-- 추천 상품 3 -->
+    <div class="recommend-card">
+      <img
+        src="../assets/images/photo-test-3.png"
+        alt="추천 상품 3"
+        class="recommend-image"
+      />
+      <button
+        class="recommend-add"
+        type="button"
+        aria-label="세 번째 추천 상품 추가"
+      >
+        <span aria-hidden="true">+</span>
+      </button>
+    </div>
 
-            <div class="recommend-card">
-              <button
-                class="recommend-add"
-                aria-label="세 번째 추천 상품 추가"
-              >
-                <span aria-hidden="true">+</span>
-              </button>
-            </div>
+  </div>
+</section>
 
-          </div>
-        </section>
-
-      </div>
 
       <!-- =========================
            DELETE MODAL
