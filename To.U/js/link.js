@@ -115,3 +115,13 @@ if (window.visualViewport) {
 
 updateLinkState();
 updateKeyboardOffset();
+
+/* =========================
+   CLOSE BUTTON
+========================= */
+
+const backBtn = document.getElementById("backBtn");
+
+backBtn.addEventListener("click", () => {
+  window.location.href = "./home.html";
+});

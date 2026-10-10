@@ -184,3 +184,58 @@
     font-size: 28px;
   }
 }
+
+/* =========================
+   HEADER - CLOSE BUTTON
+========================= */
+
+.link-header {
+  display: flex;
+  align-items: flex-end;
+
+  width: 100%;
+  height: 108px;
+
+  padding:
+    0
+    var(--page-padding-x)
+    17px;
+}
+
+.link-header .back-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 32px;
+  height: 32px;
+
+  padding: 0;
+
+  border: none;
+  background: transparent;
+  color: var(--color-black);
+
+  cursor: pointer;
+}
+
+.link-header .back-btn svg {
+  width: 30px;
+  height: 30px;
+}
+
+.link-header .back-btn:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* 기존 콘텐츠의 위치 조정 */
+.link-content {
+  padding-top: 0;
+}
+
+@media (max-height: 700px) {
+  .link-header {
+    height: 68px;
+  }
+}
