@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  >
+  <title>홈 | To.U</title>
+
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/home.css">
+  <script src="../js/home.js" defer></script>
+</head>
+
+<body class="tou-home" data-page="home">
+  <div class="home-shell">
+    <header class="home-header">
+      <h1>홈</h1>
+    </header>
+
+    <main class="home-main">
+      <div class="ranking-row" aria-label="선물 랭킹">
+        <span class="ranking-badge">랭킹</span>
+        <span class="ranking-number">3</span>
+        <p>맥(MAC) 러스터글래스 샤인 립스틱</p>
+      </div>
+
+      <section class="birthday-card" aria-labelledby="birthday-title">
+        <div class="birthday-meta">
+          <span class="countdown-badge">D - 13</span>
+          <span class="birthday-date">10월 21일</span>
+        </div>
+
+        <button
+          class="birthday-heading"
+          type="button"
+          data-action="gift-list"
+        >
+          <span>
+            <span id="birthday-title" class="birthday-title">
+              곧 유진이 생일이에요 🎂
+            </span>
+            <span class="birthday-description">
+              유진이를 위해 모아둔 선물 후보 7개
+            </span>
+          </span>
+          <span class="chevron" aria-hidden="true"></span>
+        </button>
+
+        <div class="gift-grid">
+          <button
+            class="gift-item"
+            type="button"
+            data-action="gift-detail"
+            data-gift="watch"
+          >
+            <!-- Set data-src to the actual product image path. -->
+            <span
+  class="gift-image"
+  data-product-image
+  data-src="../assets/images/gift-1.png"
+>
+  <span>상품 사진 1</span>
+</span>
+            <span class="gift-name">eee.space Sunlight watch</span>
+            <span class="gift-price">63,000원</span>
+          </button>
+
+          <button
+            class="gift-item"
+            type="button"
+            data-action="gift-detail"
+            data-gift="phone"
+          >
+           <span
+  class="gift-image"
+  data-product-image
+  data-src="../assets/images/gift-2.png"
+>
+  <span>상품 사진 2</span>
+</span>
+            <span class="gift-name">eee.space phone keyring</span>
+            <span class="gift-price">42,000원</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="upcoming-section" aria-labelledby="upcoming-title">
+        <h2 id="upcoming-title">다음으로 챙길 생일</h2>
+
+        <ul class="birthday-list">
+          <li>
+            <button
+              class="friend-card"
+              type="button"
+              data-action="friend"
+              data-friend="jimin"
+            >
+             <span class="friend-avatar friend-avatar--pink" aria-hidden="true">
+  <span class="friend-emoji">🥰</span>
+</span>
+              <span class="friend-info">
+                <span class="friend-name">지민</span>
+                <span class="friend-date">
+                  10월 28일 · <strong>D-19</strong>
+                </span>
+              </span>
+            </button>
+          </li>
+
+          <li>
+            <button
+              class="friend-card"
+              type="button"
+              data-action="friend"
+              data-friend="eunsu"
+            >
+              <span class="friend-avatar friend-avatar--gray" aria-hidden="true">
+  <span class="friend-emoji">🤠</span>
+</span>
+              <span class="friend-info">
+                <span class="friend-name">은수</span>
+                <span class="friend-date">
+                  11월 3일 · <strong>D-25</strong>
+                </span>
+              </span>
+            </button>
+          </li>
+        </ul>
+      </section>
+    </main>
+  </div>
+
+  <button
+    class="register-button"
+    type="button"
+    aria-haspopup="dialog"
+    aria-controls="register-dialog"
+  >
+    + 등록
+  </button>
+
+  <!-- Shared navigation is rendered here by JavaScript. -->
+  <div id="bottom-nav"></div>
+
+ <dialog
+  id="register-dialog"
+  class="register-dialog"
+  aria-label="선물 후보 등록 방법 선택"
+>
+  <div class="register-menu">
+    <button
+      type="button"
+      class="register-option"
+      data-action="register-link"
+    >
+      <span aria-hidden="true">🔗</span>
+      <span>링크</span>
+    </button>
+
+    <button
+      type="button"
+      class="register-option"
+      data-action="register-photo"
+    >
+      <span aria-hidden="true">📷</span>
+      <span>사진/카메라</span>
+    </button>
+  </div>
+
+  <button
+    type="button"
+    class="dialog-close"
+    aria-label="등록 메뉴 닫기"
+  >
+    <span class="close-mark" aria-hidden="true"></span>
+  </button>
+</dialog>
+
+  <div class="home-notice" role="status" aria-live="polite" hidden></div>
+</body>
+</html>
