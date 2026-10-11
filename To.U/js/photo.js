@@ -658,11 +658,93 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  renderFriendChips();
-  updateSaveButton();
+  // ========================================
+// 홈에서 선택한 사진 불러오기
+// ========================================
 
-  // 시연용 photo-test.html에서는 초안을 복원하지 않음
-  if (!window.location.pathname.endsWith("/photo-test.html")) {
-    restoreDraft();
+async function restoreSelectedPhotos() {
+  const params = new URLSearchParams(window.location.search);
+
+  // 홈에서 사진을 선택하고 넘어온 경우
+  if (params.get("source") !== "gallery") {
+    return false;
   }
+
+  try {
+    const request = indexedDB.open("present-photo-transfer-v1", 1);
+
+    request.onupgradeneeded = () => {
+      const db = request.result;
+
+      if (!db.objectStoreNames.contains("transfers")) {
+        db.createObjectStore("transfers");
+      }
+    };
+
+    const db = await new Promise((resolve, reject) => {
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+
+    const files = await new Promise((resolve, reject) => {
+      const transaction = db.transaction("transfers", "readonly");
+      const getRequest = transaction
+        .objectStore("transfers")
+        .get("selected-images");
+
+      getRequest.onsuccess = () => resolve(getRequest.result || []);
+      getRequest.onerror = () => reject(getRequest.error);
+    });
+
+    // 기존 addImage 함수를 이용해 사진 미리보기 생성
+    files.forEach((file) => {
+      if (file instanceof Blob) {
+        addImage(file);
+      }
+    });
+
+    // 다음 등록에 이전 사진이 남지 않도록 전달 데이터 삭제
+    await new Promise((resolve, reject) => {
+      const transaction = db.transaction("transfers", "readwrite");
+
+      transaction.objectStore("transfers").delete("selected-images");
+
+      transaction.oncomplete = resolve;
+      transaction.onerror = () => reject(transaction.error);
+      transaction.onabort = () => reject(transaction.error);
+    });
+
+    db.close();
+
+    return true;
+
+  } catch (error) {
+    console.error("선택한 사진 복원 실패:", error);
+    showToast("사진을 불러오지 못했습니다.");
+    return true;
+  }
+}
+
+// ========================================
+// 페이지 초기화
+// ========================================
+
+renderFriendChips();
+updateSaveButton();
+
+(async () => {
+  const isGalleryEntry =
+    new URLSearchParams(window.location.search)
+      .get("source") === "gallery";
+
+  if (isGalleryEntry) {
+    // 새로 선택한 사진을 우선 표시하고
+    // 이전 임시 저장 사진은 자동으로 섞지 않음
+    await restoreSelectedPhotos();
+  } else if (
+    !window.location.pathname.endsWith("/photo-test.html")
+  ) {
+    await restoreDraft();
+  }
+})();
 });

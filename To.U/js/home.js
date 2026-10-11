@@ -79,13 +79,76 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 링크 클릭 → link.html 이동
     registerLink?.addEventListener("click", () => {
-      window.location.href = "./link.html";
+      window.location.href = "./link.html?source=gallery";
     });
 
-    // 사진/카메라 → 파일 선택
-    registerPhoto?.addEventListener("click", () => {
-      window.location.href = "./photo.html";
+    // ==========================================
+// 사진/카메라 → 사진 선택 → 등록 페이지 이동
+// ==========================================
+
+registerPhoto?.addEventListener("click", () => {
+  // 모바일: 갤러리 / PC: 파일 탐색기
+  photoInput.click();
+});
+
+photoInput?.addEventListener("change", async (event) => {
+  const files = Array.from(event.target.files || []);
+
+  if (files.length === 0) return;
+
+  // 이미지 파일만 허용
+  const validFiles = files.filter(
+    (file) =>
+      file.type.startsWith("image/") &&
+      file.size <= 10 * 1024 * 1024
+  );
+
+  if (validFiles.length === 0) {
+    alert("10MB 이하의 이미지 파일을 선택해 주세요.");
+    photoInput.value = "";
+    return;
+  }
+
+  try {
+    // 페이지 이동 후에도 사진을 유지하기 위한 IndexedDB
+    const request = indexedDB.open("present-photo-transfer-v1", 1);
+
+    request.onupgradeneeded = () => {
+      const db = request.result;
+
+      if (!db.objectStoreNames.contains("transfers")) {
+        db.createObjectStore("transfers");
+      }
+    };
+
+    const db = await new Promise((resolve, reject) => {
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
     });
+
+    await new Promise((resolve, reject) => {
+      const transaction = db.transaction("transfers", "readwrite");
+
+      transaction.objectStore("transfers").put(
+        validFiles,
+        "selected-images"
+      );
+
+      transaction.oncomplete = resolve;
+      transaction.onerror = () => reject(transaction.error);
+      transaction.onabort = () => reject(transaction.error);
+    });
+
+    db.close();
+
+    // 사진이 저장된 후 등록 페이지 이동
+    window.location.href = "./loading-photo.html?source=gallery";
+
+  } catch (error) {
+    console.error("이미지 전달 실패:", error);
+    alert("사진을 불러오지 못했습니다. 다시 시도해 주세요.");
+  }
+});
 
     photoInput?.addEventListener("change", (event) => {
       const file = event.target.files?.[0];
