@@ -1,3 +1,11 @@
+import {
+  initFriends,
+  initFriendDetail,
+  initFriendAdd,
+  initFriendSelect,
+  initWishAdd
+} from "./features/friends.js";
+
 const routes = {
   home: "home.html",
   wishlist: "wishlist.html",

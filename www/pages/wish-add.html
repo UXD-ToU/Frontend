@@ -1,0 +1,60 @@
+<div class="wish-add-page register-page page-container">
+
+  <div class="page-top">
+    <button class="icon-btn" type="button" data-page="home" aria-label="뒤로가기">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M15 5L8 12L15 19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="photo-slots">
+    <span class="photo-slot" aria-hidden="true"></span>
+    <button class="photo-slot" type="button" data-action="add-photo" aria-label="사진 추가">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <small>1/5</small>
+    </button>
+  </div>
+
+  <div class="field">
+    <label class="field__label" for="wish-name">상품명 <em>*</em></label>
+    <div class="field__control">
+      <input id="wish-name" type="text" placeholder="어떤 선물을 담을까요?" autocomplete="off">
+    </div>
+  </div>
+
+  <div class="field">
+    <span class="field__label">선물할 친구 <em>*</em></span>
+    <div class="field__control">
+      <button class="field-select" type="button" id="select-friend-btn" data-page="friend-select">친구 선택</button>
+    </div>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label class="field__label" for="wish-brand">브랜드</label>
+      <div class="field__control">
+        <input id="wish-brand" type="text" placeholder="선택 입력" autocomplete="off">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field__label" for="wish-price">가격</label>
+      <div class="field__control">
+        <input id="wish-price" type="text" inputmode="numeric" placeholder="₩ 0" autocomplete="off">
+      </div>
+    </div>
+  </div>
+
+  <div class="field-memo">
+    <label class="field__label" for="wish-memo">메모</label>
+    <textarea id="wish-memo"></textarea>
+  </div>
+
+  <div class="bottom-action">
+    <button class="btn-primary" type="button" data-page="wishlist">등록하기</button>
+  </div>
+
+</div>

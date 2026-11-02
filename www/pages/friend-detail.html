@@ -9,22 +9,19 @@
   </div>
 
   <section class="friend-profile">
-    <div class="btn-avatar btn-avatar--pale btn-avatar--lg" aria-hidden="true">
+    <div id="detail-avatar" class="btn-avatar btn-avatar--pale btn-avatar--lg" aria-hidden="true">
       <span class="btn-avatar__holes"><i></i><i></i><i></i><i></i></span>
     </div>
 
-    <h1 class="friend-profile__name">정인</h1>
-    <p class="friend-profile__birthday">🎂 2월 25일</p>
+    <h1 class="friend-profile__name" id="detail-name"></h1>
+    <p class="friend-profile__birthday" id="detail-birthday"></p>
 
-    <ul class="tag-list">
-      <li class="tag">친한 친구</li>
-      <li class="tag">알바</li>
-    </ul>
+    <ul class="tag-list" id="detail-tags"></ul>
   </section>
 
   <div class="bottom-action bottom-action--split">
-    <button class="text-action" type="button" data-page="friend-add">정보 수정</button>
-    <button class="text-action text-action--strong" type="button" data-action="delete-friend">친구 삭제</button>
+    <button class="text-action" type="button" data-page="friend-add" data-edit="true">정보 수정</button>
+    <button class="text-action text-action--strong" type="button" id="delete-friend">친구 삭제</button>
   </div>
 
 </div>

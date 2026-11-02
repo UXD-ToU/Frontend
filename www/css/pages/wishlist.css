@@ -6,23 +6,34 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   column-gap: var(--spacing-16);
-  row-gap: var(--spacing-12);
   margin-top: var(--spacing-16);
-  padding: 0 var(--spacing-8);
+  padding: 0;
 }
 
 .polaroid {
-  padding: 8px 8px 0;
+  position: relative;
+  padding: 10px 10px 0;
   border: 0;
-  color: var(--color-black-900);
+  color: var(--color-black-600);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transform: rotate(-2deg);
+  transform: rotate(-3deg);
 }
 
+/* 오른쪽 열은 아래로 16px */
 .polaroid:nth-child(even) {
-  margin-top: 28px;
-  transform: rotate(2deg);
+  top: 16px;
+  transform: rotate(3deg);
 }
+
+/* 아래 줄은 위 카드와 겹침 */
+.polaroid:nth-child(n+3) {
+  margin-top: -24px;
+}
+
+.polaroid:nth-child(3) { transform: rotate(-2deg); }
+.polaroid:nth-child(4) { transform: rotate(2deg); }
+.polaroid:nth-child(5) { transform: rotate(-3deg); }
+.polaroid:nth-child(6) { transform: rotate(2deg); }
 
 .polaroid__photo {
   display: block;
@@ -31,11 +42,12 @@
 }
 
 .polaroid__name {
-  display: block;
-  padding: 10px 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 64px;
   font-size: var(--font-heading-3);
   font-weight: 700;
-  text-align: center;
   letter-spacing: -0.5px;
 }
 

@@ -1,5 +1,6 @@
 
 import { navigate } from "./router.js";
+import "./events.js";
 
 // HTML 컴포넌트 로드
 async function loadComponent(selector, path) {
