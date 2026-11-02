@@ -118,3 +118,26 @@
 .friend-form {
   margin-top: var(--spacing-36);
 }
+
+/* 단추 색 선택 */
+.avatar-picker {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-16);
+  margin-top: var(--spacing-16);
+}
+
+.avatar-picker[hidden] {
+  display: none;
+}
+
+.avatar-picker button {
+  padding: 3px;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  background: transparent;
+}
+
+.avatar-picker button.is-selected {
+  border-color: var(--color-black-900);
+}

@@ -2,9 +2,17 @@ import {
   initFriends,
   initFriendDetail,
   initFriendAdd,
-  initFriendSelect,
-  initWishAdd
+  initFriendSelect
 } from "./features/friends.js";
+import { initHome } from "./features/home.js";
+import {
+  initWishlist,
+  initWishlistDetail,
+  initWishlistGrid,
+  initWishDetail,
+  initWishLink,
+  initWishAdd
+} from "./features/wishes.js";
 
 const routes = {
   home: "home.html",
@@ -20,7 +28,6 @@ const routes = {
   "wish-detail": "wish-detail.html",
   "wishlist-detail": "wishlist-detail.html",
   "wishlist-grid": "wishlist-grid.html"
-  
 };
 
 const placeholders = {
@@ -29,8 +36,24 @@ const placeholders = {
 
 // 하위 화면에서 하단 내비게이션에 켜 둘 탭
 const navTabs = {
-  "wishlist-detail": "wishlist-detail.html",
-  "wishlist-grid": "wishlist-grid.html"
+  "wishlist-detail": "wishlist",
+  "wishlist-grid": "wishlist",
+  "wish-detail": "wishlist"
+};
+
+// 화면을 불러온 뒤 실행할 초기화 함수
+const pageInits = {
+  home: () => initHome(),
+  friends: () => initFriends(),
+  "friend-detail": () => initFriendDetail(navigate),
+  "friend-add": () => initFriendAdd(navigate),
+  "friend-select": () => initFriendSelect(navigate),
+  wishlist: () => initWishlist(),
+  "wishlist-detail": () => initWishlistDetail(),
+  "wishlist-grid": () => initWishlistGrid(),
+  "wish-detail": () => initWishDetail(navigate),
+  "wish-link": () => initWishLink(navigate),
+  "wish-add": () => initWishAdd(navigate)
 };
 
 let navigationId = 0;
@@ -86,6 +109,11 @@ export async function navigate(page) {
         button.removeAttribute("aria-current");
       }
     });
+
+    // 화면별 데이터 렌더링
+    await pageInits[page]?.();
+
+    if (currentNavigation !== navigationId) return;
 
     window.scrollTo(0, 0);
 

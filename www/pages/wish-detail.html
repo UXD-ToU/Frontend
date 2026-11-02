@@ -1,0 +1,51 @@
+<div class="wish-detail-page page-container">
+
+  <div class="page-top">
+    <div class="top-left">
+      <button class="icon-btn" type="button" data-page="wishlist-detail" aria-label="뒤로가기">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M15 5L8 12L15 19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <h1 class="page-title" id="wd-title"></h1>
+    </div>
+
+    <div class="top-actions">
+      <button class="icon-btn" type="button" aria-label="공유">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 15V4M8 8L12 4L16 8M6 12V19H18V12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <button class="icon-btn" type="button" id="wd-more" aria-label="삭제">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="wish-photo slot">
+    <div class="paper" id="wd-photos"></div>
+  </div>
+
+  <section class="wish-info">
+    <p class="wish-info__label">상품 정보</p>
+    <h2 class="wish-info__name" id="wd-name"></h2>
+    <p class="wish-info__price" id="wd-price"></p>
+  </section>
+
+  <div class="wish-row">
+    <span class="wish-row__label">선물할 친구</span>
+    <ul class="tag-list" id="wd-friend" style="margin:0"></ul>
+  </div>
+
+  <section class="wish-memo">
+    <span class="wish-row__label">메모</span>
+    <div class="wish-memo__box" id="wd-memo"></div>
+  </section>
+
+  <div class="bottom-action" id="wd-bottom">
+    <a class="site-link" id="wd-site" href="#" target="_blank" rel="noopener">상품 사이트로 이동</a>
+  </div>
+
+</div>

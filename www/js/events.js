@@ -35,11 +35,17 @@ document.addEventListener("click", event => {
     return;
   }
 
-  // 친구를 눌렀을 때 어떤 친구인지 기억
+  // 어떤 친구 / 어떤 상품을 눌렀는지 기억
   const friendButton = event.target.closest("[data-friend-id]");
 
   if (friendButton) {
     state.currentFriendId = friendButton.dataset.friendId;
+  }
+
+  const wishButton = event.target.closest("[data-wish-id]");
+
+  if (wishButton) {
+    state.currentWishId = wishButton.dataset.wishId;
   }
 
   // 페이지 이동 (하단 내비는 app.js에서 처리)

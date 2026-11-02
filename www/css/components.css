@@ -335,6 +335,10 @@ body[data-page="wish-detail"] #app-bottom-nav {
   --size: 120px;
 }
 
+.btn-avatar--md {
+  --size: 58px;
+}
+
 .btn-avatar::before {
   content: "";
   position: absolute;

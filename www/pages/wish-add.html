@@ -8,15 +8,8 @@
     </button>
   </div>
 
-  <div class="photo-slots">
-    <span class="photo-slot" aria-hidden="true"></span>
-    <button class="photo-slot" type="button" data-action="add-photo" aria-label="사진 추가">
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-      </svg>
-      <small>1/5</small>
-    </button>
-  </div>
+  <div class="photo-slots" id="photo-slots"></div>
+  <input id="photo-input" type="file" accept="image/*" multiple hidden>
 
   <div class="field">
     <label class="field__label" for="wish-name">상품명 <em>*</em></label>
@@ -54,7 +47,7 @@
   </div>
 
   <div class="bottom-action">
-    <button class="btn-primary" type="button" data-page="wishlist">등록하기</button>
+    <button class="btn-primary" type="button" id="save-wish">등록하기</button>
   </div>
 
 </div>

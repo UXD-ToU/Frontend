@@ -219,3 +219,77 @@
   border-radius: 50%;
   background: var(--color-pink-500);
 }
+
+/* =========================
+   이미지 / 공통 보강
+========================= */
+
+.polaroid__photo,
+.card-viewer__img,
+.thumb,
+.photo-slot--img {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.card-viewer__img {
+  border: 0;
+  padding: 0;
+}
+
+.empty-text {
+  padding: var(--spacing-24) 0;
+  color: var(--color-black-400);
+  font-size: 14px;
+  text-align: center;
+}
+
+a.site-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.photo-slots {
+  overflow-x: auto;
+}
+
+.photo-slot {
+  flex-shrink: 0;
+}
+
+.wish-photo__body {
+  display: grid;
+  gap: var(--spacing-12);
+}
+
+/* =========================
+   보강
+========================= */
+
+.empty-text {
+  padding: var(--spacing-24) 0;
+  color: var(--color-black-400);
+  font-size: 14px;
+  text-align: center;
+}
+
+a.site-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.photo-slots {
+  overflow-x: auto;
+}
+
+.photo-slot {
+  flex-shrink: 0;
+}
+
+.photo-slot--img {
+  background-size: cover;
+  background-position: center;
+}

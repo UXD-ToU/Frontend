@@ -19,13 +19,11 @@
   transform: rotate(-3deg);
 }
 
-/* 오른쪽 열은 아래로 16px */
 .polaroid:nth-child(even) {
   top: 16px;
   transform: rotate(3deg);
 }
 
-/* 아래 줄은 위 카드와 겹침 */
 .polaroid:nth-child(n+3) {
   margin-top: -24px;
 }
@@ -38,7 +36,10 @@
 .polaroid__photo {
   display: block;
   aspect-ratio: 1;
-  background: var(--color-gray-100);
+  background-color: var(--color-gray-100);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .polaroid__name {
@@ -59,7 +60,7 @@
 .polaroid--white { background: var(--color-pink-light); }
 
 /* =========================
-   WISHLIST DETAIL (카드형)
+   상단 바 공통
 ========================= */
 
 .page-title .accent {
@@ -78,67 +79,85 @@
   gap: var(--spacing-8);
 }
 
-.card-viewer {
+/* =========================
+   슬롯 + 종이 (카드형 / 상세 공통)
+========================= */
+
+.slot {
   position: relative;
-  margin-top: var(--spacing-24);
+  padding-top: 24px;          /* 종이 시작 위치 = 선의 가운데 */
 }
 
-.card-viewer__tab {
-  height: 36px;
-  border-radius: var(--radius-md) var(--radius-md) 0 0;
-  background: var(--color-pink-100);
-  position: relative;
-}
-
-.card-viewer__tab::after {
+/* 구멍 */
+.slot::before {
   content: "";
   position: absolute;
-  left: 8%;
-  right: 8%;
-  top: 14px;
-  height: 4px;
-  border-radius: var(--radius-circle);
-  background: var(--color-black-900);
-}
-
-.card-viewer__body {
-  margin: -8px 20px 0;
-  padding: 12px;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 49px;
+  border-radius: var(--radius-sm);
   background: var(--color-pink-100);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  display: grid;
-  gap: var(--spacing-12);
+  z-index: 1;
 }
 
-.card-viewer__img {
+/* 구멍 안쪽 선 (두께 6px, 가운데가 y=24px) */
+.slot::after {
+  content: "";
+  position: absolute;
+  top: 21px;
+  left: 16px;
+  right: 16px;
+  height: 6px;
+  border-radius: var(--radius-circle);
+  background: var(--color-black-600);
+  z-index: 3;
+}
+
+/* 구멍에서 나온 종이 */
+.paper {
+  position: relative;
+  z-index: 2;
+  margin: 0 9.4%;
+  padding: 19px;
+  background: var(--color-pink-light);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+}
+
+.paper__img {
   display: block;
   width: 100%;
   aspect-ratio: 1;
-  object-fit: cover;
-  background: var(--color-gray-100);
-}
-
-.card-viewer__arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  display: grid;
-  place-items: center;
-  width: 28px;
-  height: 40px;
   padding: 0;
   border: 0;
-  background: transparent;
-  color: var(--color-black-900);
+  background-color: var(--color-gray-100);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-.card-viewer__arrow svg {
-  width: 24px;
-  height: 24px;
+/* =========================
+   WISHLIST DETAIL (카드형: 세로 스크롤)
+========================= */
+
+.card-viewer {
+  height: calc(100dvh - 246px);
+  margin-top: var(--spacing-24);
 }
 
-.card-viewer__arrow--prev { left: -8px; }
-.card-viewer__arrow--next { right: -8px; }
+.card-viewer .paper {
+  height: 100%;
+  display: grid;
+  align-content: start;
+  gap: 19px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+}
+
+.card-viewer .paper::-webkit-scrollbar {
+  display: none;
+}
 
 /* =========================
    WISHLIST GRID (그리드형)
@@ -147,42 +166,70 @@
 .thumb-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 4px;
   margin-top: var(--spacing-24);
-  padding: 4px;
-  border: 1.5px dashed var(--color-pink-500);
+  border-top: 1.5px dashed var(--color-pink-100);
+  border-left: 1.5px dashed var(--color-pink-100);
 }
 
 .thumb {
+  --cell-bg: var(--color-white);
+
   display: block;
   aspect-ratio: 1;
-  padding: 0;
+  padding: 8px;
   border: 0;
-  background: var(--color-gray-100);
+  border-right: 1.5px dashed var(--color-pink-100);
+  border-bottom: 1.5px dashed var(--color-pink-100);
+
+  background-image: var(--img, none), linear-gradient(var(--cell-bg), var(--cell-bg));
+  background-size: cover, auto;
+  background-position: center, center;
+  background-repeat: no-repeat;
+  background-origin: content-box, border-box;
+  background-clip: content-box, border-box;
 }
+
+/* 칸 배경색 (12칸 패턴 반복) */
+.thumb:nth-child(12n+1)  { --cell-bg: var(--color-pink-light); }
+.thumb:nth-child(12n+2)  { --cell-bg: var(--color-white); }
+.thumb:nth-child(12n+3)  { --cell-bg: var(--color-gray-100); }
+.thumb:nth-child(12n+4)  { --cell-bg: var(--color-white); }
+.thumb:nth-child(12n+5)  { --cell-bg: var(--color-pink-100); }
+.thumb:nth-child(12n+6)  { --cell-bg: var(--color-pink-light); }
+.thumb:nth-child(12n+7)  { --cell-bg: var(--color-pink-light); }
+.thumb:nth-child(12n+8)  { --cell-bg: var(--color-gray-100); }
+.thumb:nth-child(12n+9)  { --cell-bg: var(--color-white); }
+.thumb:nth-child(12n+10) { --cell-bg: var(--color-white); }
+.thumb:nth-child(12n+11) { --cell-bg: var(--color-pink-light); }
+.thumb:nth-child(12n)    { --cell-bg: var(--color-pink-100); }
 
 .thumb--empty {
-  background: var(--color-pink-100);
   pointer-events: none;
 }
-
-.thumb:nth-child(3n+2) { background: var(--color-gray-200); }
-.thumb:nth-child(4n+3) { background: var(--color-pink-light); }
 
 /* =========================
    WISH DETAIL (상품 상세)
 ========================= */
 
 .wish-photo {
-  position: relative;
   margin-top: var(--spacing-24);
 }
 
-.wish-photo__body {
-  margin: -8px 20px 0;
-  padding: 12px;
-  background: var(--color-pink-100);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+.wish-photo .paper {
+  display: flex;
+  gap: 19px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.wish-photo .paper::-webkit-scrollbar {
+  display: none;
+}
+
+.wish-photo .paper__img {
+  flex: 0 0 100%;
+  scroll-snap-align: center;
 }
 
 .wish-info {

@@ -1,25 +1,13 @@
 import { state } from "../state.js";
 import {
+  AVATARS,
   listFriends,
   getFriend,
   saveFriend,
   deleteFriend,
   formatBirthday
 } from "../services/friend-service.js";
-
-function escapeHtml(text) {
-  const div = document.createElement("div");
-  div.textContent = text;
-  return div.innerHTML;
-}
-
-function avatarHTML(style, extraClass = "") {
-  return `
-    <span class="btn-avatar btn-avatar--${style} ${extraClass}" aria-hidden="true">
-      <span class="btn-avatar__holes"><i></i><i></i><i></i><i></i></span>
-    </span>
-  `;
-}
+import { escapeHtml, avatarHTML } from "../utils.js";
 
 function sortByName(friends) {
   return [...friends].sort((a, b) => a.name.localeCompare(b.name, "ko"));
@@ -95,20 +83,52 @@ export async function initFriendAdd(navigate) {
   const birthdayInput = document.querySelector("#friend-birthday");
   const relationSelect = document.querySelector("#friend-relation");
   const saveButton = document.querySelector("#save-friend");
+  const avatarEl = document.querySelector("#edit-avatar");
+  const picker = document.querySelector("#avatar-picker");
+  const decorateButton = document.querySelector("#decorate-btn");
 
   const editing = state.editingFriendId
     ? await getFriend(state.editingFriendId)
     : null;
+
+  // 사용자가 고른 단추 색 (고르지 않으면 null)
+  let avatar = editing?.avatar || null;
+
+  function showAvatar() {
+    avatarEl.className = `btn-avatar btn-avatar--${avatar || "pale"} btn-avatar--lg`;
+
+    picker.querySelectorAll("button").forEach(button => {
+      button.classList.toggle("is-selected", button.dataset.avatar === avatar);
+    });
+  }
+
+  // 단추 색 선택지
+  picker.innerHTML = AVATARS.map(style => `
+    <button type="button" data-avatar="${style}" aria-label="${style} 단추">
+      ${avatarHTML(style)}
+    </button>
+  `).join("");
+
+  decorateButton.addEventListener("click", () => {
+    picker.hidden = !picker.hidden;
+  });
+
+  picker.addEventListener("click", event => {
+    const button = event.target.closest("[data-avatar]");
+    if (!button) return;
+
+    avatar = button.dataset.avatar;
+    showAvatar();
+  });
 
   if (editing) {
     nameInput.value = editing.name;
     birthdayInput.value = editing.birthday;
     relationSelect.value = editing.relation || "";
     saveButton.textContent = "저장하기";
-
-    document.querySelector("#edit-avatar").className =
-      `btn-avatar btn-avatar--${editing.avatar} btn-avatar--lg`;
   }
+
+  showAvatar();
 
   saveButton.addEventListener("click", async () => {
     const name = nameInput.value.trim();
@@ -123,7 +143,8 @@ export async function initFriendAdd(navigate) {
       id: editing?.id,
       name,
       birthday,
-      relation: relationSelect.value
+      relation: relationSelect.value,
+      avatar
     });
 
     if (editing) {
@@ -173,20 +194,4 @@ export async function initFriendSelect(navigate) {
     state.selectedFriendId = checked ? checked.value : null;
     navigate("wish-add");
   });
-}
-
-/* =========================
-   상품 입력: 선택한 친구 표시
-========================= */
-
-export async function initWishAdd() {
-  const button = document.querySelector("#select-friend-btn");
-  if (!button || !state.selectedFriendId) return;
-
-  const friend = await getFriend(state.selectedFriendId);
-
-  if (friend) {
-    button.textContent = friend.name;
-    button.classList.add("is-filled");
-  }
 }

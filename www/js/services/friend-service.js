@@ -1,8 +1,9 @@
 import { getAll, getOne, putOne, removeOne } from "../db/database.js";
+import { deleteWishesByFriend } from "./wish-service.js";
 
 const STORE = "friends";
 const SEEDED_KEY = "tou_friends_seeded";
-export const AVATARS = ["pale", "black", "pink", "gray"];
+export const AVATARS = ["pale", "pink", "black", "gray"];
 
 // 처음 실행할 때만 넣는 테스트 데이터
 const seedFriends = [
@@ -40,17 +41,27 @@ export async function saveFriend({ id, name, birthday, relation, avatar }) {
 
     friend = {
       id: `friend-${Date.now()}`,
-      avatar: avatar || AVATARS[count % AVATARS.length]
+      avatar: AVATARS[count % AVATARS.length]
     };
   }
 
-  const saved = { ...friend, name, birthday, relation };
+  const saved = {
+    ...friend,
+    name,
+    birthday,
+    relation,
+    avatar: avatar || friend.avatar
+  };
+
   await putOne(STORE, saved);
 
   return saved;
 }
 
-export const deleteFriend = id => removeOne(STORE, id);
+export async function deleteFriend(id) {
+  await deleteWishesByFriend(id);
+  await removeOne(STORE, id);
+}
 
 export function formatBirthday(birthday) {
   const [, month, day] = birthday.split("-").map(Number);
