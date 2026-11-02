@@ -1,0 +1,236 @@
+/* =========================
+   WISHLIST (친구별 폴라로이드)
+========================= */
+
+.polaroid-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: var(--spacing-16);
+  row-gap: var(--spacing-12);
+  margin-top: var(--spacing-16);
+  padding: 0 var(--spacing-8);
+}
+
+.polaroid {
+  padding: 8px 8px 0;
+  border: 0;
+  color: var(--color-black-900);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transform: rotate(-2deg);
+}
+
+.polaroid:nth-child(even) {
+  margin-top: 28px;
+  transform: rotate(2deg);
+}
+
+.polaroid__photo {
+  display: block;
+  aspect-ratio: 1;
+  background: var(--color-gray-100);
+}
+
+.polaroid__name {
+  display: block;
+  padding: 10px 0 12px;
+  font-size: var(--font-heading-3);
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: -0.5px;
+}
+
+.polaroid--pink  { background: var(--color-pink-500); }
+.polaroid--gray  { background: var(--color-gray-200); }
+.polaroid--pale  { background: var(--color-pink-light); }
+.polaroid--rose  { background: var(--color-pink-100); }
+.polaroid--dark  { background: var(--color-black-400); }
+.polaroid--white { background: var(--color-pink-light); }
+
+/* =========================
+   WISHLIST DETAIL (카드형)
+========================= */
+
+.page-title .accent {
+  color: var(--color-pink-500);
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+}
+
+.top-left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+}
+
+.card-viewer {
+  position: relative;
+  margin-top: var(--spacing-24);
+}
+
+.card-viewer__tab {
+  height: 36px;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  background: var(--color-pink-100);
+  position: relative;
+}
+
+.card-viewer__tab::after {
+  content: "";
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 14px;
+  height: 4px;
+  border-radius: var(--radius-circle);
+  background: var(--color-black-900);
+}
+
+.card-viewer__body {
+  margin: -8px 20px 0;
+  padding: 12px;
+  background: var(--color-pink-100);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: grid;
+  gap: var(--spacing-12);
+}
+
+.card-viewer__img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  background: var(--color-gray-100);
+}
+
+.card-viewer__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-black-900);
+}
+
+.card-viewer__arrow svg {
+  width: 24px;
+  height: 24px;
+}
+
+.card-viewer__arrow--prev { left: -8px; }
+.card-viewer__arrow--next { right: -8px; }
+
+/* =========================
+   WISHLIST GRID (그리드형)
+========================= */
+
+.thumb-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
+  margin-top: var(--spacing-24);
+  padding: 4px;
+  border: 1.5px dashed var(--color-pink-500);
+}
+
+.thumb {
+  display: block;
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  background: var(--color-gray-100);
+}
+
+.thumb--empty {
+  background: var(--color-pink-100);
+  pointer-events: none;
+}
+
+.thumb:nth-child(3n+2) { background: var(--color-gray-200); }
+.thumb:nth-child(4n+3) { background: var(--color-pink-light); }
+
+/* =========================
+   WISH DETAIL (상품 상세)
+========================= */
+
+.wish-photo {
+  position: relative;
+  margin-top: var(--spacing-24);
+}
+
+.wish-photo__body {
+  margin: -8px 20px 0;
+  padding: 12px;
+  background: var(--color-pink-100);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.wish-info {
+  margin-top: var(--spacing-24);
+  padding-bottom: var(--spacing-16);
+  border-bottom: 1.5px dashed var(--color-gray-200);
+}
+
+.wish-info__label {
+  color: var(--color-black-600);
+  font-size: var(--font-caption);
+}
+
+.wish-info__name {
+  margin-top: 4px;
+  font-size: var(--font-heading-3);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.wish-info__price {
+  margin-top: 4px;
+  font-size: var(--font-heading-3);
+  font-weight: 700;
+}
+
+.wish-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-12);
+  padding: var(--spacing-12) 0;
+  border-bottom: 1.5px dashed var(--color-gray-200);
+}
+
+.wish-row__label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.wish-memo {
+  margin-top: var(--spacing-16);
+}
+
+.wish-memo__box {
+  min-height: 72px;
+  margin-top: var(--spacing-8);
+  padding: var(--spacing-12);
+  border: 1.5px dashed var(--color-gray-200);
+  border-radius: var(--radius-md);
+  color: var(--color-black-600);
+  font-size: var(--font-caption);
+}
+
+.site-link {
+  width: 100%;
+  height: 62px;
+  border: 0;
+  background: transparent;
+  color: var(--color-black-400);
+  font-size: var(--font-caption);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

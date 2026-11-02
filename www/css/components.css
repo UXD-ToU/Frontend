@@ -1,0 +1,385 @@
+/* =========================
+   HEADER
+========================= */
+
+#app-header {
+  width: 100%;
+  padding: 0 var(--spacing-32);
+}
+
+.header-inner {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-logo {
+  display: inline-flex;
+  align-items: center;
+}
+
+.header-logo img {
+  width: 76px;
+  height: auto;
+}
+
+.my-profile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.my-label {
+  position: relative;
+  margin-top: -5px;
+  padding: 1px 14px;
+  border-radius: var(--radius-circle);
+  background: var(--color-gray-200);
+  color: var(--color-black-900);
+  font-size: var(--font-caption);
+  font-weight: 700;
+}
+
+/* =========================
+   MY BUTTON
+========================= */
+
+.button-icon {
+  width: 48px;
+  height: 48px;
+  border: 4px solid var(--color-black-900);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+}
+
+.button-icon--dark {
+  background: var(--color-black-900);
+  box-shadow: inset 0 0 0 2px var(--color-white);
+}
+
+.button-holes {
+  display: grid;
+  grid-template-columns: repeat(2, 6px);
+  gap: 5px;
+}
+
+.button-holes i {
+  width: 6px;
+  height: 6px;
+  background: var(--color-white);
+  border-radius: 50%;
+}
+
+/* =========================
+   BOTTOM NAVIGATION
+========================= */
+
+#app-bottom-nav {
+  position: fixed;
+  bottom: var(--safe-bottom);
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 64px);
+  max-width: 420px;
+  z-index: 100;
+}
+
+.bottom-nav-inner {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: center;
+  height: 62px;
+  padding: 6px;
+  background: var(--color-pink-light);
+  border-radius: var(--radius-circle);
+}
+
+.nav-item {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 50px;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-circle);
+  background: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nav-item img {
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
+  opacity: 0.5;
+  transition: opacity 0.2s ease;
+}
+
+.nav-item.active img {
+  opacity: 1;
+}
+
+.nav-item.active {
+  background: var(--color-pink-100);
+}
+
+.nav-item:focus-visible {
+  outline: 2px solid var(--color-black-900);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-item img {
+    transition: none;
+  }
+}
+
+/* =========================
+   화면별 헤더 / 내비게이션 표시
+========================= */
+
+/* 홈 외 화면: 로고 헤더 숨김 */
+body[data-page]:not([data-page="home"]) #app-header {
+  display: none;
+}
+
+/* 하단 내비게이션을 숨길 화면 */
+body[data-page="friend-add"] #app-bottom-nav,
+body[data-page="friend-detail"] #app-bottom-nav,
+body[data-page="friend-select"] #app-bottom-nav,
+body[data-page="wish-add"] #app-bottom-nav,
+body[data-page="wish-link"] #app-bottom-nav,
+body[data-page="wish-detail"] #app-bottom-nav {
+  display: none;
+}
+
+/* =========================
+   서브 화면 공통: 상단 바
+========================= */
+
+.page-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+}
+
+.page-title {
+  font-size: var(--font-heading-3);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.icon-btn {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-black-900);
+}
+
+.icon-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* =========================
+   서브 화면 공통: 하단 고정 영역
+========================= */
+
+.bottom-action {
+  position: fixed;
+  bottom: var(--safe-bottom);
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 64px);
+  max-width: 420px;
+  min-height: 62px;
+  display: flex;
+  align-items: center;
+  z-index: 100;
+}
+
+.bottom-action--split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.btn-primary {
+  width: 100%;
+  height: 52px;
+  border: 0;
+  border-radius: var(--radius-circle);
+  background: var(--color-pink-100);
+  color: var(--color-black-900);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.text-action {
+  height: 62px;
+  border: 0;
+  background: transparent;
+  color: var(--color-black-600);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.text-action--strong {
+  color: var(--color-black-900);
+  font-weight: 700;
+}
+
+@media (min-width: 600px) {
+  .bottom-action {
+    max-width: 366px;
+  }
+}
+
+/* =========================
+   서브 화면 공통: 입력 필드
+========================= */
+
+.field {
+  margin-top: var(--spacing-24);
+  border-bottom: 1.5px dashed var(--color-gray-200);
+}
+
+.field__label {
+  display: block;
+  color: var(--color-black-900);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.field__label em {
+  margin-left: 2px;
+  color: var(--color-pink-500);
+  font-style: normal;
+}
+
+.field__control {
+  position: relative;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--color-black-900);
+  font-size: 14px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.field input::placeholder {
+  color: var(--color-black-400);
+}
+
+.field select:invalid,
+.field input[type="date"]:invalid {
+  color: var(--color-black-400);
+}
+
+.field input[type="date"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.field__icon {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  transform: translateY(-50%);
+  color: var(--color-black-600);
+  pointer-events: none;
+}
+
+/* =========================
+   단추 프로필 (공통)
+========================= */
+
+.btn-avatar {
+  --size: 50px;
+  --hole: calc(var(--size) * 0.11);
+
+  position: relative;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: var(--avatar-bg);
+}
+
+.btn-avatar--lg {
+  --size: 120px;
+}
+
+.btn-avatar::before {
+  content: "";
+  position: absolute;
+  inset: calc(var(--size) * 0.1);
+  border-radius: 50%;
+  border: 2px solid var(--avatar-ring);
+}
+
+.btn-avatar--lg::before {
+  border-width: 3px;
+}
+
+.btn-avatar__holes {
+  display: grid;
+  grid-template-columns: repeat(2, var(--hole));
+  gap: var(--hole);
+}
+
+.btn-avatar__holes i {
+  width: var(--hole);
+  height: var(--hole);
+  border-radius: 50%;
+  background: var(--avatar-hole);
+}
+
+.btn-avatar--pale {
+  --avatar-bg: var(--color-pink-100);
+  --avatar-ring: var(--color-pink-light);
+  --avatar-hole: var(--color-pink-500);
+}
+
+.btn-avatar--pink {
+  --avatar-bg: var(--color-pink-500);
+  --avatar-ring: var(--color-pink-light);
+  --avatar-hole: var(--color-pink-light);
+}
+
+.btn-avatar--black {
+  --avatar-bg: var(--color-black-900);
+  --avatar-ring: var(--color-pink-100);
+  --avatar-hole: var(--color-pink-100);
+}
+
+.btn-avatar--gray {
+  --avatar-bg: var(--color-black-600);
+  --avatar-ring: var(--color-black-900);
+  --avatar-hole: var(--color-black-900);
+}

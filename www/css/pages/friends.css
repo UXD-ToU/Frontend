@@ -1,0 +1,120 @@
+/* =========================
+   FRIENDS LIST
+========================= */
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  height: 44px;
+  margin-top: 4px;
+  border-bottom: 1.5px dashed var(--color-black-900);
+}
+
+.search svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: var(--color-black-900);
+}
+
+.search input {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.friend-list {
+  margin: var(--spacing-12) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.friend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-16);
+  width: 100%;
+  height: 78px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-black-900);
+  font-size: var(--font-body-2);
+  font-weight: 500;
+  text-align: left;
+}
+
+/* =========================
+   FRIEND DETAIL
+========================= */
+
+.friend-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: var(--spacing-36);
+  text-align: center;
+}
+
+.friend-profile__name {
+  margin-top: var(--spacing-16);
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.friend-profile__birthday {
+  margin-top: 4px;
+  color: var(--color-black-400);
+  font-size: 18px;
+}
+
+.tag-list {
+  display: flex;
+  gap: var(--spacing-8);
+  margin: var(--spacing-12) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tag {
+  padding: 2px 12px;
+  border-radius: var(--radius-circle);
+  background: var(--color-pink-100);
+  color: var(--color-black-900);
+  font-size: var(--font-caption);
+  font-weight: 600;
+}
+
+/* =========================
+   FRIEND ADD
+========================= */
+
+.friend-edit-avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: var(--spacing-16);
+}
+
+.link-text {
+  margin-top: var(--spacing-12);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-black-400);
+  font-size: var(--font-caption);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.friend-form {
+  margin-top: var(--spacing-36);
+}

@@ -1,0 +1,266 @@
+/* =========================
+   HOME PAGE
+========================= */
+
+.home-page {
+  width: 100%;
+  padding: 0 var(--spacing-32);
+}
+
+/* =========================
+   BIRTHDAY HERO
+========================= */
+
+.birthday-hero {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-32);
+  margin-top: var(--spacing-8);
+}
+
+.birthday-calendar {
+  position: relative;
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  margin-top: 25px;
+  padding-top: 18px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background: var(--color-pink-100);
+  border-radius: var(--radius-md);
+}
+
+.birthday-calendar__rings {
+  position: absolute;
+  top: -8px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+.birthday-calendar__rings i {
+  width: 8px;
+  height: 18px;
+  background: var(--color-gray-200);
+  border-radius: var(--radius-circle);
+}
+
+.birthday-calendar__label {
+  padding: 0 12px;
+  background: var(--color-white);
+  border-radius: var(--radius-circle);
+  color: var(--color-black-900);
+  font-size: var(--font-caption);
+  font-weight: 700;
+  line-height: 18px;
+}
+
+.birthday-calendar__date {
+  margin-top: 4px;
+  color: var(--color-black-900);
+  font-size: var(--font-body-1);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.birthday-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.birthday-title {
+  color: var(--color-black-900);
+  font-size: var(--font-heading-2);
+  font-weight: 700;
+  line-height: 1.6;
+  letter-spacing: -0.5px;
+  word-break: keep-all;
+}
+
+.birthday-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 26px;
+  margin-top: var(--spacing-8);
+  padding: 0 var(--spacing-16);
+
+  border: none;
+  border-radius: var(--radius-circle);
+  background: var(--color-black-900);
+  color: var(--color-white);
+
+  font-size: var(--font-caption);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* =========================
+   SECTION
+========================= */
+
+.home-section {
+  margin-top: var(--spacing-36);
+}
+
+.home-section-title {
+  color: var(--color-black-900);
+  font-size: var(--font-heading-3);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+/* =========================
+   REGISTER CARDS
+========================= */
+
+.register-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-12);
+  margin-top: var(--spacing-16);
+}
+
+.register-card {
+  position: relative;
+  width: 100%;
+  height: 111px;
+  padding: 0 var(--spacing-32);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2px;
+
+  border: none;
+  border-radius: var(--radius-lg);
+  text-align: left;
+  color: var(--color-black-900);
+}
+
+.register-card::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1.5px dashed var(--color-white);
+  border-radius: var(--radius-md);
+  pointer-events: none;
+}
+
+.register-card--photo {
+  background: var(--color-pink-100);
+}
+
+.register-card--link {
+  background: var(--color-gray-200);
+}
+
+.register-card__desc {
+  color: var(--color-black-600);
+  font-size: var(--font-caption);
+  font-weight: 400;
+}
+
+.register-card__title {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-12);
+  font-size: var(--font-heading-3);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.register-card__title img {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+}
+
+/* =========================
+   UPCOMING BIRTHDAYS
+========================= */
+
+.upcoming-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: var(--spacing-16);
+  margin-top: var(--spacing-16);
+}
+
+.upcoming-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.upcoming-button {
+  position: relative;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+}
+
+.upcoming-button::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+}
+
+.upcoming-button .button-holes {
+  display: grid;
+  grid-template-columns: repeat(2, 5px);
+  gap: 5px;
+}
+
+.upcoming-button .button-holes i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
+
+/* 1. 검정 + 핑크 링 */
+.upcoming-button--1 { background: var(--color-black-900); }
+.upcoming-button--1::before { border-color: var(--color-pink-100); }
+.upcoming-button--1 .button-holes i { background: var(--color-pink-100); }
+
+/* 2. 검정 + 회색 링 */
+.upcoming-button--2 { background: var(--color-black-900); }
+.upcoming-button--2::before { border-color: var(--color-black-600); }
+.upcoming-button--2 .button-holes i { background: var(--color-black-600); }
+
+/* 3. 핑크 + 검정 링 */
+.upcoming-button--3 { background: var(--color-pink-100); }
+.upcoming-button--3::before { border-color: var(--color-black-900); }
+.upcoming-button--3 .button-holes i { background: var(--color-black-900); }
+
+/* 4. 진회색 + 검정 링 */
+.upcoming-button--4 { background: var(--color-black-600); }
+.upcoming-button--4::before { border-color: var(--color-black-900); }
+.upcoming-button--4 .button-holes i { background: var(--color-black-900); }
+
+.upcoming-name {
+  margin-top: var(--spacing-8);
+  color: var(--color-black-600);
+  font-size: var(--font-body-2);
+  font-weight: 600;
+}
+
+.upcoming-dday {
+  color: var(--color-black-400);
+  font-size: var(--font-body-2);
+  font-weight: 400;
+}

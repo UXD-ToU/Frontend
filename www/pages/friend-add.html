@@ -1,0 +1,61 @@
+<div class="friend-add-page page-container">
+
+  <div class="page-top">
+    <button class="icon-btn" type="button" data-page="friends" aria-label="뒤로가기">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M15 5L8 12L15 19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="friend-edit-avatar">
+    <div class="btn-avatar btn-avatar--pale btn-avatar--lg" aria-hidden="true">
+      <span class="btn-avatar__holes"><i></i><i></i><i></i><i></i></span>
+    </div>
+    <button class="link-text" type="button" data-action="edit-button">단추 꾸미기</button>
+  </div>
+
+  <div class="friend-form">
+
+    <div class="field">
+      <label class="field__label" for="friend-name">이름 <em>*</em></label>
+      <div class="field__control">
+        <input id="friend-name" type="text" placeholder="친구 이름을 입력해 주세요" autocomplete="off">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field__label" for="friend-birthday">생일 <em>*</em></label>
+      <div class="field__control">
+        <input id="friend-birthday" type="date" required>
+        <svg class="field__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="4" y="5" width="16" height="15" rx="3" stroke="currentColor" stroke-width="2"/>
+          <path d="M4 10H20M8 3V7M16 3V7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field__label" for="friend-relation">관계</label>
+      <div class="field__control">
+        <select id="friend-relation" required>
+          <option value="" disabled selected>관계를 선택해 주세요</option>
+          <option>친한 친구</option>
+          <option>가족</option>
+          <option>연인</option>
+          <option>동료</option>
+          <option>지인</option>
+        </select>
+        <svg class="field__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="bottom-action">
+    <button class="btn-primary" type="button" data-page="friends">등록하기</button>
+  </div>
+
+</div>

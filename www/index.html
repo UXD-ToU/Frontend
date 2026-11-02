@@ -3,16 +3,44 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  >
+
   <title>To.U</title>
+
+  <link rel="stylesheet" href="./css/variables.css">
   <link rel="stylesheet" href="./css/global.css">
+  <link rel="stylesheet" href="./css/components.css">
+  <link rel="stylesheet" href="./css/pages/home.css">
+  <link rel="stylesheet" href="./css/pages/friends.css">
+  <link rel="stylesheet" href="./css/pages/wishlist.css">
+
   <script type="module" src="./js/app.js"></script>
 </head>
+
 <body>
-  <main id="app">
-    <h1>To.U</h1>
-    <button id="test-button">시작하기</button>
-  </main>
+  <div class="app-container">
+
+    <!-- 상단 공백 62px -->
+    <div class="top-safe-area" aria-hidden="true"></div>
+
+    <!-- Header -->
+    <header id="app-header"></header>
+
+    <!-- Page Content -->
+    <main id="app-content"></main>
+
+    <!-- Bottom Navigation -->
+    <nav id="app-bottom-nav" aria-label="메인 메뉴"></nav>
+
+    <!-- 하단 공백 34px -->
+    <div class="bottom-safe-area" aria-hidden="true"></div>
+
+    <!-- Modal -->
+    <div id="app-modal"></div>
+
+  </div>
 </body>
 </html>
