@@ -140,14 +140,68 @@
    WISHLIST DETAIL (카드형: 세로 스크롤)
 ========================= */
 
+/* Keep the screen stationary; only the photo strip moves behind the slot. */
+body[data-page="wishlist-detail"] {
+  height: 100dvh;
+  overflow: hidden;
+}
+
+body[data-page="wishlist-detail"] .app-container {
+  height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+body[data-page="wishlist-detail"] #app-content {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  padding-bottom: calc(var(--safe-bottom) + 78px);
+}
+
+.wishlist-detail-page {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.wishlist-detail-page .page-top {
+  flex-shrink: 0;
+}
+
 .card-viewer {
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 0 1 auto;
   margin-top: var(--spacing-24);
+}
+
+/* The window starts at the grey slit, so the whole paper is cropped there. */
+.card-viewer .paper-window {
+  min-height: 0;
+  max-height: calc(162.4cqw - 19px);
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  scrollbar-width: none;
+  touch-action: pan-y;
+}
+
+.card-viewer .paper-window::-webkit-scrollbar {
+  display: none;
 }
 
 .card-viewer .paper {
   display: grid;
   align-content: start;
   gap: 19px;
+  margin-bottom: 8px;
+}
+
+.card-viewer::after {
+  pointer-events: none;
 }
 
 /* =========================
