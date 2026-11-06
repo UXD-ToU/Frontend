@@ -16,6 +16,7 @@ import {
 
 const routes = {
   home: "home.html",
+  privacy: "privacy.html",
   wishlist: "wishlist.html",
   friends: "friends.html",
 

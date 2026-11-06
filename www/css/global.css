@@ -234,3 +234,6 @@ p {
 #app-content {
   padding-bottom: 120px;
 }
+
+/* 개인정보처리방침 */
+.privacy-policy{max-width:760px;margin:0 auto;padding:24px;color:#27232a;font:16px/1.8 system-ui,sans-serif;overflow-wrap:anywhere}.privacy-policy h1{font-size:28px;line-height:1.4}.privacy-policy h2{font-size:20px;margin-top:32px}.privacy-policy p,.privacy-policy ul{margin:16px 0}.privacy-policy ul{padding-left:24px}.privacy-policy a{color:#8b246b;text-decoration:underline}.privacy-policy .effective-date{color:#645b63}.privacy-back{display:inline-block;margin:16px 24px;color:#8b246b}
