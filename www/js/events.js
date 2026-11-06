@@ -49,7 +49,7 @@ document.addEventListener("click", event => {
   }
 
   // 페이지 이동 (하단 내비는 app.js에서 처리)
-  const pageButton = event.target.closest("[data-page]");
+  const pageButton = event.target.closest("button[data-page], a[data-page]");
 
   if (pageButton && !pageButton.closest("#app-bottom-nav")) {
     if (pageButton.dataset.page === "friend-add") {

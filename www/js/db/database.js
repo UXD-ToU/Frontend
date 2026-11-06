@@ -21,8 +21,18 @@ export function openDB() {
         }
       };
 
-      request.onsuccess = () => resolve(request.result);
-      request.onerror = () => reject(request.error);
+      request.onsuccess = () => {
+        const db = request.result;
+        db.onversionchange = () => {
+          db.close();
+          dbPromise = undefined;
+        };
+        resolve(db);
+      };
+      request.onerror = () => {
+        dbPromise = undefined;
+        reject(request.error);
+      };
     });
   }
 

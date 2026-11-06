@@ -18,8 +18,9 @@ function sortByName(friends) {
 ========================= */
 
 export async function initFriends() {
-  const list = document.querySelector("#friend-list");
-  const search = document.querySelector("#friend-search");
+  const root = document.querySelector("#app-content").firstElementChild;
+  const list = root.querySelector("#friend-list");
+  const search = root.querySelector("#friend-search");
   if (!list) return;
 
   const friends = await listFriends();
@@ -47,30 +48,42 @@ export async function initFriends() {
 ========================= */
 
 export async function initFriendDetail(navigate) {
+  const root = document.querySelector("#app-content").firstElementChild;
   const friend = state.currentFriendId
     ? await getFriend(state.currentFriendId)
     : null;
+
+  if (!root.isConnected) return;
 
   if (!friend) {
     navigate("friends");
     return;
   }
 
-  document.querySelector("#detail-avatar").className =
+  root.querySelector("#detail-avatar").className =
     `btn-avatar btn-avatar--${friend.avatar} btn-avatar--lg`;
-  document.querySelector("#detail-name").textContent = friend.name;
-  document.querySelector("#detail-birthday").textContent =
+  root.querySelector("#detail-name").textContent = friend.name;
+  root.querySelector("#detail-birthday").textContent =
     `🎂 ${formatBirthday(friend.birthday)}`;
-  document.querySelector("#detail-tags").innerHTML = friend.relation
+  root.querySelector("#detail-tags").innerHTML = friend.relation
     ? `<li class="tag">${escapeHtml(friend.relation)}</li>`
     : "";
 
-  document.querySelector("#delete-friend").addEventListener("click", async () => {
-    if (!confirm(`${friend.name}님을 삭제할까요?`)) return;
-
-    await deleteFriend(friend.id);
-    state.currentFriendId = null;
-    navigate("friends");
+  const deleteButton = root.querySelector("#delete-friend");
+  deleteButton.addEventListener("click", async () => {
+    if (deleteButton.disabled || !confirm(`${friend.name}님을 삭제할까요?`)) return;
+    deleteButton.disabled = true;
+    try {
+      await deleteFriend(friend.id);
+      if (!root.isConnected) return;
+      state.currentFriendId = null;
+      navigate("friends");
+    } catch (error) {
+      console.error("친구 삭제 실패:", error);
+      if (root.isConnected) alert("삭제하지 못했습니다. 다시 시도해 주세요.");
+    } finally {
+      deleteButton.disabled = false;
+    }
   });
 }
 
@@ -79,17 +92,20 @@ export async function initFriendDetail(navigate) {
 ========================= */
 
 export async function initFriendAdd(navigate) {
-  const nameInput = document.querySelector("#friend-name");
-  const birthdayInput = document.querySelector("#friend-birthday");
-  const relationSelect = document.querySelector("#friend-relation");
-  const saveButton = document.querySelector("#save-friend");
-  const avatarEl = document.querySelector("#edit-avatar");
-  const picker = document.querySelector("#avatar-picker");
-  const decorateButton = document.querySelector("#decorate-btn");
+  const root = document.querySelector("#app-content").firstElementChild;
+  const nameInput = root.querySelector("#friend-name");
+  const birthdayInput = root.querySelector("#friend-birthday");
+  const relationSelect = root.querySelector("#friend-relation");
+  const saveButton = root.querySelector("#save-friend");
+  const avatarEl = root.querySelector("#edit-avatar");
+  const picker = root.querySelector("#avatar-picker");
+  const decorateButton = root.querySelector("#decorate-btn");
 
   const editing = state.editingFriendId
     ? await getFriend(state.editingFriendId)
     : null;
+
+  if (!root.isConnected) return;
 
   // 사용자가 고른 단추 색 (고르지 않으면 null)
   let avatar = editing?.avatar || null;
@@ -139,20 +155,30 @@ export async function initFriendAdd(navigate) {
       return;
     }
 
-    const saved = await saveFriend({
-      id: editing?.id,
-      name,
-      birthday,
-      relation: relationSelect.value,
-      avatar
-    });
+    if (saveButton.disabled) return;
+    saveButton.disabled = true;
+    try {
+      const saved = await saveFriend({
+        id: editing?.id,
+        name,
+        birthday,
+        relation: relationSelect.value,
+        avatar
+      });
 
-    if (editing) {
-      state.currentFriendId = saved.id;
-      state.editingFriendId = null;
-      navigate("friend-detail");
-    } else {
-      navigate("friends");
+      if (!root.isConnected) return;
+      if (editing) {
+        state.currentFriendId = saved.id;
+        state.editingFriendId = null;
+        navigate("friend-detail");
+      } else {
+        navigate("friends");
+      }
+    } catch (error) {
+      console.error("친구 저장 실패:", error);
+      if (root.isConnected) alert("저장하지 못했습니다. 다시 시도해 주세요.");
+    } finally {
+      saveButton.disabled = false;
     }
   });
 }
@@ -162,11 +188,17 @@ export async function initFriendAdd(navigate) {
 ========================= */
 
 export async function initFriendSelect(navigate) {
-  const list = document.querySelector("#select-list");
-  const search = document.querySelector("#select-search");
+  const root = document.querySelector("#app-content").firstElementChild;
+  const list = root.querySelector("#select-list");
+  const search = root.querySelector("#select-search");
   if (!list) return;
 
   const friends = sortByName(await listFriends());
+  if (!root.isConnected) return;
+  let selectedId = state.selectedFriendId;
+  list.addEventListener("change", event => {
+    if (event.target.matches('input[name="gift-friend"]')) selectedId = event.target.value;
+  });
 
   function render(keyword = "") {
     const filtered = friends.filter(friend => friend.name.includes(keyword));
@@ -180,7 +212,7 @@ export async function initFriendSelect(navigate) {
           </span>
           <input class="radio" type="radio" name="gift-friend"
                  value="${friend.id}"
-                 ${friend.id === state.selectedFriendId ? "checked" : ""}>
+                 ${friend.id === selectedId ? "checked" : ""}>
         </label>
       </li>
     `).join("");
@@ -189,9 +221,12 @@ export async function initFriendSelect(navigate) {
   render();
   search?.addEventListener("input", () => render(search.value.trim()));
 
-  document.querySelector("#confirm-friend").addEventListener("click", () => {
-    const checked = list.querySelector('input[name="gift-friend"]:checked');
-    state.selectedFriendId = checked ? checked.value : null;
+  root.querySelector("#confirm-friend").addEventListener("click", () => {
+    if (!selectedId) {
+      alert("친구를 선택해 주세요.");
+      return;
+    }
+    state.selectedFriendId = selectedId;
     navigate("wish-add");
   });
 }

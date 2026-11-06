@@ -40,7 +40,7 @@ export async function saveFriend({ id, name, birthday, relation, avatar }) {
     const count = (await getAll(STORE)).length;
 
     friend = {
-      id: `friend-${Date.now()}`,
+      id: `friend-${crypto.randomUUID()}`,
       avatar: AVATARS[count % AVATARS.length]
     };
   }
