@@ -1,10 +1,16 @@
 
 
 /* =========================
-   PRETENDARD WEB FONT
+   BUNDLED PRETENDARD FONT
 ========================= */
 
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css");
+@font-face {
+  font-family: "Pretendard Variable";
+  src: url("../assets/fonts/PretendardVariable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
 
 /* =========================
    GLOBAL FONT
