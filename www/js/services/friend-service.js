@@ -3,6 +3,7 @@ import { deleteWishesByFriend } from "./wish-service.js";
 
 const STORE = "friends";
 const SEEDED_KEY = "tou_friends_seeded";
+export const SELF = Object.freeze({ id: "me", name: "나", avatar: "pink" });
 export const AVATARS = ["pale", "pink", "black", "gray"];
 
 // 처음 실행할 때만 넣는 테스트 데이터

@@ -1,6 +1,7 @@
 import { state } from "../state.js";
 import {
   AVATARS,
+  SELF,
   listFriends,
   getFriend,
   saveFriend,
@@ -201,7 +202,7 @@ export async function initFriendSelect(navigate) {
   });
 
   function render(keyword = "") {
-    const filtered = friends.filter(friend => friend.name.includes(keyword));
+    const filtered = [SELF, ...friends.filter(friend => friend.name.includes(keyword))];
 
     list.innerHTML = filtered.map(friend => `
       <li>
