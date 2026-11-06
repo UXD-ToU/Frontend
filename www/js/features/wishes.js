@@ -7,7 +7,7 @@ import {
   deleteWish,
   formatPrice
 } from "../services/wish-service.js";
-import { escapeHtml, nickname } from "../utils.js";
+import { escapeHtml, nickname, normalizeUrl } from "../utils.js";
 
 const POLAROID_COLORS = ["pink", "gray", "pale", "rose", "dark", "white"];
 const MAX_PHOTOS = 5;
@@ -48,7 +48,8 @@ const titleHTML = owner =>
 ========================= */
 
 export async function initWishlist() {
-  const grid = document.querySelector("#polaroid-grid");
+  const root = document.querySelector("#app-content").firstElementChild;
+  const grid = root.querySelector("#polaroid-grid");
   if (!grid) return;
 
   const [friends, wishes] = await Promise.all([listFriends(), listWishes("all")]);
@@ -76,13 +77,14 @@ export async function initWishlist() {
 ========================= */
 
 export async function initWishlistDetail() {
-  const body = document.querySelector("#card-body");
+  const root = document.querySelector("#app-content").firstElementChild;
+  const body = root.querySelector("#card-body");
   if (!body) return;
 
   const owner = await resolveOwner();
   const wishes = await listWishes(owner.id);
 
-  document.querySelector("#wl-title").innerHTML = titleHTML(owner);
+  root.querySelector("#wl-title").innerHTML = titleHTML(owner);
 
   body.innerHTML = wishes.length
     ? wishes.map(wish => `
@@ -99,13 +101,14 @@ export async function initWishlistDetail() {
 ========================= */
 
 export async function initWishlistGrid() {
-  const grid = document.querySelector("#thumb-grid");
+  const root = document.querySelector("#app-content").firstElementChild;
+  const grid = root.querySelector("#thumb-grid");
   if (!grid) return;
 
   const owner = await resolveOwner();
   const wishes = await listWishes(owner.id);
 
-  document.querySelector("#wg-title").innerHTML = titleHTML(owner);
+  root.querySelector("#wg-title").innerHTML = titleHTML(owner);
 
   const total = Math.max(12, Math.ceil((wishes.length + 1) / 3) * 3);
 
@@ -128,56 +131,65 @@ export async function initWishlistGrid() {
    상품 상세
 ========================= */
 
-function normalizeUrl(url) {
-  return /^https?:\/\//i.test(url) ? url : `https://${url}`;
-}
-
 export async function initWishDetail(navigate) {
+  const root = document.querySelector("#app-content").firstElementChild;
   const wish = state.currentWishId ? await getWish(state.currentWishId) : null;
 
+  if (!root.isConnected) return;
   if (!wish) {
     navigate("wishlist-detail");
     return;
   }
 
   const friend = await getFriend(wish.friendId);
+  if (!root.isConnected) return;
 
-  document.querySelector("#wd-title").textContent = friend
+  root.querySelector("#wd-title").textContent = friend
     ? `${nickname(friend.name)}의 위시리스트`
     : "위시리스트";
 
   const images = wish.images?.length ? wish.images : [null];
 
-  document.querySelector("#wd-photos").innerHTML = images.map(src => `
+  root.querySelector("#wd-photos").innerHTML = images.map(src => `
     <span class="paper__img" ${bg(src)}></span>
   `).join("");
 
-  document.querySelector("#wd-name").textContent = wish.name;
+  root.querySelector("#wd-name").textContent = wish.name;
 
-  const price = document.querySelector("#wd-price");
+  const price = root.querySelector("#wd-price");
   price.textContent = formatPrice(wish.price);
   price.hidden = !wish.price;
 
-  document.querySelector("#wd-friend").innerHTML = friend
+  root.querySelector("#wd-friend").innerHTML = friend
     ? `<li class="tag">${escapeHtml(nickname(friend.name))}</li>`
     : "";
 
-  document.querySelector("#wd-memo").textContent = wish.memo || "";
+  root.querySelector("#wd-memo").textContent = wish.memo || "";
 
-  const site = document.querySelector("#wd-site");
+  const site = root.querySelector("#wd-site");
 
-  if (wish.link) {
-    site.href = normalizeUrl(wish.link);
+  const link = normalizeUrl(wish.link);
+  if (link) {
+    site.href = link;
   } else {
-    document.querySelector("#wd-bottom").hidden = true;
+    root.querySelector("#wd-bottom").hidden = true;
   }
 
-  document.querySelector("#wd-more").addEventListener("click", async () => {
-    if (!confirm("이 선물 후보를 삭제할까요?")) return;
-
-    await deleteWish(wish.id);
-    state.currentWishId = null;
-    navigate("wishlist-detail");
+  const deleteButton = root.querySelector("#wd-more");
+  deleteButton.addEventListener("click", async () => {
+    if (deleteButton.disabled || !confirm("이 선물 후보를 삭제할까요?")) return;
+    deleteButton.disabled = true;
+    try {
+      await deleteWish(wish.id);
+      if (!root.isConnected) return;
+      state.currentWishId = null;
+      navigate("wishlist-detail");
+    } catch (error) {
+      console.error("상품 삭제 실패:", error);
+      if (root.isConnected) alert("삭제하지 못했습니다. 다시 시도해 주세요.");
+    } finally {
+      deleteButton.disabled = false;
+    }
   });
 }
 
@@ -186,17 +198,18 @@ export async function initWishDetail(navigate) {
 ========================= */
 
 export function initWishLink(navigate) {
-  const input = document.querySelector(".link-field input");
-  const button = document.querySelector("#ai-load");
+  const root = document.querySelector("#app-content").firstElementChild;
+  const input = root.querySelector(".link-field input");
+  const button = root.querySelector("#ai-load");
   if (!input || !button) return;
 
   input.value = state.draft?.link || "";
 
   button.addEventListener("click", () => {
-    const link = input.value.trim();
+    const link = normalizeUrl(input.value);
 
     if (!link) {
-      alert("상품 링크를 입력해 주세요.");
+      alert("올바른 http 또는 https 상품 링크를 입력해 주세요.");
       return;
     }
 
@@ -215,35 +228,44 @@ function resizeImage(file, max = 800) {
     const image = new Image();
 
     image.onload = () => {
-      const scale = Math.min(1, max / Math.max(image.width, image.height));
-      const canvas = document.createElement("canvas");
-
-      canvas.width = Math.round(image.width * scale);
-      canvas.height = Math.round(image.height * scale);
-      canvas.getContext("2d").drawImage(image, 0, 0, canvas.width, canvas.height);
-
-      URL.revokeObjectURL(url);
-      resolve(canvas.toDataURL("image/jpeg", 0.8));
+      try {
+        const scale = Math.min(1, max / Math.max(image.width, image.height));
+        const canvas = document.createElement("canvas");
+        canvas.width = Math.max(1, Math.round(image.width * scale));
+        canvas.height = Math.max(1, Math.round(image.height * scale));
+        const context = canvas.getContext("2d");
+        if (!context) throw new Error("이미지를 처리할 수 없습니다.");
+        context.drawImage(image, 0, 0, canvas.width, canvas.height);
+        resolve(canvas.toDataURL("image/jpeg", 0.8));
+      } catch (error) {
+        reject(error);
+      } finally {
+        URL.revokeObjectURL(url);
+      }
     };
 
-    image.onerror = reject;
+    image.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error("이미지를 읽을 수 없습니다."));
+    };
     image.src = url;
   });
 }
 
 export async function initWishAdd(navigate) {
-  const slots = document.querySelector("#photo-slots");
+  const root = document.querySelector("#app-content").firstElementChild;
+  const slots = root.querySelector("#photo-slots");
   if (!slots) return;
 
   if (!state.draft) state.draft = emptyDraft();
   const draft = state.draft;
 
-  const photoInput = document.querySelector("#photo-input");
-  const nameInput = document.querySelector("#wish-name");
-  const brandInput = document.querySelector("#wish-brand");
-  const priceInput = document.querySelector("#wish-price");
-  const memoInput = document.querySelector("#wish-memo");
-  const friendButton = document.querySelector("#select-friend-btn");
+  const photoInput = root.querySelector("#photo-input");
+  const nameInput = root.querySelector("#wish-name");
+  const brandInput = root.querySelector("#wish-brand");
+  const priceInput = root.querySelector("#wish-price");
+  const memoInput = root.querySelector("#wish-memo");
+  const friendButton = root.querySelector("#select-friend-btn");
 
   nameInput.value = draft.name;
   brandInput.value = draft.brand;
@@ -266,6 +288,7 @@ export async function initWishAdd(navigate) {
     ? await getFriend(state.selectedFriendId)
     : null;
 
+  if (!root.isConnected) return;
   if (selected) {
     friendButton.textContent = selected.name;
     friendButton.classList.add("is-filled");
@@ -306,24 +329,38 @@ export async function initWishAdd(navigate) {
     }
   });
 
+  let processingPhotos = false;
   photoInput.addEventListener("change", async () => {
+    if (processingPhotos) return;
+    processingPhotos = true;
+    let failed = false;
     const files = [...photoInput.files].slice(0, MAX_PHOTOS - draft.images.length);
 
     for (const file of files) {
       try {
-        draft.images.push(await resizeImage(file));
+        const image = await resizeImage(file);
+        if (draft.images.length < MAX_PHOTOS) draft.images.push(image);
       } catch (error) {
+        failed = true;
         console.warn("이미지 처리 실패:", error);
       }
     }
 
     photoInput.value = "";
+    processingPhotos = false;
     renderSlots();
+    if (failed && root.isConnected) alert("일부 사진을 읽지 못했습니다. 다른 사진을 선택해 주세요.");
   });
 
   renderSlots();
 
-  document.querySelector("#save-wish").addEventListener("click", async () => {
+  const saveButton = root.querySelector("#save-wish");
+  saveButton.addEventListener("click", async () => {
+    if (saveButton.disabled) return;
+    if (processingPhotos) {
+      alert("사진 처리 중입니다. 잠시 후 등록해 주세요.");
+      return;
+    }
     const name = draft.name.trim();
 
     if (!name) {
@@ -336,20 +373,29 @@ export async function initWishAdd(navigate) {
       return;
     }
 
-    await saveWish({
-      friendId: state.selectedFriendId,
-      name,
-      brand: draft.brand.trim(),
-      price: draft.price,
-      memo: draft.memo.trim(),
-      link: draft.link,
-      images: draft.images
-    });
+    saveButton.disabled = true;
+    try {
+      await saveWish({
+        friendId: state.selectedFriendId,
+        name,
+        brand: draft.brand.trim(),
+        price: draft.price,
+        memo: draft.memo.trim(),
+        link: draft.link,
+        images: draft.images
+      });
 
-    state.currentFriendId = state.selectedFriendId;
-    state.draft = null;
-    state.selectedFriendId = null;
+      if (!root.isConnected) return;
+      state.currentFriendId = state.selectedFriendId;
+      state.draft = null;
+      state.selectedFriendId = null;
 
-    navigate("wishlist-detail");
+      navigate("wishlist-detail");
+    } catch (error) {
+      console.error("상품 저장 실패:", error);
+      if (root.isConnected) alert("저장하지 못했습니다. 다시 시도해 주세요.");
+    } finally {
+      saveButton.disabled = false;
+    }
   });
 }

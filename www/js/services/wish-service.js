@@ -16,7 +16,7 @@ export const getWish = id => getOne(STORE, id);
 
 export async function saveWish({ friendId, name, brand, price, memo, link, images }) {
   const wish = {
-    id: `wish-${Date.now()}`,
+    id: `wish-${crypto.randomUUID()}`,
     friendId,
     name,
     brand,

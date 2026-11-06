@@ -1,7 +1,7 @@
 export function escapeHtml(text) {
   const div = document.createElement("div");
   div.textContent = text ?? "";
-  return div.innerHTML;
+  return div.innerHTML.replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 }
 
 export function avatarHTML(style, extraClass = "") {
@@ -19,4 +19,19 @@ export function nickname(name) {
   const hasBatchim = isHangul && (code - 0xAC00) % 28 !== 0;
 
   return hasBatchim ? `${name}이` : name;
+}
+
+
+export function normalizeUrl(value) {
+  const text = String(value || "").trim();
+  if (!text || /\s/.test(text)) return null;
+  // Only infer HTTPS for hostnames; reject other explicit schemes.
+  if (/^[a-z][a-z\d+.-]*:/i.test(text) && !/^https?:\/\//i.test(text)) return null;
+  try {
+    const url = new URL(/^https?:\/\//i.test(text) ? text : `https://${text}`);
+    return ["http:", "https:"].includes(url.protocol) && url.hostname.includes(".") && !url.username && !url.password
+      ? url.href : null;
+  } catch {
+    return null;
+  }
 }

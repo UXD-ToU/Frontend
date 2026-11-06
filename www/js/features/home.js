@@ -36,6 +36,8 @@ export async function initHome() {
     .map(friend => ({ ...friend, daysLeft: daysUntil(friend.birthday) }))
     .sort((a, b) => a.daysLeft - b.daysLeft);
 
+  if (!title.isConnected) return;
+
   // 친구가 없을 때
   if (friends.length === 0) {
     date.textContent = "--/--";
