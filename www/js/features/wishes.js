@@ -1,5 +1,5 @@
 import { state } from "../state.js";
-import { listFriends, getFriend } from "../services/friend-service.js";
+import { SELF, listFriends, getFriend } from "../services/friend-service.js";
 import {
   listWishes,
   getWish,
@@ -27,6 +27,10 @@ const emptyDraft = () => ({
 async function resolveOwner() {
   const id = state.currentFriendId;
 
+  if (!id || id === SELF.id) {
+    return { id: SELF.id, label: "나만", isSelf: true };
+  }
+
   if (id && id !== "all") {
     const friend = await getFriend(id);
 
@@ -39,7 +43,7 @@ async function resolveOwner() {
 }
 
 const titleHTML = owner =>
-  owner.isAll
+  owner.isSelf ? "나만의 위시리스트" : owner.isAll
     ? "전체 위시리스트"
     : `<span class="accent">${escapeHtml(owner.label)}</span>의 위시리스트`;
 
@@ -53,11 +57,11 @@ export async function initWishlist() {
   if (!grid) return;
 
   const [friends, wishes] = await Promise.all([listFriends(), listWishes("all")]);
-  const entries = [{ id: "all", name: "To.U" }, ...friends];
+  const entries = [{ ...SELF, name: "To.U" }, ...friends];
 
   grid.innerHTML = entries.map((entry, index) => {
     const cover = wishes.find(
-      wish => entry.id === "all" || wish.friendId === entry.id
+      wish => wish.friendId === entry.id
     )?.images?.[0];
 
     const color = POLAROID_COLORS[index % POLAROID_COLORS.length];
@@ -141,10 +145,12 @@ export async function initWishDetail(navigate) {
     return;
   }
 
-  const friend = await getFriend(wish.friendId);
+  const friend = wish.friendId === SELF.id ? SELF : await getFriend(wish.friendId);
   if (!root.isConnected) return;
 
-  root.querySelector("#wd-title").textContent = friend
+  root.querySelector("#wd-title").textContent = wish.friendId === SELF.id
+    ? "나만의 위시리스트"
+    : friend
     ? `${nickname(friend.name)}의 위시리스트`
     : "위시리스트";
 
@@ -284,7 +290,9 @@ export async function initWishAdd(navigate) {
     priceInput.value = digits ? Number(digits).toLocaleString("ko-KR") : "";
   });
 
-  const selected = state.selectedFriendId
+  const selected = state.selectedFriendId === SELF.id
+    ? SELF
+    : state.selectedFriendId
     ? await getFriend(state.selectedFriendId)
     : null;
 
