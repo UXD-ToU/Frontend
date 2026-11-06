@@ -141,22 +141,13 @@
 ========================= */
 
 .card-viewer {
-  height: calc(100dvh - 246px);
   margin-top: var(--spacing-24);
 }
 
 .card-viewer .paper {
-  height: 100%;
   display: grid;
   align-content: start;
   gap: 19px;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  scrollbar-width: none;
-}
-
-.card-viewer .paper::-webkit-scrollbar {
-  display: none;
 }
 
 /* =========================
