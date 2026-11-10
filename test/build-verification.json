@@ -1,0 +1,235 @@
+{
+  "source_commit": "bf44e47f4d0e1928f052fd1961b8b7202c7ef28c",
+  "aab_file": "ToU-1.0.1-v3-release.aab",
+  "aab_sha256": "bfb0f64f034be3b327fea57e559f04f29b9c420f46c43fa606769cc47b78dc12",
+  "aab_bytes": 5077871,
+  "application_id": "com.to.u.app",
+  "version_name": "1.0.1",
+  "version_code": 3,
+  "min_sdk": 24,
+  "target_sdk": 36,
+  "debuggable": false,
+  "certificate_sha256": "93cf156a32f56a5310ba22c8e954de7326b229671a493dce325ee714e4b638c5",
+  "verification": {
+    "gradle_bundleRelease": "passed",
+    "bundletool_1.18.3_validate": "passed",
+    "jarsigner_verify": "passed (self-signed upload certificate; no timestamp)",
+    "certificate_matches_export": true,
+    "all_existing_tracked_files_unchanged": true,
+    "www_byte_identical_file_count": 52,
+    "chromium_regression_tests_passed": 8,
+    "android_device_runtime_tested": false,
+    "play_console_upload_tested": false
+  },
+  "native_libraries": [],
+  "www_files": [
+    {
+      "path": "assets/fonts/OFL.txt",
+      "sha256": "82e9c8a4b203261f10ddba1296422d64914ff3d4b7bd8a12896d03f0f088d70a"
+    },
+    {
+      "path": "assets/fonts/PretendardVariable.woff2",
+      "sha256": "9599f12fd42fc0bce1cd50b47a0c022e108d7aa64dd0d1bb0ed44f3282d900b4"
+    },
+    {
+      "path": "assets/fonts/README.md",
+      "sha256": "4af7d3109e02c47eebb337b14868669bc6cf1d2f1b40df9946b5372ed16b6736"
+    },
+    {
+      "path": "assets/icons/camera.svg",
+      "sha256": "df98738fe206001847ae7c1d24f130268accf0f1fdeaa484886065b539bb49ac"
+    },
+    {
+      "path": "assets/icons/community.svg",
+      "sha256": "777ee145c844e0bfe19edddf17aba1777f44893a6c393313d350ce29e0ddfaf2"
+    },
+    {
+      "path": "assets/icons/friends.svg",
+      "sha256": "4c91f9dff67295b5c74f467edfa1a30444d1035c7f09bc3bee2263b424c2cded"
+    },
+    {
+      "path": "assets/icons/home.svg",
+      "sha256": "f0213a1d2229bbb266ce336d6ce5da33215784907eb093e4dd92ded5533af053"
+    },
+    {
+      "path": "assets/icons/link.svg",
+      "sha256": "5dd9e13897dc7b0950925ba10a6615b6b3eee250d6521379ced7687ca3e4ac7d"
+    },
+    {
+      "path": "assets/icons/logo.svg",
+      "sha256": "f5e5472541c622604781b9e10ceec79c2fae0d85499be6fdf23cdf66325be1ee"
+    },
+    {
+      "path": "assets/icons/wishlist.svg",
+      "sha256": "cc94492c08b5017cd4157011c8984cd26b978d8ca7531019242ef9d1a455f337"
+    },
+    {
+      "path": "components/bottom-nav.html",
+      "sha256": "bf733029af2149f6004fdf9bc57f2384b90486eaf0b8b4628ae66c4241374b5b"
+    },
+    {
+      "path": "components/header.html",
+      "sha256": "1abfde22ccd47fe0118c348d37d88cd8206cf049b8f672e5288da13ec607dbea"
+    },
+    {
+      "path": "components/modal.html",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "css/components.css",
+      "sha256": "3493f07f2edf6b226d35aa7daba47e7a9a2386eff5bbe0c9e641f651d19ad25d"
+    },
+    {
+      "path": "css/global.css",
+      "sha256": "d94b9b60a391b644777684a707d5c2f47b2a903616f1dbbd5e6dc11d27322e39"
+    },
+    {
+      "path": "css/pages/friends.css",
+      "sha256": "94e5366476364934056d1d486c58771247526c5d502de995d0701142db084df1"
+    },
+    {
+      "path": "css/pages/home.css",
+      "sha256": "a65f076ffb07dffb857407c9d99b939f83befdecefd9e5505fcdf75dba6c3dd4"
+    },
+    {
+      "path": "css/pages/register.css",
+      "sha256": "9d368ced4ce466ad800e0cec12e62dc930a107494d514960573df1b7eebe14ae"
+    },
+    {
+      "path": "css/pages/wishlist.css",
+      "sha256": "80d0a5a983303725a98f9cdc5bb021a378fdb0fc1d479a92e960c6a8d05b65cd"
+    },
+    {
+      "path": "css/reset.css",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "css/variables.css",
+      "sha256": "2be1a0e86c5791530d169cc69c4d2cd11a8d6094fad3fc9061aea2a505c7084b"
+    },
+    {
+      "path": "data/mock-data.js",
+      "sha256": "5df3917ebc7e129f1c0fe9e95e40efdb8d604a6b89d487a6a5b60f378f8e2240"
+    },
+    {
+      "path": "index.html",
+      "sha256": "a638f4bd2cb81f525ea64feb72fa1758209bdf1ed62c66d45d82639cc6cacbf0"
+    },
+    {
+      "path": "js/app.js",
+      "sha256": "ca82c8e5305d57561e0a65f8bb95850719f85300bc1444e21dac9035c9386f80"
+    },
+    {
+      "path": "js/db/database.js",
+      "sha256": "99bf143eebcac70530172bc9b52255adf026c9f0e04ab1c05d0ccea5868d7aaf"
+    },
+    {
+      "path": "js/db/friends-db.js",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "js/db/wishlist-db.js",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "js/events.js",
+      "sha256": "75a1de31cb9fd3b5d085627f7a9458d2cdec9bbb3a9aa1ed7dcea2bd9f13d23e"
+    },
+    {
+      "path": "js/features/friends.js",
+      "sha256": "4d9fbc25ba911e12e5eb15cceebf3d0cc435dbb9901d3d32aa5ca108594d9664"
+    },
+    {
+      "path": "js/features/home.js",
+      "sha256": "8bd379d828d928682aae6feb2f47dade4f656ecb1394d7e94a46424e6d181a8a"
+    },
+    {
+      "path": "js/features/wishes.js",
+      "sha256": "d286707af0aa476cac14d7fe270bf85a9f7bf982fc371afe8a6b3fafd7bb0d4d"
+    },
+    {
+      "path": "js/router.js",
+      "sha256": "08aa4aba8030efbd3febd492deaf9d2bd4cf786655cc078e49ffc0fe42b6ef54"
+    },
+    {
+      "path": "js/services/friend-service.js",
+      "sha256": "5b5989f3cc939b29aa2c0ff2262c6735be91e295a62be1408f1d36602d418eae"
+    },
+    {
+      "path": "js/services/wish-service.js",
+      "sha256": "0fe2cf1c82ebb1cc1aac58c7e78ae36a9f9c6561b5da0912e6149eb839cb02e1"
+    },
+    {
+      "path": "js/state.js",
+      "sha256": "59b205aac5390f5584569be690ed73ca43cb0baedbff630fb548bad47afb9c5c"
+    },
+    {
+      "path": "js/utils/date.js",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "js/utils/helpers.js",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "js/utils.js",
+      "sha256": "1435a2d54e3dc5e4012241a209000e8056208e81f7a96f73c25282603735d210"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "pages/friend-add.html",
+      "sha256": "9a5b95c62bd9f47e41cd7b1568e363013a355cea0a1b057295fe83c57ec08f04"
+    },
+    {
+      "path": "pages/friend-detail.html",
+      "sha256": "4ceb388112457acade4b5eb1e62f2b0e512c091fd70de614b6bdf91660451021"
+    },
+    {
+      "path": "pages/friend-select.html",
+      "sha256": "4658b3c4c1f72e09eba7ede94c4dd64f184052ac11d3a5345f11a8ecd6ecbd77"
+    },
+    {
+      "path": "pages/friends.html",
+      "sha256": "c0880d2e95810997ea97a7c34d56f0067e59a32c2b579bd5b1033d4a57a5e4f4"
+    },
+    {
+      "path": "pages/home.html",
+      "sha256": "ac7325afdc6cb9466efc8284940b17cdfa5f1c77dec20cc4004bfbfbd5c8bc08"
+    },
+    {
+      "path": "pages/privacy.html",
+      "sha256": "5d69d6d7ce308de3cfac02f2c9ae61ac578c75741fae993d6e754929f68a4a4e"
+    },
+    {
+      "path": "pages/wish-add.html",
+      "sha256": "af656d94518a2d8b83b9e620881936f236fba725a8733d9e96e7630a551a4e9e"
+    },
+    {
+      "path": "pages/wish-detail.html",
+      "sha256": "9b2aa672af044d8f84acf6a70978c17cfb830af08358dca86b25e4c660c25c63"
+    },
+    {
+      "path": "pages/wish-link.html",
+      "sha256": "3af8361dd8efd79ed712ff1dcd5a4f39f68a6a97393f74089a1d787e1352738b"
+    },
+    {
+      "path": "pages/wishlist-detail.html",
+      "sha256": "cf9aa2d32f066c7b6602c19f1904dabf49d78d8cc9139230ca7cf6d2b7024bbc"
+    },
+    {
+      "path": "pages/wishlist-grid.html",
+      "sha256": "4b9257029e81de16bfe6215afd8d366cb1871af07d856240413ef6558077751e"
+    },
+    {
+      "path": "pages/wishlist.html",
+      "sha256": "428f59fa3cd46ccc2b174cc292d49ed6734eb79eb44cc8fe9d5fbd86632405b5"
+    },
+    {
+      "path": "worker/src/index.js",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}
